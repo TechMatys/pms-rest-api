@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "9c8f1632-080d-443d-b301-02b2536b949c": {
+      "ProjectGuid": "9c8f1632-080d-443d-b301-02b2536b949c",
+      "DisplayName": "pms-rest-api",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
