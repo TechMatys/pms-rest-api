@@ -2,10 +2,14 @@ D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Infrastructure\bin\Debug\ne
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Infrastructure\bin\Debug\net6.0\PMS.Infrastructure.dll
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Infrastructure\bin\Debug\net6.0\ref\PMS.Infrastructure.dll
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Infrastructure\bin\Debug\net6.0\PMS.Infrastructure.pdb
+D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Infrastructure\bin\Debug\net6.0\PMS.Core.dll
+D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Infrastructure\bin\Debug\net6.0\PMS.Core.pdb
+D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Infrastructure\obj\Debug\net6.0\PMS.Infrastructure.csproj.AssemblyReference.cache
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Infrastructure\obj\Debug\net6.0\PMS.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Infrastructure\obj\Debug\net6.0\PMS.Infrastructure.AssemblyInfoInputs.cache
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Infrastructure\obj\Debug\net6.0\PMS.Infrastructure.AssemblyInfo.cs
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Infrastructure\obj\Debug\net6.0\PMS.Infrastructure.csproj.CoreCompileInputs.cache
+D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Infrastructure\obj\Debug\net6.0\PMS.Infrastructure.csproj.CopyComplete
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Infrastructure\obj\Debug\net6.0\PMS.Infrastructure.dll
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Infrastructure\obj\Debug\net6.0\ref\PMS.Infrastructure.dll
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Infrastructure\obj\Debug\net6.0\PMS.Infrastructure.pdb

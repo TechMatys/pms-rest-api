@@ -9,3 +9,4 @@ D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\obj\Debug\net6.0\PMS.C
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\obj\Debug\net6.0\PMS.Core.dll
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\obj\Debug\net6.0\ref\PMS.Core.dll
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\obj\Debug\net6.0\PMS.Core.pdb
+D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\obj\Debug\net6.0\PMS.Core.csproj.AssemblyReference.cache
