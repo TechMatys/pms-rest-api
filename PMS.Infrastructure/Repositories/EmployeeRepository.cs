@@ -46,10 +46,11 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"SELECT Title
-	                                ,Description
-                                    ,HtmlContent
-                              FROM Employee where EmployeeId = @EmployeeId";
+                var query = @"SELECT EmployeeId
+                                    ,FirstName
+	                                ,LastName
+                                    ,EmailAddress
+                              FROM Employees where EmployeeId = @EmployeeId";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -70,8 +71,8 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"INSERT INTO Employee(Title, Description, HtmlContent, IsActive, CreatedBy, CreatedDate) 
-                              VALUES (@Title, @Description, @HtmlContent, 1, -1, GetUtcDate())";
+                var query = @"INSERT INTO Employees(FirstName, LastName, EmailAddress, CreatedBy, CreatedDate) 
+                              VALUES (@FirstName, @LastName, @EmailAddress, -1, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -95,10 +96,10 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"UPDATE Employee
-                                SET Title = @Title
-	                                ,Description = @Description
-                                    ,HtmlContent = @HtmlContent
+                var query = @"UPDATE Employees
+                                SET FirstName = @FirstName
+	                                ,LastName = @LastName
+                                    ,EmailAddress = @EmailAddress
 	                                ,ModifiedBy = -1
 	                                ,ModifiedDate = GetUtcDate()
                                 WHERE EmployeeId = @EmployeeId";
@@ -126,9 +127,8 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"UPDATE Employee
-                                SET IsActive = 0
-                                    ,IsDeleted = 1
+                var query = @"UPDATE Employees
+                                SET  IsDeleted = 1
 	                                ,DeletedBy = -1
 	                                ,DeletedDate = GetUtcDate()
                                 WHERE EmployeeId = @EmployeeId";
