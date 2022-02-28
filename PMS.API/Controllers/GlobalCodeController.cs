@@ -28,5 +28,19 @@ namespace PMS.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("designations")]
+        public async Task<ActionResult<IEnumerable<GlobalCodes>>> GetAllDesignations()
+        {
+            string category = "Designation";
+            var response = await _GlobalCodeService.GetAllGlobalCodes(category);
+
+            if (response == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(response);
+        }
+
     }
 }
