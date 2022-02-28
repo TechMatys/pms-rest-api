@@ -15,7 +15,7 @@ namespace PMS.API.Controllers
             _GlobalCodeService = GlobalCodeService ?? throw new ArgumentNullException(nameof(GlobalCodeService));
         }
 
-        [HttpGet]
+        [HttpGet("states")]
         public async Task<ActionResult<IEnumerable<GlobalCodes>>> GetAllStates()
         {
             var response = await _GlobalCodeService.GetAllStates();
