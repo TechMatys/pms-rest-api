@@ -28,5 +28,16 @@ namespace PMS.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("genders")]
+        public async Task<ActionResult<IEnumerable<GlobalCodes>>> GetAllGender()
+        {
+            string category = "Gender";
+            var response = await _GlobalCodeService.GetAllGlobalCodes(category);
+            if (response == null)
+            {
+                return NoContent();
+            }
+            return Ok(response);
+        }
     }
 }
