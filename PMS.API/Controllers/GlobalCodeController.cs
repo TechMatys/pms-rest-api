@@ -42,5 +42,19 @@ namespace PMS.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("employee-status")]
+        public async Task<ActionResult<IEnumerable<GlobalCodes>>> GetAllEmployeeStatus()
+        {
+            string category = "EmployeeStatus";
+            var response = await _GlobalCodeService.GetAllGlobalCodes(category);
+
+            if (response == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(response);
+        }
+
     }
 }
