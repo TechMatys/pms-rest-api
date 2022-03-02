@@ -15,7 +15,7 @@ namespace PMS.API.Controllers
             _GlobalCodeService = GlobalCodeService ?? throw new ArgumentNullException(nameof(GlobalCodeService));
         }
 
-        [HttpGet]
+        [HttpGet("states")]
         public async Task<ActionResult<IEnumerable<GlobalCodes>>> GetAllStates()
         {
             var response = await _GlobalCodeService.GetAllStates();
@@ -25,6 +25,18 @@ namespace PMS.API.Controllers
                 return NoContent();
             }
 
+            return Ok(response);
+        }
+
+        [HttpGet("genders")]
+        public async Task<ActionResult<IEnumerable<GlobalCodes>>> GetAllGender()
+        {
+            string category = "Gender";
+            var response = await _GlobalCodeService.GetAllGlobalCodes(category);
+            if (response == null)
+            {
+                return NoContent();
+            }
             return Ok(response);
         }
 
@@ -38,7 +50,6 @@ namespace PMS.API.Controllers
             {
                 return NoContent();
             }
-
             return Ok(response);
         }
 
