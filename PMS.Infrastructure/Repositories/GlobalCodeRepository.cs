@@ -34,5 +34,28 @@ namespace PMS.Infrastructure.Repositories
                 throw new Exception(exp.Message, exp);
             }
         }
+
+        public async Task<IEnumerable<GlobalCodes>> GetAllGlobalCodes(string category)
+        {
+            try
+            {
+                var query = @"SELECT GlobalCodeId as Id,
+                                CodeName as Name
+                                FROM GlobalCodes
+                                WHERE IsDeleted = 0 and Category = @Category";
+
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    return (await connection.QueryAsync<GlobalCodes>(query, new
+                    {
+                        Category = category
+                    })).ToList();
+                }
+            }
+            catch (Exception exp)
+            {
+                throw new Exception(exp.Message, exp);
+            }
+        }
     }
 }

@@ -17,5 +17,10 @@ namespace PMS.Core.Services
         {
             return await _GlobalCodeRepository.GetAllStates();
         }
+
+        public async Task<IEnumerable<GlobalCodes>> GetAllGlobalCodes(string category)
+        {
+            return await _GlobalCodeRepository.GetAllGlobalCodes(category);
+        }
     }
 }
