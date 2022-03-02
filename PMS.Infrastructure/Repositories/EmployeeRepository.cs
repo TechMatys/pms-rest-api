@@ -21,8 +21,18 @@ namespace PMS.Infrastructure.Repositories
             {
                 var query = @"SELECT EmployeeId
 	                                ,FirstName
+                                    ,MiddleName
 	                                ,LastName
+                                    ,Gender
+                                    ,DateOfBirth
 	                                ,EmailAddress
+                                    ,Mobile
+                                    ,Address
+                                    ,City
+                                    ,StateId
+                                    ,PostalCode
+                                    ,StartDate
+                                    ,EndDate
 	                                ,Convert(VARCHAR(10), StartDate, 110) AS StartDate
 	                                ,gc.CodeName AS Designation
 	                                ,'' AS CreatedBy
@@ -48,8 +58,18 @@ namespace PMS.Infrastructure.Repositories
             {
                 var query = @"SELECT EmployeeId
                                     ,FirstName
+                                    ,MiddleName
 	                                ,LastName
+                                    ,Gender
+                                    ,DateOfBirth
                                     ,EmailAddress
+                                    ,Mobile
+                                    ,Address
+                                    ,City
+                                    ,StateId
+                                    ,PostalCode
+                                    ,StartDate
+                                    ,EndDate
                               FROM Employees where EmployeeId = @EmployeeId";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
@@ -71,16 +91,26 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"INSERT INTO Employees(FirstName, LastName, EmailAddress, CreatedBy, CreatedDate) 
-                              VALUES (@FirstName, @LastName, @EmailAddress, -1, GetUtcDate())";
+                var query = @"INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, DateOfBirth, EmailAddress, Mobile, Address, City, StateId, PostalCode, StartDate, EndDate, CreatedBy, CreatedDate) 
+                              VALUES (@FirstName, @MiddleName, @LastName, @Gender, @DateOfBirth,  @EmailAddress, @Mobile, @Address, @City, @StateId, @PostalCode, @StartDate, @EndDate, -1, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     connection.Execute(query, new
                     {
                         fields.FirstName,
+                        fields.MiddleName,
                         fields.LastName,
-                        fields.EmailAddress
+                        fields.Gender,
+                        fields.DateOfBirth,
+                        fields.EmailAddress,
+                        fields.Mobile,
+                        fields.Address,
+                        fields.City,
+                        fields.StateId,
+                        fields.PostalCode,
+                        fields.StartDate,
+                        fields.EndDate,
                     });
 
                     return Task.FromResult(true);
@@ -98,8 +128,18 @@ namespace PMS.Infrastructure.Repositories
             {
                 var query = @"UPDATE Employees
                                 SET FirstName = @FirstName
+                                    ,MiddleName = @MiddleName
 	                                ,LastName = @LastName
+                                    ,Gender = @Gender
+                                    ,DateOfBirth =@DateOfBirth
                                     ,EmailAddress = @EmailAddress
+                                    ,Mobile = @Mobile
+                                    ,Address =@Address
+                                    ,City =@City
+                                    ,StateId =@StateId
+                                    ,PostalCode = @PostalCode
+                                    ,StartDate= @StartDate
+                                    ,EndDate= @EndDate
 	                                ,ModifiedBy = -1
 	                                ,ModifiedDate = GetUtcDate()
                                 WHERE EmployeeId = @EmployeeId";
@@ -109,9 +149,20 @@ namespace PMS.Infrastructure.Repositories
                     connection.Execute(query, new
                     {
                         fields.FirstName,
+                        fields.MiddleName,
                         fields.LastName,
+                        fields.Gender,
+                        fields.DateOfBirth,
                         fields.EmailAddress,
-                        EmployeeId = id
+                        fields.Mobile,
+                        fields.Address,
+                        fields.City,
+                        fields.StateId,
+                        fields.PostalCode,
+                        fields.StartDate,
+                        fields.EndDate,
+                    
+                    EmployeeId = id
                     });
 
                     return Task.FromResult(true);
