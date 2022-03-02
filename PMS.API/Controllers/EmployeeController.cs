@@ -21,7 +21,7 @@ namespace PMS.API.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetAllEmployee()
+        public async Task<ActionResult<IEnumerable<EmployeeListModel>>> GetAllEmployee()
         {
             var response = await _EmployeeGroupService.GetAllEmployee();
 

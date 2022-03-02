@@ -15,24 +15,14 @@ namespace PMS.Infrastructure.Repositories
             this.configuration = configuration;
         }
 
-        public async Task<IEnumerable<Employee>> GetAllEmployee()
+        public async Task<IEnumerable<EmployeeListModel>> GetAllEmployee()
         {
             try
             {
                 var query = @"SELECT EmployeeId
 	                                ,FirstName
-                                    ,MiddleName
 	                                ,LastName
-                                    ,Gender
-                                    ,DateOfBirth
-	                                ,EmailAddress
-                                    ,Mobile
-                                    ,Address
-                                    ,City
-                                    ,StateId
-                                    ,PostalCode
-                                    ,StartDate
-                                    ,EndDate
+                                    ,EmailAddress
 	                                ,Convert(VARCHAR(10), StartDate, 110) AS StartDate
 	                                ,gc.CodeName AS Designation
 	                                ,'' AS CreatedBy
@@ -43,7 +33,7 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    return (await connection.QueryAsync<Employee>(query)).ToList();
+                    return (await connection.QueryAsync<EmployeeListModel>(query)).ToList();
                 }
             }
             catch (Exception exp)

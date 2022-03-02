@@ -4,7 +4,7 @@ namespace PMS.Core.Interface.Repositories
 {
     public interface IEmployeeRepository
     {
-        Task<IEnumerable<Employee>> GetAllEmployee();
+        Task<IEnumerable<EmployeeListModel>> GetAllEmployee();
         Task<Employee> GetEmployeeById(int id);
         Task<bool> Create(Employee fields);
         Task<bool> Update(int id, Employee fields);

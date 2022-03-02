@@ -13,7 +13,7 @@ namespace PMS.Core.Services
             _EmployeeRepository = EmployeeRepository ?? throw new ArgumentNullException(nameof(EmployeeRepository));
         }
 
-        public async Task<IEnumerable<Employee>> GetAllEmployee()
+        public async Task<IEnumerable<EmployeeListModel>> GetAllEmployee()
         {
             return await _EmployeeRepository.GetAllEmployee();
         }
