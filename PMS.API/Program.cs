@@ -15,6 +15,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
+builder.Services.AddScoped<IGlobalCodeService, GlobalCodeService>();
+builder.Services.AddScoped<IGlobalCodeRepository, GlobalCodeRepository>();
+
 
 var app = builder.Build();
 
