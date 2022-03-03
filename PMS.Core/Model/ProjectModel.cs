@@ -8,8 +8,8 @@ namespace PMS.Core.Model
         public string? Name { get; set; }        
         public string? StartDate { get; set; }
         public string? Technologies { get; set; }
-        public int? StatusId { get; set; }
-        public string? CompletionDate { get; set; }
+        public string? Status { get; set; }
+        public string? CreatedDate { get; set; }
     }
     public class Project
     {
