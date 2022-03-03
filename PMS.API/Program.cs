@@ -18,6 +18,9 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IGlobalCodeService, GlobalCodeService>();
 builder.Services.AddScoped<IGlobalCodeRepository, GlobalCodeRepository>();
 
+builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+
 
 var app = builder.Build();
 
