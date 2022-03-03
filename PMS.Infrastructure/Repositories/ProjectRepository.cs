@@ -16,7 +16,7 @@ namespace PMS.Infrastructure.Repositories
             this.configuration = configuration;
         }
 
-        public async Task<IEnumerable<Project>> GetAllProject()
+        public async Task<IEnumerable<ProjectListModel>> GetAllProject()
         {
             try
             {
@@ -33,7 +33,7 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    return (await connection.QueryAsync<Project>(query)).ToList();
+                    return (await connection.QueryAsync<ProjectListModel>(query)).ToList();
                 }
             }
             catch (Exception exp)

@@ -19,7 +19,7 @@ namespace PMS.API.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Project>>> GetAllProject()
+        public async Task<ActionResult<IEnumerable<ProjectListModel>>> GetAllProject()
         {
             var response = await _ProjectGroupService.GetAllProject();
 

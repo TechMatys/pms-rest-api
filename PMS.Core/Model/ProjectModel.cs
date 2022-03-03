@@ -2,6 +2,15 @@
 
 namespace PMS.Core.Model
 {
+    public class ProjectListModel
+    {
+        public int ProjectId { get; set; }
+        public string? Name { get; set; }        
+        public string? StartDate { get; set; }
+        public string? Technologies { get; set; }
+        public int? StatusId { get; set; }
+        public string? CompletionDate { get; set; }
+    }
     public class Project
     {
         public int ProjectId { get; set; }

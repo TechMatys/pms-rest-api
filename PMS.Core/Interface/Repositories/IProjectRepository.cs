@@ -4,7 +4,7 @@ namespace PMS.Core.Interface.Repositories
 {
     public interface IProjectRepository
     {
-        Task<IEnumerable<Project>> GetAllProject();
+        Task<IEnumerable<ProjectListModel>> GetAllProject();
         Task<Project> GetProjectById(int id);
         Task<bool> Create(Project fields);
         Task<bool> Update(int id, Project fields);

@@ -13,7 +13,7 @@ namespace PMS.Core.Services
             _ProjectRepository = ProjectRepository ?? throw new ArgumentNullException(nameof(ProjectRepository));
         }
 
-        public async Task<IEnumerable<Project>> GetAllProject()
+        public async Task<IEnumerable<ProjectListModel>> GetAllProject()
         {
             return await _ProjectRepository.GetAllProject();
         }
