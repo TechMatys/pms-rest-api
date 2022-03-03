@@ -10,8 +10,6 @@ namespace PMS.API.Controllers
     {
         private readonly IProjectService _ProjectGroupService;
 
-        public object? ProjectGroupService { get; }
-
         public ProjectController(IProjectService ProjectGroupService)
         {
             _ProjectGroupService = ProjectGroupService ?? throw new ArgumentNullException(nameof(ProjectGroupService));
