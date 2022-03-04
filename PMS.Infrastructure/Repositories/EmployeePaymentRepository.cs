@@ -45,11 +45,9 @@ namespace PMS.Infrastructure.Repositories
             {
                 var query = @"SELECT EmployeeId
                                     ,Amount
-	                                ,PaymentMonth
-                                    ,PaymentYear
+	                                ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
                                     ,PaymentDate
-                                    ,Notes
-                                    
+                                    ,Notes                                    
                               FROM EmployeePayments where EmployeePaymentId = @EmployeePaymentId";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
@@ -72,7 +70,8 @@ namespace PMS.Infrastructure.Repositories
             try
             {
                 var query = @"INSERT INTO EmployeePayments(EmployeeId, Amount, PaymentMonth, PaymentYear, PaymentDate, Notes, CreatedBy, CreatedDate) 
-                              VALUES (@EmployeeId, @Amount, @PaymentMonth, @PaymentYear, @PaymentDate,  @Notes,  -1, GetUtcDate())";
+                              VALUES (@EmployeeId, @Amount, SUBSTRING(@PaymentMonthYear,0,CHARINDEX('/',@PaymentMonthYear,0)),  
+                              SUBSTRING(@PaymentMonthYear,CHARINDEX('/',@PaymentMonthYear,0)+1,LEN(@PaymentMonthYear)), @PaymentDate, @Notes, -1, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -80,11 +79,9 @@ namespace PMS.Infrastructure.Repositories
                     {
                         fields.EmployeeId,
                         fields.Amount,
-                        fields.PaymentMonth,
-                        fields.PaymentYear,
+                        fields.PaymentMonthYear,
                         fields.PaymentDate,
-                        fields.Notes,
-                        
+                        fields.Notes                        
                     });
 
                     return Task.FromResult(true);
@@ -103,11 +100,10 @@ namespace PMS.Infrastructure.Repositories
                 var query = @"UPDATE EmployeePayments
                                 SET EmployeeId = @EmployeeId
                                     ,Amount = @Amount
-	                                ,PaymentMonth = @PaymentMonth
-                                    ,PaymentYear = @PaymentYear
+	                                ,PaymentMonth = SUBSTRING(@PaymentMonthYear,0,CHARINDEX('/',@PaymentMonthYear,0))
+                                    ,PaymentYear = SUBSTRING(@PaymentMonthYear,CHARINDEX('/',@PaymentMonthYear,0)+1,LEN(@PaymentMonthYear))
                                     ,PaymentDate =@PaymentDate
-                                    ,Notes = @Notes
-                                   
+                                    ,Notes = @Notes                                   
 	                                ,ModifiedBy = -1
 	                                ,ModifiedDate = GetUtcDate()
                                 WHERE EmployeePaymentId = @EmployeePaymentId";
@@ -118,8 +114,7 @@ namespace PMS.Infrastructure.Repositories
                     {
                         fields.EmployeeId,
                         fields.Amount,
-                        fields.PaymentMonth,
-                        fields.PaymentYear,
+                        fields.PaymentMonthYear,
                         fields.PaymentDate,
                         fields.Notes,
 
