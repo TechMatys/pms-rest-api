@@ -1,9 +1,6 @@
 ﻿using PMS.Core.Interface.Services;
 using PMS.Core.Model;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace PMS.API.Controllers
 {
