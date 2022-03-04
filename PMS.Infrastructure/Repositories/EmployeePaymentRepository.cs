@@ -23,7 +23,10 @@ namespace PMS.Infrastructure.Repositories
 	                                ,Concat_Ws(' ',FirstName,LastName) as EmployeeName
                                     ,Amount
                                     ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
+
                                     ,PaymentDate
+                                    ,Convert(varchar(10),PaymentDate,110) as PaymentDate
+
                                 FROM EmployeePayments ep
                                 Inner Join Employees e on e.EmployeeId = ep.EmployeeId
                                 WHERE ep.IsDeleted = 0 and e.IsDeleted = 0";
@@ -43,13 +46,14 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"SELECT EmployeeId
+
+                var query = @"SELECT EmployeePaymentId
+                                    ,EmployeeId
                                     ,Amount
-	                                ,PaymentMonth
-                                    ,PaymentYear
+	                                ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
                                     ,PaymentDate
-                                    ,Notes
-                                    
+                                    ,Notes                                    
+
                               FROM EmployeePayments where EmployeePaymentId = @EmployeePaymentId";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
@@ -71,8 +75,10 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"INSERT INTO EmployeePayments(EmployeeId, Amount, PaymentMonth, PaymentYear, PaymentDate, Notes, CreatedBy, CreatedDate) 
-                              VALUES (@EmployeeId, @Amount, @PaymentMonth, @PaymentYear, @PaymentDate,  @Notes,  -1, GetUtcDate())";
+
+                var query = @"INSERT INTO EmployeePayments(EmployeeId, Amount, PaymentDate, Notes, CreatedBy, CreatedDate) 
+                              VALUES (@EmployeeId, @Amount, @PaymentDate, @Notes, -1, GetUtcDate())";
+
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -80,11 +86,11 @@ namespace PMS.Infrastructure.Repositories
                     {
                         fields.EmployeeId,
                         fields.Amount,
-                        fields.PaymentMonth,
-                        fields.PaymentYear,
+
+                        fields.PaymentMonthYear,
                         fields.PaymentDate,
-                        fields.Notes,
-                        
+                        fields.Notes                        
+
                     });
 
                     return Task.FromResult(true);
@@ -103,11 +109,12 @@ namespace PMS.Infrastructure.Repositories
                 var query = @"UPDATE EmployeePayments
                                 SET EmployeeId = @EmployeeId
                                     ,Amount = @Amount
-	                                ,PaymentMonth = @PaymentMonth
-                                    ,PaymentYear = @PaymentYear
+
+	                               -- ,PaymentMonth = SUBSTRING(@PaymentMonthYear,0,CHARINDEX('/',@PaymentMonthYear,0))
+                                    --,PaymentYear = SUBSTRING(@PaymentMonthYear,CHARINDEX('/',@PaymentMonthYear,0)+1,LEN(@PaymentMonthYear))
                                     ,PaymentDate =@PaymentDate
-                                    ,Notes = @Notes
-                                   
+                                    ,Notes = @Notes                                   
+
 	                                ,ModifiedBy = -1
 	                                ,ModifiedDate = GetUtcDate()
                                 WHERE EmployeePaymentId = @EmployeePaymentId";
@@ -118,8 +125,9 @@ namespace PMS.Infrastructure.Repositories
                     {
                         fields.EmployeeId,
                         fields.Amount,
-                        fields.PaymentMonth,
-                        fields.PaymentYear,
+
+                        fields.PaymentMonthYear,
+
                         fields.PaymentDate,
                         fields.Notes,
 
