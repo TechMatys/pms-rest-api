@@ -15,6 +15,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
+builder.Services.AddScoped<IEmployeePaymentService, EmployeePaymentService>();
+builder.Services.AddScoped<IEmployeePaymentRepository, EmployeePaymentRepository>();
+
+
 builder.Services.AddScoped<IGlobalCodeService, GlobalCodeService>();
 builder.Services.AddScoped<IGlobalCodeRepository, GlobalCodeRepository>();
 
