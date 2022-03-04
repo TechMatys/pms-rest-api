@@ -86,7 +86,6 @@ namespace PMS.Infrastructure.Repositories
                     {
                         fields.EmployeeId,
                         fields.Amount,
-
                         fields.PaymentMonthYear,
                         fields.PaymentDate,
                         fields.Notes                        
