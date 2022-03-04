@@ -24,6 +24,5 @@ namespace PMS.Core.Model
         public string? PaymentDate { get; set; }
         public string? Notes { get; set; }
         public string? CreatedBy { get; set; }
-        public string? CreatedDate { get; set; }
     }
 }
