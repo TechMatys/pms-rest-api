@@ -69,9 +69,8 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"INSERT INTO EmployeePayments(EmployeeId, Amount, PaymentMonth, PaymentYear, PaymentDate, Notes, CreatedBy, CreatedDate) 
-                              VALUES (@EmployeeId, @Amount, SUBSTRING(@PaymentMonthYear,0,CHARINDEX('/',@PaymentMonthYear,0)),  
-                              SUBSTRING(@PaymentMonthYear,CHARINDEX('/',@PaymentMonthYear,0)+1,LEN(@PaymentMonthYear)), @PaymentDate, @Notes, -1, GetUtcDate())";
+                var query = @"INSERT INTO EmployeePayments(EmployeeId, Amount, PaymentDate, Notes, CreatedBy, CreatedDate) 
+                              VALUES (@EmployeeId, @Amount, @PaymentDate, @Notes, -1, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -100,8 +99,8 @@ namespace PMS.Infrastructure.Repositories
                 var query = @"UPDATE EmployeePayments
                                 SET EmployeeId = @EmployeeId
                                     ,Amount = @Amount
-	                                ,PaymentMonth = SUBSTRING(@PaymentMonthYear,0,CHARINDEX('/',@PaymentMonthYear,0))
-                                    ,PaymentYear = SUBSTRING(@PaymentMonthYear,CHARINDEX('/',@PaymentMonthYear,0)+1,LEN(@PaymentMonthYear))
+	                               -- ,PaymentMonth = SUBSTRING(@PaymentMonthYear,0,CHARINDEX('/',@PaymentMonthYear,0))
+                                    --,PaymentYear = SUBSTRING(@PaymentMonthYear,CHARINDEX('/',@PaymentMonthYear,0)+1,LEN(@PaymentMonthYear))
                                     ,PaymentDate =@PaymentDate
                                     ,Notes = @Notes                                   
 	                                ,ModifiedBy = -1
