@@ -60,11 +60,11 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    return (await connection.QueryAsync<Project>(query, new
+                    return (await connection.QueryFirstOrDefaultAsync<Project>(query, new
                     {
                         ProjectId = id
 
-                    })).FirstOrDefault();
+                    }));
                 }
             }
             catch (Exception exp)
