@@ -19,6 +19,10 @@ builder.Services.AddScoped<IEmployeePaymentService, EmployeePaymentService>();
 builder.Services.AddScoped<IEmployeePaymentRepository, EmployeePaymentRepository>();
 
 
+builder.Services.AddScoped<IEmployeeProjectService, EmployeeProjectService>();
+builder.Services.AddScoped<IEmployeeProjectRepository, EmployeeProjectRepository>();
+
+
 builder.Services.AddScoped<IGlobalCodeService, GlobalCodeService>();
 builder.Services.AddScoped<IGlobalCodeRepository, GlobalCodeRepository>();
 
