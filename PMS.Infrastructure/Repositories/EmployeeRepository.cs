@@ -23,7 +23,7 @@ namespace PMS.Infrastructure.Repositories
 	                                ,FirstName
 	                                ,LastName
                                     ,EmailAddress
-	                                ,FORMAT(StartDate, 'dd-MM-yyyy') AS StartDate
+	                                ,Format(StartDate, 'dd-MM-yyyy') AS StartDate
 	                                ,gc.CodeName AS Designation
 	                                ,'' AS CreatedBy
 	                                ,Convert(VARCHAR(10), emp.CreatedDate, 110) AS CreatedDate

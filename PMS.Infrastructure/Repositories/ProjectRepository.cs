@@ -23,12 +23,13 @@ namespace PMS.Infrastructure.Repositories
                 var query = @"SELECT ProjectId
 	                                ,Name
                                     ,Technologies
-                                    ,StatusId
+                                    ,gc.CodeName as Status
 	                                ,Format(StartDate, 'dd/MM/yyyy') AS StartDate	                                
 	                                ,'' AS CreatedBy
-	                                ,Format(CreatedDate, 'dd/MM/yyyy') AS CreatedDate
-                                FROM Projects                                 
-                                WHERE IsDeleted = 0
+	                                ,Format(p.CreatedDate, 'dd/MM/yyyy') AS CreatedDate
+                                FROM Projects p   
+                                Inner Join GlobalCodes gc on gc.GlobalCodeId = p.StatusId                          
+                                WHERE p.IsDeleted = 0
                                 Order by CreatedDate desc";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
