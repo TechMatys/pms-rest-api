@@ -29,7 +29,7 @@ namespace PMS.Infrastructure.Repositories
 	                                ,Convert(VARCHAR(10), emp.CreatedDate, 110) AS CreatedDate
                                 FROM Employees emp
                                 LEFT JOIN GlobalCodes gc ON gc.GlobalCodeId = emp.DesignationId
-                                WHERE emp.IsDeleted = 0";
+                                WHERE emp.IsDeleted = 0 order by CreatedDate desc";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -66,11 +66,12 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    return (await connection.QueryAsync<Employee>(query, new
+                    var employee = await connection.QueryFirstOrDefaultAsync<Employee>(query, new
                     {
                         EmployeeId = id
 
-                    })).FirstOrDefault();
+                    });
+                    return employee;
                 }
             }
             catch (Exception exp)

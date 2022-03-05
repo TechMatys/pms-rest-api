@@ -9,18 +9,18 @@ namespace PMS.API.Controllers
     public class EmployeeController : ControllerBase
     {
 
-        private readonly IEmployeeService _EmployeeGroupService;
+        private readonly IEmployeeService _EmployeeService;
 
-        public EmployeeController(IEmployeeService EmployeeGroupService)
+        public EmployeeController(IEmployeeService EmployeeService)
         {
-            _EmployeeGroupService = EmployeeGroupService ?? throw new ArgumentNullException(nameof(EmployeeGroupService));
+            _EmployeeService = EmployeeService ?? throw new ArgumentNullException(nameof(EmployeeService));
         }
 
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeeListModel>>> GetAllEmployee()
         {
-            var response = await _EmployeeGroupService.GetAllEmployee();
+            var response = await _EmployeeService.GetAllEmployee();
 
             if (response == null)
             {
@@ -33,26 +33,26 @@ namespace PMS.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetEmployeeById(int id)
         {
-            var response = await _EmployeeGroupService.GetEmployeeById(id);
+            var response = await _EmployeeService.GetEmployeeById(id);
             return Ok(response);
         }
 
         [HttpPost]
         public async Task<ActionResult<bool>> Create([FromBody] Employee EmployeeModal)
         {
-            return await _EmployeeGroupService.Create(EmployeeModal);
+            return await _EmployeeService.Create(EmployeeModal);
         }
 
         [HttpPatch("{id}")]
         public async Task<ActionResult<bool>> Update(int id, [FromBody] Employee EmployeeModal)
         {
-            return await _EmployeeGroupService.Update(id, EmployeeModal);
+            return await _EmployeeService.Update(id, EmployeeModal);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return await _EmployeeGroupService.Delete(id);
+            return await _EmployeeService.Delete(id);
         }
     }
 }

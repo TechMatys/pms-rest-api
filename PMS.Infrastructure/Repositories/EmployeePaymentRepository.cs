@@ -58,11 +58,11 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    return (await connection.QueryAsync<EmployeePayment>(query, new
+                    return (await connection.QueryFirstOrDefaultAsync<EmployeePayment>(query, new
                     {
                         EmployeePaymentId = id
 
-                    })).FirstOrDefault();
+                    }));
                 }
             }
             catch (Exception exp)
