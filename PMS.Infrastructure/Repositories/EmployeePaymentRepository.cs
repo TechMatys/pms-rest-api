@@ -23,13 +23,11 @@ namespace PMS.Infrastructure.Repositories
 	                                ,Concat_Ws(' ',FirstName,LastName) as EmployeeName
                                     ,Amount
                                     ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
-
-                                    ,PaymentDate
-                                    ,Convert(varchar(10),PaymentDate,110) as PaymentDate
-
+                                    ,Format(PaymentDate, 'dd/MM/yyyy') as PaymentDate
                                 FROM EmployeePayments ep
                                 Inner Join Employees e on e.EmployeeId = ep.EmployeeId
-                                WHERE ep.IsDeleted = 0 and e.IsDeleted = 0";
+                                WHERE ep.IsDeleted = 0 and e.IsDeleted = 0 
+                                Order by ep.CreatedDate desc";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -51,17 +49,15 @@ namespace PMS.Infrastructure.Repositories
                                     ,EmployeeId
                                     ,Amount
 	                                ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
-                                    ,PaymentDate
-                                    ,Notes                                    
-
-                              FROM EmployeePayments where EmployeePaymentId = @EmployeePaymentId";
+                                    ,Format(PaymentDate, 'dd/MM/yyyy') AS PaymentDate
+                                    ,Notes  
+                            FROM EmployeePayments where EmployeePaymentId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     return (await connection.QueryFirstOrDefaultAsync<EmployeePayment>(query, new
                     {
-                        EmployeePaymentId = id
-
+                        id
                     }));
                 }
             }
@@ -77,8 +73,7 @@ namespace PMS.Infrastructure.Repositories
             {
 
                 var query = @"INSERT INTO EmployeePayments(EmployeeId, Amount, PaymentDate, Notes, CreatedBy, CreatedDate) 
-                              VALUES (@EmployeeId, @Amount, @PaymentDate, @Notes, -1, GetUtcDate())";
-
+                              VALUES (@EmployeeId, @Amount, @PaymentDate, @Notes, @ManagedBy, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -88,8 +83,8 @@ namespace PMS.Infrastructure.Repositories
                         fields.Amount,
                         fields.PaymentMonthYear,
                         fields.PaymentDate,
-                        fields.Notes                        
-
+                        fields.Notes,
+                        fields.ManagedBy
                     });
 
                     return Task.FromResult(true);
@@ -108,15 +103,13 @@ namespace PMS.Infrastructure.Repositories
                 var query = @"UPDATE EmployeePayments
                                 SET EmployeeId = @EmployeeId
                                     ,Amount = @Amount
-
 	                               -- ,PaymentMonth = SUBSTRING(@PaymentMonthYear,0,CHARINDEX('/',@PaymentMonthYear,0))
                                     --,PaymentYear = SUBSTRING(@PaymentMonthYear,CHARINDEX('/',@PaymentMonthYear,0)+1,LEN(@PaymentMonthYear))
-                                    ,PaymentDate =@PaymentDate
-                                    ,Notes = @Notes                                   
-
-	                                ,ModifiedBy = -1
+                                    ,PaymentDate = @PaymentDate
+                                    ,Notes = @Notes 
+	                                ,ModifiedBy = @ManagedBy
 	                                ,ModifiedDate = GetUtcDate()
-                                WHERE EmployeePaymentId = @EmployeePaymentId";
+                                WHERE EmployeePaymentId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -124,13 +117,11 @@ namespace PMS.Infrastructure.Repositories
                     {
                         fields.EmployeeId,
                         fields.Amount,
-
                         fields.PaymentMonthYear,
-
                         fields.PaymentDate,
                         fields.Notes,
-
-                        EmployeePaymentId = id
+                        fields.ManagedBy,
+                        id
                     });
 
                     return Task.FromResult(true);
@@ -150,13 +141,13 @@ namespace PMS.Infrastructure.Repositories
                                 SET  IsDeleted = 1
 	                                ,DeletedBy = -1
 	                                ,DeletedDate = GetUtcDate()
-                                WHERE EmployeePaymentId = @EmployeePaymentId";
+                                WHERE EmployeePaymentId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     connection.Execute(query, new
                     {
-                        EmployeePaymentId = id
+                        id
                     });
 
                     return Task.FromResult(true);

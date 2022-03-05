@@ -23,13 +23,14 @@ namespace PMS.Infrastructure.Repositories
                 var query = @"SELECT ProjectId
 	                                ,Name
                                     ,Technologies
-                                    ,StatusId
-                                    ,StartDate
-	                                ,Convert(VARCHAR(10), StartDate, 110) AS StartDate	                                
+                                    ,gc.CodeName as Status
+	                                ,Format(StartDate, 'dd/MM/yyyy') AS StartDate	                                
 	                                ,'' AS CreatedBy
-	                                ,Convert(VARCHAR(10), CreatedDate, 110) AS CreatedDate
-                                FROM Projects                                 
-                                WHERE IsDeleted = 0";
+	                                ,Format(p.CreatedDate, 'dd/MM/yyyy') AS CreatedDate
+                                FROM Projects p   
+                                Left Join GlobalCodes gc on gc.GlobalCodeId = p.StatusId                          
+                                WHERE p.IsDeleted = 0
+                                Order by p.CreatedDate desc";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -53,17 +54,16 @@ namespace PMS.Infrastructure.Repositories
                                     ,Technologies
                                     ,DurationId
                                     ,StatusId
-                                    ,StartDate
-                                    ,CompletionDate
+                                    ,Format(StartDate, 'dd/MM/yyyy') as StartDate
+                                    ,Format(CompletionDate, 'dd/MM/yyyy') as CompletionDate
                                     ,BudgetAmount
-                              FROM projects where ProjectId = @ProjectId";
+                              FROM projects where ProjectId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     return (await connection.QueryFirstOrDefaultAsync<Project>(query, new
                     {
-                        ProjectId = id
-
+                        id
                     }));
                 }
             }
@@ -80,7 +80,7 @@ namespace PMS.Infrastructure.Repositories
                 var query = @"INSERT INTO Projects(Name, OwnerName, Description, Technologies, DurationId, StatusId, StartDate, CompletionDate,
                                      BudgetAmount, CreatedBy, CreatedDate) 
                               VALUES (@Name, @OwnerName, @Description, @Technologies, @DurationId, @StatusId, @StartDate, @CompletionDate,
-                                     @BudgetAmount, -1, GetUtcDate())";
+                                     @BudgetAmount,@ManagedBy, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -95,6 +95,7 @@ namespace PMS.Infrastructure.Repositories
                         fields.StartDate,
                         fields.CompletionDate,
                         fields.BudgetAmount,
+                        fields.ManagedBy,
                     });
 
                     return Task.FromResult(true);
@@ -115,15 +116,14 @@ namespace PMS.Infrastructure.Repositories
                                     ,OwnerName = @OwnerName
                                     ,Description = @Description
                                     ,Technologies = @Technologies
-                                    ,DurationId    = @DurationId
-                                    ,StatusId      = @StatusId
-                                    ,StartDate   = @StartDate
+                                    ,DurationId = @DurationId
+                                    ,StatusId = @StatusId
+                                    ,StartDate = @StartDate
                                     ,CompletionDate = @CompletionDate
-                                    ,BudgetAmount  = @BudgetAmount
-                                    
-	                                ,ModifiedBy = -1
+                                    ,BudgetAmount = @BudgetAmount                                    
+	                                ,ModifiedBy = @ManagedBy
 	                                ,ModifiedDate = GetUtcDate()
-                                WHERE ProjectId = @ProjectId";
+                                WHERE ProjectId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -138,7 +138,8 @@ namespace PMS.Infrastructure.Repositories
                         fields.StartDate,
                         fields.CompletionDate,
                         fields.BudgetAmount,
-                        ProjectId = id
+                        fields.ManagedBy,
+                        id
                     });
 
                     return Task.FromResult(true);
@@ -158,13 +159,13 @@ namespace PMS.Infrastructure.Repositories
                                 SET  IsDeleted = 1
 	                                ,DeletedBy = -1
 	                                ,DeletedDate = GetUtcDate()
-                                WHERE ProjectId = @ProjectId";
+                                WHERE ProjectId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     connection.Execute(query, new
                     {
-                        ProjectId = id
+                        id
                     });
 
                     return Task.FromResult(true);
