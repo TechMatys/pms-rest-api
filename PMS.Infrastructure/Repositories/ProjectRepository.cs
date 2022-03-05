@@ -28,7 +28,7 @@ namespace PMS.Infrastructure.Repositories
 	                                ,'' AS CreatedBy
 	                                ,Format(p.CreatedDate, 'dd/MM/yyyy') AS CreatedDate
                                 FROM Projects p   
-                                Inner Join GlobalCodes gc on gc.GlobalCodeId = p.StatusId                          
+                                Left Join GlobalCodes gc on gc.GlobalCodeId = p.StatusId                          
                                 WHERE p.IsDeleted = 0
                                 Order by CreatedDate desc";
 
