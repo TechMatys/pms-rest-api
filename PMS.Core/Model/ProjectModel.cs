@@ -10,6 +10,7 @@ namespace PMS.Core.Model
         public string? Technologies { get; set; }
         public string? Status { get; set; }
         public string? CreatedDate { get; set; }
+        public string? CreatedBy { get; set; }
     }
     public class Project
     {

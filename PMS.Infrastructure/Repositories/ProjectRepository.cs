@@ -24,10 +24,9 @@ namespace PMS.Infrastructure.Repositories
 	                                ,Name
                                     ,Technologies
                                     ,StatusId
-                                    ,StartDate
-	                                ,Convert(VARCHAR(10), StartDate, 110) AS StartDate	                                
+	                                ,Format(StartDate, 'dd/MM/yyyy') AS StartDate	                                
 	                                ,'' AS CreatedBy
-	                                ,Convert(VARCHAR(10), CreatedDate, 110) AS CreatedDate
+	                                ,Format(CreatedDate, 'dd/MM/yyyy') AS CreatedDate
                                 FROM Projects                                 
                                 WHERE IsDeleted = 0";
 
@@ -53,8 +52,8 @@ namespace PMS.Infrastructure.Repositories
                                     ,Technologies
                                     ,DurationId
                                     ,StatusId
-                                    ,StartDate
-                                    ,CompletionDate
+                                    ,Format(StartDate, 'dd/MM/yyyy') as StartDate
+                                    ,Format(CompletionDate, 'dd/MM/yyyy') as CompletionDate
                                     ,BudgetAmount
                               FROM projects where ProjectId = @id";
 

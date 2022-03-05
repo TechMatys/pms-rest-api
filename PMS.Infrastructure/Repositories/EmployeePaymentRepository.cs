@@ -23,10 +23,8 @@ namespace PMS.Infrastructure.Repositories
 	                                ,Concat_Ws(' ',FirstName,LastName) as EmployeeName
                                     ,Amount
                                     ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
-
-                                    ,PaymentDate
+                                    ,FORMAT(PaymentDate, 'dd-MM-yyyy') as PaymentDate
                                     ,Convert(varchar(10),PaymentDate,110) as PaymentDate
-
                                 FROM EmployeePayments ep
                                 Inner Join Employees e on e.EmployeeId = ep.EmployeeId
                                 WHERE ep.IsDeleted = 0 and e.IsDeleted = 0";
@@ -51,7 +49,7 @@ namespace PMS.Infrastructure.Repositories
                                     ,EmployeeId
                                     ,Amount
 	                                ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
-                                    ,PaymentDate
+                                    ,FORMAT(PaymentDate, 'dd-MM-yyyy') AS PaymentDate
                                     ,Notes  
                             FROM EmployeePayments where EmployeePaymentId = @id";
 
@@ -87,7 +85,6 @@ namespace PMS.Infrastructure.Repositories
                         fields.PaymentDate,
                         fields.Notes,
                         fields.ManagedBy
-
                     });
 
                     return Task.FromResult(true);
@@ -108,7 +105,7 @@ namespace PMS.Infrastructure.Repositories
                                     ,Amount = @Amount
 	                               -- ,PaymentMonth = SUBSTRING(@PaymentMonthYear,0,CHARINDEX('/',@PaymentMonthYear,0))
                                     --,PaymentYear = SUBSTRING(@PaymentMonthYear,CHARINDEX('/',@PaymentMonthYear,0)+1,LEN(@PaymentMonthYear))
-                                    ,PaymentDate =@PaymentDate
+                                    ,PaymentDate = @PaymentDate
                                     ,Notes = @Notes 
 	                                ,ModifiedBy = @ManagedBy
 	                                ,ModifiedDate = GetUtcDate()
