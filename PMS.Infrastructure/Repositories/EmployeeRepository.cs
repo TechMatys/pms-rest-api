@@ -29,7 +29,8 @@ namespace PMS.Infrastructure.Repositories
 	                                ,Convert(VARCHAR(10), emp.CreatedDate, 110) AS CreatedDate
                                 FROM Employees emp
                                 LEFT JOIN GlobalCodes gc ON gc.GlobalCodeId = emp.DesignationId
-                                WHERE emp.IsDeleted = 0 order by CreatedDate desc";
+                                WHERE emp.IsDeleted = 0 
+                                Order by CreatedDate desc";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {

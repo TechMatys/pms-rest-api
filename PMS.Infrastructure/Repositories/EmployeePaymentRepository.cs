@@ -24,10 +24,10 @@ namespace PMS.Infrastructure.Repositories
                                     ,Amount
                                     ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
                                     ,FORMAT(PaymentDate, 'dd-MM-yyyy') as PaymentDate
-                                    ,Convert(varchar(10),PaymentDate,110) as PaymentDate
                                 FROM EmployeePayments ep
                                 Inner Join Employees e on e.EmployeeId = ep.EmployeeId
-                                WHERE ep.IsDeleted = 0 and e.IsDeleted = 0";
+                                WHERE ep.IsDeleted = 0 and e.IsDeleted = 0 
+                                Order by CreatedDate desc";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {

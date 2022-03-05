@@ -28,7 +28,8 @@ namespace PMS.Infrastructure.Repositories
 	                                ,'' AS CreatedBy
 	                                ,Format(CreatedDate, 'dd/MM/yyyy') AS CreatedDate
                                 FROM Projects                                 
-                                WHERE IsDeleted = 0";
+                                WHERE IsDeleted = 0
+                                Order by CreatedDate desc";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
