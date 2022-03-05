@@ -10,6 +10,7 @@ namespace PMS.Core.Model
         public string? Technologies { get; set; }
         public string? Status { get; set; }
         public string? CreatedDate { get; set; }
+        public string? CreatedBy { get; set; }
     }
     public class Project
     {
@@ -23,5 +24,6 @@ namespace PMS.Core.Model
         public int? StatusId { get; set; }
         public string? CompletionDate { get; set; }
         public string? BudgetAmount { get; set; }
+        public int? ManagedBy { get; set; }
     }
 }
