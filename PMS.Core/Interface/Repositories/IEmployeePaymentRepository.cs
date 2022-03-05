@@ -1,5 +1,4 @@
 ﻿using PMS.Core.Model;
-using PMS.Core.Services;
 
 namespace PMS.Core.Interface.Repositories
 {

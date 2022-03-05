@@ -25,8 +25,9 @@ builder.Services.AddScoped<IGlobalCodeRepository, GlobalCodeRepository>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 
-builder.Services.AddScoped<IProjectPaymentService, ProjectPaymentService>();
-builder.Services.AddScoped<IProjectPaymentRepository, ProjectPaymentRepository>();
+
+builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 
 
 var app = builder.Build();

@@ -23,13 +23,13 @@ namespace PMS.Infrastructure.Repositories
 	                                ,FirstName
 	                                ,LastName
                                     ,EmailAddress
-	                                ,Convert(VARCHAR(10), StartDate, 110) AS StartDate
+	                                ,FORMAT(StartDate, 'dd-MM-yyyy') AS StartDate
 	                                ,gc.CodeName AS Designation
 	                                ,'' AS CreatedBy
 	                                ,Convert(VARCHAR(10), emp.CreatedDate, 110) AS CreatedDate
                                 FROM Employees emp
                                 LEFT JOIN GlobalCodes gc ON gc.GlobalCodeId = emp.DesignationId
-                                WHERE emp.IsDeleted = 0";
+                                WHERE emp.IsDeleted = 0 order by CreatedDate desc";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -51,24 +51,27 @@ namespace PMS.Infrastructure.Repositories
                                     ,MiddleName
 	                                ,LastName
                                     ,Gender
-                                    ,DateOfBirth
+                                    ,Format(DateOfBirth, 'dd/MM/yyyy') as DateOfBirth
                                     ,EmailAddress
                                     ,Mobile
                                     ,Address
                                     ,City
                                     ,StateId
+                                    ,DesignationId
+                                    ,StatusId
                                     ,PostalCode
-                                    ,StartDate
-                                    ,EndDate
+                                    ,Format(StartDate, 'dd/MM/yyyy') as StartDate
+                                    ,Format(EndDate, 'dd/MM/yyyy') as EndDate
                               FROM Employees where EmployeeId = @EmployeeId";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    return (await connection.QueryAsync<Employee>(query, new
+                    var employee = await connection.QueryFirstOrDefaultAsync<Employee>(query, new
                     {
                         EmployeeId = id
 
-                    })).FirstOrDefault();
+                    });
+                    return employee;
                 }
             }
             catch (Exception exp)
@@ -81,8 +84,10 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, DateOfBirth, EmailAddress, Mobile, Address, City, StateId, PostalCode, StartDate, EndDate, CreatedBy, CreatedDate) 
-                              VALUES (@FirstName, @MiddleName, @LastName, @Gender, @DateOfBirth,  @EmailAddress, @Mobile, @Address, @City, @StateId, @PostalCode, @StartDate, @EndDate, -1, GetUtcDate())";
+                var query = @"INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, DateOfBirth, EmailAddress, Mobile, 
+                              Address, City, StateId, DesignationId, StatusId, PostalCode, StartDate, EndDate, CreatedBy, CreatedDate) 
+                              VALUES (@FirstName, @MiddleName, @LastName, @Gender, @DateOfBirth, @EmailAddress, @Mobile, 
+                              @Address, @City, @StateId, @DesignationId, @StatusId, @PostalCode, @StartDate, @EndDate, -1, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -98,6 +103,8 @@ namespace PMS.Infrastructure.Repositories
                         fields.Address,
                         fields.City,
                         fields.StateId,
+                        fields.DesignationId,
+                        fields.StatusId,
                         fields.PostalCode,
                         fields.StartDate,
                         fields.EndDate,
@@ -121,18 +128,20 @@ namespace PMS.Infrastructure.Repositories
                                     ,MiddleName = @MiddleName
 	                                ,LastName = @LastName
                                     ,Gender = @Gender
-                                    ,DateOfBirth =@DateOfBirth
+                                    ,DateOfBirth = @DateOfBirth
                                     ,EmailAddress = @EmailAddress
                                     ,Mobile = @Mobile
-                                    ,Address =@Address
-                                    ,City =@City
-                                    ,StateId =@StateId
+                                    ,Address = @Address
+                                    ,City = @City
+                                    ,StateId = @StateId
+                                    ,DesignationId = @DesignationId
+                                    ,StatusId = @StatusId
                                     ,PostalCode = @PostalCode
-                                    ,StartDate= @StartDate
-                                    ,EndDate= @EndDate
+                                    ,StartDate = @StartDate
+                                    ,EndDate = @EndDate
 	                                ,ModifiedBy = -1
 	                                ,ModifiedDate = GetUtcDate()
-                                WHERE EmployeeId = @EmployeeId";
+                                WHERE EmployeeId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -148,11 +157,12 @@ namespace PMS.Infrastructure.Repositories
                         fields.Address,
                         fields.City,
                         fields.StateId,
+                        fields.StatusId,
+                        fields.DesignationId,
                         fields.PostalCode,
                         fields.StartDate,
-                        fields.EndDate,
-                    
-                    EmployeeId = id
+                        fields.EndDate,                    
+                        id
                     });
 
                     return Task.FromResult(true);
