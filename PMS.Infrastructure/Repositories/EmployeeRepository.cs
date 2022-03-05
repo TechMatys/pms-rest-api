@@ -62,14 +62,13 @@ namespace PMS.Infrastructure.Repositories
                                     ,PostalCode
                                     ,Format(StartDate, 'dd/MM/yyyy') as StartDate
                                     ,Format(EndDate, 'dd/MM/yyyy') as EndDate
-                              FROM Employees where EmployeeId = @EmployeeId";
+                              FROM Employees where EmployeeId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     var employee = await connection.QueryFirstOrDefaultAsync<Employee>(query, new
                     {
-                        EmployeeId = id
-
+                        id
                     });
                     return employee;
                 }
@@ -87,7 +86,7 @@ namespace PMS.Infrastructure.Repositories
                 var query = @"INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, DateOfBirth, EmailAddress, Mobile, 
                               Address, City, StateId, DesignationId, StatusId, PostalCode, StartDate, EndDate, CreatedBy, CreatedDate) 
                               VALUES (@FirstName, @MiddleName, @LastName, @Gender, @DateOfBirth, @EmailAddress, @Mobile, 
-                              @Address, @City, @StateId, @DesignationId, @StatusId, @PostalCode, @StartDate, @EndDate, -1, GetUtcDate())";
+                              @Address, @City, @StateId, @DesignationId, @StatusId, @PostalCode, @StartDate, @EndDate, @ManagedBy, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -108,6 +107,7 @@ namespace PMS.Infrastructure.Repositories
                         fields.PostalCode,
                         fields.StartDate,
                         fields.EndDate,
+                        fields.ManagedBy
                     });
 
                     return Task.FromResult(true);
@@ -139,7 +139,7 @@ namespace PMS.Infrastructure.Repositories
                                     ,PostalCode = @PostalCode
                                     ,StartDate = @StartDate
                                     ,EndDate = @EndDate
-	                                ,ModifiedBy = -1
+	                                ,ModifiedBy = @ManagedBy
 	                                ,ModifiedDate = GetUtcDate()
                                 WHERE EmployeeId = @id";
 
@@ -161,7 +161,8 @@ namespace PMS.Infrastructure.Repositories
                         fields.DesignationId,
                         fields.PostalCode,
                         fields.StartDate,
-                        fields.EndDate,                    
+                        fields.EndDate,
+                        fields.ManagedBy,
                         id
                     });
 
@@ -182,13 +183,13 @@ namespace PMS.Infrastructure.Repositories
                                 SET  IsDeleted = 1
 	                                ,DeletedBy = -1
 	                                ,DeletedDate = GetUtcDate()
-                                WHERE EmployeeId = @EmployeeId";
+                                WHERE EmployeeId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     connection.Execute(query, new
                     {
-                        EmployeeId = id
+                        id
                     });
 
                     return Task.FromResult(true);

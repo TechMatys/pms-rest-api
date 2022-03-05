@@ -52,16 +52,14 @@ namespace PMS.Infrastructure.Repositories
                                     ,Amount
 	                                ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
                                     ,PaymentDate
-                                    ,Notes                                    
-
-                              FROM EmployeePayments where EmployeePaymentId = @EmployeePaymentId";
+                                    ,Notes  
+                            FROM EmployeePayments where EmployeePaymentId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     return (await connection.QueryFirstOrDefaultAsync<EmployeePayment>(query, new
                     {
-                        EmployeePaymentId = id
-
+                        id
                     }));
                 }
             }
@@ -77,8 +75,7 @@ namespace PMS.Infrastructure.Repositories
             {
 
                 var query = @"INSERT INTO EmployeePayments(EmployeeId, Amount, PaymentDate, Notes, CreatedBy, CreatedDate) 
-                              VALUES (@EmployeeId, @Amount, @PaymentDate, @Notes, -1, GetUtcDate())";
-
+                              VALUES (@EmployeeId, @Amount, @PaymentDate, @Notes, @ManagedBy, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -88,7 +85,8 @@ namespace PMS.Infrastructure.Repositories
                         fields.Amount,
                         fields.PaymentMonthYear,
                         fields.PaymentDate,
-                        fields.Notes                        
+                        fields.Notes,
+                        fields.ManagedBy
 
                     });
 
@@ -108,15 +106,13 @@ namespace PMS.Infrastructure.Repositories
                 var query = @"UPDATE EmployeePayments
                                 SET EmployeeId = @EmployeeId
                                     ,Amount = @Amount
-
 	                               -- ,PaymentMonth = SUBSTRING(@PaymentMonthYear,0,CHARINDEX('/',@PaymentMonthYear,0))
                                     --,PaymentYear = SUBSTRING(@PaymentMonthYear,CHARINDEX('/',@PaymentMonthYear,0)+1,LEN(@PaymentMonthYear))
                                     ,PaymentDate =@PaymentDate
-                                    ,Notes = @Notes                                   
-
-	                                ,ModifiedBy = -1
+                                    ,Notes = @Notes 
+	                                ,ModifiedBy = @ManagedBy
 	                                ,ModifiedDate = GetUtcDate()
-                                WHERE EmployeePaymentId = @EmployeePaymentId";
+                                WHERE EmployeePaymentId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -124,13 +120,11 @@ namespace PMS.Infrastructure.Repositories
                     {
                         fields.EmployeeId,
                         fields.Amount,
-
                         fields.PaymentMonthYear,
-
                         fields.PaymentDate,
                         fields.Notes,
-
-                        EmployeePaymentId = id
+                        fields.ManagedBy,
+                        id
                     });
 
                     return Task.FromResult(true);
@@ -150,13 +144,13 @@ namespace PMS.Infrastructure.Repositories
                                 SET  IsDeleted = 1
 	                                ,DeletedBy = -1
 	                                ,DeletedDate = GetUtcDate()
-                                WHERE EmployeePaymentId = @EmployeePaymentId";
+                                WHERE EmployeePaymentId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     connection.Execute(query, new
                     {
-                        EmployeePaymentId = id
+                        id
                     });
 
                     return Task.FromResult(true);

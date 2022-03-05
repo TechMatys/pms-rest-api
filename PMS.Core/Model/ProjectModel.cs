@@ -23,5 +23,6 @@ namespace PMS.Core.Model
         public int? StatusId { get; set; }
         public string? CompletionDate { get; set; }
         public string? BudgetAmount { get; set; }
+        public int? ManagedBy { get; set; }
     }
 }

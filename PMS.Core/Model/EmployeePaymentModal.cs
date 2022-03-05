@@ -26,7 +26,7 @@ namespace PMS.Core.Model
         public string? PaymentMonthYear { get; set; }
         public string? PaymentDate { get; set; }
         public string? Notes { get; set; }
-        public string? CreatedBy { get; set; }
+        public int? ManagedBy { get; set; }
 
     }
 }
