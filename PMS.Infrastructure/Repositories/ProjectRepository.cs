@@ -30,7 +30,7 @@ namespace PMS.Infrastructure.Repositories
                                 FROM Projects p   
                                 Left Join GlobalCodes gc on gc.GlobalCodeId = p.StatusId                          
                                 WHERE p.IsDeleted = 0
-                                Order by CreatedDate desc";
+                                Order by p.CreatedDate desc";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
