@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PMS.API.Controllers
 {
+    [Route("project-payment")]
+    [ApiController]
     public class ProjectPaymentController: ControllerBase
     {
         private readonly IProjectPaymentService _ProjectPaymentGroupService;

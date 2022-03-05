@@ -19,7 +19,7 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"SELECT ProjectId
+                var query = @"SELECT ProjectPaymentId
                                     ,Concat_Ws(' ',FirstName) as Name
 	                                ,ReceivedAmount
                                     ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
@@ -45,11 +45,10 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"SELECT ProjectId
+                var query = @"SELECT ProjectPaymentId
 	                                ,ReceivedAmount
                                     ,BalancedAmount
-                                    ,PaymentMonth
-                                    ,PaymentYear
+                                    ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
                                     ,PaymenttDate
                               FROM projectPayments where ProjectPaymentId = @ProjectPaymentId";
 
@@ -72,9 +71,8 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"INSERT INTO ProjectPayments(ProjectId, ReceivedAmount, BalancedAmount, PaymentMonth, PaymentYear
-                                    ,PaymenttDate, CreatedBy, CreatedDate) 
-                              VALUES (@ProjectId, @ReceivedAmount, @BalancedAmount, @PaymentYear, @PaymentDate,  -1, GetUtcDate())";
+                var query = @"INSERT INTO ProjectPayments(ProjectId, ReceivedAmount, BalancedAmount ,PaymenttDate, CreatedBy, CreatedDate) 
+                              VALUES (@ProjectId, @ReceivedAmount, @BalancedAmount, @PaymentDate,  -1, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -83,8 +81,7 @@ namespace PMS.Infrastructure.Repositories
                         fields.ProjectId,
                         fields.ReceivedAmount,
                         fields.BalancedAmount,
-                        fields.PaymentMonth,
-                        fields.PaymentYear,
+                        fields.PaymentMonthYear,
                         fields.PaymentDate,
                     });
 
@@ -102,11 +99,11 @@ namespace PMS.Infrastructure.Repositories
             try
             {
                 var query = @"UPDATE ProjectPayments
-                                SET Name = @Name
-                                    ,ProjectId = @ProjectId
+                                SET ,ProjectId = @ProjectId
                                     ,ReceivedAmount = @ReceivedAmount
                                     ,BalancedAmount = @BalancedAmount
-                                    ,PaymentYear    = @PaymentYear
+                                    -- ,PaymentMonth = SUBSTRING(@PaymentMonthYear,0,CHARINDEX('/',@PaymentMonthYear,0))
+                                    --,PaymentYear = SUBSTRING(@PaymentMonthYear,CHARINDEX('/',@PaymentMonthYear,0)+1,LEN(@PaymentMonthYear))
                                     ,PaymentDate      = @PaymentDate
                                     
 	                                ,ModifiedBy = -1
@@ -120,8 +117,9 @@ namespace PMS.Infrastructure.Repositories
                         fields.ProjectId,
                         fields.ReceivedAmount,
                         fields.BalancedAmount,
-                        fields.PaymentMonth,
-                        fields.PaymentYear,
+
+                        fields.PaymentMonthYear,
+
                         fields.PaymentDate,
                         ProjectPaymentId = id
                     });

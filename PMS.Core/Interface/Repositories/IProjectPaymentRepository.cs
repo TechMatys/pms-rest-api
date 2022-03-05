@@ -1,6 +1,5 @@
 ﻿using PMS.Core.Model;
 
-
 namespace PMS.Core.Interface.Repositories
 {
     public interface IProjectPaymentRepository
