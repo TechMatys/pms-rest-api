@@ -6,32 +6,33 @@ using System.Data.SqlClient;
 
 namespace PMS.Infrastructure.Repositories
 {
-    public class EmployeePaymentRepository : IEmployeePaymentRepository
+    public class EmployeeProjectRepository : IEmployeeProjectRepository
     {
         private readonly IConfiguration configuration;
 
-        public EmployeePaymentRepository(IConfiguration configuration)
+        public EmployeeProjectRepository(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
 
-        public async Task<IEnumerable<EmployeePaymentListModel>> GetAllEmployeePayment()
+        public async Task<IEnumerable<EmployeeProjectListModel>> GetAllEmployeeProject()
         {
             try
             {
-                var query = @"SELECT EmployeePaymentId
+                var query = @"SELECT EmployeeProjectId
 	                                ,Concat_Ws(' ', FirstName, LastName) AS EmployeeName
-	                                ,Amount
-	                                ,Concat_Ws('/', PaymentMonth, PaymentYear) AS PaymentMonthYear
-	                                ,Format(PaymentDate, 'dd/MM/yyyy') AS PaymentDate
-                                FROM EmployeePayments ep
+	                                ,Name AS ProjectName
+	                                ,Format(AssignedDate, 'dd/MM/yyyy') AS AssignedDate
+	                                ,'' AS CreatedBy
+                                FROM EmployeeProjects ep
                                 INNER JOIN Employees e ON e.EmployeeId = ep.EmployeeId
+                                INNER JOIN Projects p ON p.ProjectId = ep.ProjectId
                                 WHERE ep.IsDeleted = 0 AND e.IsDeleted = 0
                                 ORDER BY ep.CreatedDate DESC";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    return (await connection.QueryAsync<EmployeePaymentListModel>(query)).ToList();
+                    return (await connection.QueryAsync<EmployeeProjectListModel>(query)).ToList();
                 }
             }
             catch (Exception exp)
@@ -40,23 +41,22 @@ namespace PMS.Infrastructure.Repositories
             }
         }
 
-        public async Task<EmployeePayment> GetEmployeePaymentById(int id)
+        public async Task<EmployeeProject> GetEmployeeProjectById(int id)
         {
             try
             {
 
-                var query = @"SELECT EmployeePaymentId
+                var query = @"SELECT EmployeeProjectId
 	                                ,EmployeeId
-	                                ,Amount
-	                                ,Concat_Ws('/', PaymentMonth, PaymentYear) AS PaymentMonthYear
-	                                ,Format(PaymentDate, 'dd/MM/yyyy') AS PaymentDate
+	                                ,ProjectId
+	                                ,Format(AssignedDate, 'dd/MM/yyyy') AS AssignedDate
 	                                ,Notes
-                                FROM EmployeePayments
-                                WHERE EmployeePaymentId = @id";
+                                FROM EmployeeProjects
+                                WHERE EmployeeProjectId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    return (await connection.QueryFirstOrDefaultAsync<EmployeePayment>(query, new
+                    return (await connection.QueryFirstOrDefaultAsync<EmployeeProject>(query, new
                     {
                         id
                     }));
@@ -68,22 +68,21 @@ namespace PMS.Infrastructure.Repositories
             }
         }
 
-        public Task<bool> Create(EmployeePayment fields)
+        public Task<bool> Create(EmployeeProject fields)
         {
             try
             {
 
-                var query = @"INSERT INTO EmployeePayments(EmployeeId, Amount, PaymentDate, Notes, CreatedBy, CreatedDate) 
-                              VALUES (@EmployeeId, @Amount, @PaymentDate, @Notes, @ManagedBy, GetUtcDate())";
+                var query = @"INSERT INTO EmployeeProjects(EmployeeId, ProjectId, AssignedDate, Notes, CreatedBy, CreatedDate) 
+                              VALUES (@EmployeeId, @ProjectId, @AssignedDate, @Notes, @ManagedBy, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     connection.Execute(query, new
                     {
                         fields.EmployeeId,
-                        fields.Amount,
-                        fields.PaymentMonthYear,
-                        fields.PaymentDate,
+                        fields.ProjectId,                      
+                        fields.AssignedDate,
                         fields.Notes,
                         fields.ManagedBy
                     });
@@ -97,29 +96,26 @@ namespace PMS.Infrastructure.Repositories
             }
         }
 
-        public Task<bool> Update(int id, EmployeePayment fields)
+        public Task<bool> Update(int id, EmployeeProject fields)
         {
             try
             {
-                var query = @"UPDATE EmployeePayments
-                                SET EmployeeId = @EmployeeId
-                                    ,Amount = @Amount
-	                               -- ,PaymentMonth = SUBSTRING(@PaymentMonthYear,0,CHARINDEX('/',@PaymentMonthYear,0))
-                                    --,PaymentYear = SUBSTRING(@PaymentMonthYear,CHARINDEX('/',@PaymentMonthYear,0)+1,LEN(@PaymentMonthYear))
-                                    ,PaymentDate = @PaymentDate
-                                    ,Notes = @Notes 
-	                                ,ModifiedBy = @ManagedBy
-	                                ,ModifiedDate = GetUtcDate()
-                                WHERE EmployeePaymentId = @id";
+                var query = @"UPDATE EmployeeProjects
+                              SET EmployeeId = @EmployeeId
+	                              ,ProjectId = @ProjectId
+	                              ,AssignedDate = @AssignedDate
+	                              ,Notes = @Notes
+	                              ,ModifiedBy = @ManagedBy
+	                              ,ModifiedDate = GetUtcDate()
+                              WHERE EmployeeProjectId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     connection.Execute(query, new
                     {
                         fields.EmployeeId,
-                        fields.Amount,
-                        fields.PaymentMonthYear,
-                        fields.PaymentDate,
+                        fields.ProjectId,                      
+                        fields.AssignedDate,
                         fields.Notes,
                         fields.ManagedBy,
                         id
@@ -138,11 +134,11 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"UPDATE EmployeePayments
-                                SET  IsDeleted = 1
-	                                ,DeletedBy = -1
-	                                ,DeletedDate = GetUtcDate()
-                                WHERE EmployeePaymentId = @id";
+                var query = @"UPDATE EmployeeProjects
+                              SET IsDeleted = 1
+	                              ,DeletedBy = - 1
+	                              ,DeletedDate = GetUtcDate()
+                              WHERE EmployeeProjectId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {

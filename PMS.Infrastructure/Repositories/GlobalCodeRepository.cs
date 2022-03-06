@@ -19,8 +19,8 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"SELECT StateId as Id,
-                                Name as Name
+                var query = @"SELECT StateId AS Id
+	                                ,Name AS Name
                                 FROM States
                                 WHERE IsDeleted = 0";
 
@@ -39,10 +39,10 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"SELECT GlobalCodeId as Id,
-                                CodeName as Name
+                var query = @"SELECT GlobalCodeId AS Id
+	                                ,CodeName AS Name
                                 FROM GlobalCodes
-                                WHERE IsDeleted = 0 and Category = @Category";
+                                WHERE IsDeleted = 0 AND Category = @Category";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
