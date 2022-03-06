@@ -20,17 +20,17 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"SELECT ProjectId
-	                                ,Name
-                                    ,Technologies
-                                    ,gc.CodeName as Status
-	                                ,Format(StartDate, 'dd/MM/yyyy') AS StartDate	                                
-	                                ,'' AS CreatedBy
-	                                ,Format(p.CreatedDate, 'dd/MM/yyyy') AS CreatedDate
-                                FROM Projects p   
-                                Left Join GlobalCodes gc on gc.GlobalCodeId = p.StatusId                          
-                                WHERE p.IsDeleted = 0
-                                Order by p.CreatedDate desc";
+                    var query = @"SELECT ProjectId
+	                                    ,Name
+	                                    ,Technologies
+	                                    ,gc.CodeName AS STATUS
+	                                    ,Format(StartDate, 'dd/MM/yyyy') AS StartDate
+	                                    ,'' AS CreatedBy
+	                                    ,Format(p.CreatedDate, 'dd/MM/yyyy') AS CreatedDate
+                                    FROM Projects p
+                                    LEFT JOIN GlobalCodes gc ON gc.GlobalCodeId = p.StatusId
+                                    WHERE p.IsDeleted = 0
+                                    ORDER BY p.CreatedDate DESC";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -48,16 +48,17 @@ namespace PMS.Infrastructure.Repositories
             try
             {
                 var query = @"SELECT ProjectId
-                                    ,Name
-                                    ,OwnerName
-                                    ,Description
-                                    ,Technologies
-                                    ,DurationId
-                                    ,StatusId
-                                    ,Format(StartDate, 'dd/MM/yyyy') as StartDate
-                                    ,Format(CompletionDate, 'dd/MM/yyyy') as CompletionDate
-                                    ,BudgetAmount
-                              FROM projects where ProjectId = @id";
+	                                ,Name
+	                                ,OwnerName
+	                                ,Description
+	                                ,Technologies
+	                                ,DurationId
+	                                ,StatusId
+	                                ,Format(StartDate, 'dd/MM/yyyy') AS StartDate
+	                                ,Format(CompletionDate, 'dd/MM/yyyy') AS CompletionDate
+	                                ,BudgetAmount
+                                FROM projects
+                                WHERE ProjectId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -156,7 +157,7 @@ namespace PMS.Infrastructure.Repositories
             try
             {
                 var query = @"UPDATE Projects
-                                SET  IsDeleted = 1
+                                 SET IsDeleted = 1
 	                                ,DeletedBy = -1
 	                                ,DeletedDate = GetUtcDate()
                                 WHERE ProjectId = @id";

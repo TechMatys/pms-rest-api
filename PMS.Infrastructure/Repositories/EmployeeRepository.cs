@@ -63,7 +63,8 @@ namespace PMS.Infrastructure.Repositories
                                     ,PostalCode
                                     ,Format(StartDate, 'dd/MM/yyyy') as StartDate
                                     ,Format(EndDate, 'dd/MM/yyyy') as EndDate
-                              FROM Employees where EmployeeId = @id";
+                              FROM Employees 
+                              Where EmployeeId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {

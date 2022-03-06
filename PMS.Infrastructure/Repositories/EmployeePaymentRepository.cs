@@ -20,14 +20,14 @@ namespace PMS.Infrastructure.Repositories
             try
             {
                 var query = @"SELECT EmployeePaymentId
-	                                ,Concat_Ws(' ',FirstName,LastName) as EmployeeName
-                                    ,Amount
-                                    ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
-                                    ,Format(PaymentDate, 'dd/MM/yyyy') as PaymentDate
+	                                ,Concat_Ws(' ', FirstName, LastName) AS EmployeeName
+	                                ,Amount
+	                                ,Concat_Ws('/', PaymentMonth, PaymentYear) AS PaymentMonthYear
+	                                ,Format(PaymentDate, 'dd/MM/yyyy') AS PaymentDate
                                 FROM EmployeePayments ep
-                                Inner Join Employees e on e.EmployeeId = ep.EmployeeId
-                                WHERE ep.IsDeleted = 0 and e.IsDeleted = 0 
-                                Order by ep.CreatedDate desc";
+                                INNER JOIN Employees e ON e.EmployeeId = ep.EmployeeId
+                                WHERE ep.IsDeleted = 0 AND e.IsDeleted = 0
+                                ORDER BY ep.CreatedDate DESC";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -46,12 +46,13 @@ namespace PMS.Infrastructure.Repositories
             {
 
                 var query = @"SELECT EmployeePaymentId
-                                    ,EmployeeId
-                                    ,Amount
-	                                ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
-                                    ,Format(PaymentDate, 'dd/MM/yyyy') AS PaymentDate
-                                    ,Notes  
-                            FROM EmployeePayments where EmployeePaymentId = @id";
+	                                ,EmployeeId
+	                                ,Amount
+	                                ,Concat_Ws('/', PaymentMonth, PaymentYear) AS PaymentMonthYear
+	                                ,Format(PaymentDate, 'dd/MM/yyyy') AS PaymentDate
+	                                ,Notes
+                                FROM EmployeePayments
+                                WHERE EmployeePaymentId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {

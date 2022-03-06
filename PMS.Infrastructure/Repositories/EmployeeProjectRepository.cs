@@ -20,14 +20,15 @@ namespace PMS.Infrastructure.Repositories
             try
             {
                 var query = @"SELECT EmployeeProjectId
-	                                ,Concat_Ws(' ',FirstName,LastName) as EmployeeName
-                                    ,ProjectId
-                                    
-                                    ,Format(AssignedDate, 'dd/MM/yyyy') as AssignedtDate
+	                                ,Concat_Ws(' ', FirstName, LastName) AS EmployeeName
+	                                ,Name AS ProjectName
+	                                ,Format(AssignedDate, 'dd/MM/yyyy') AS AssignedDate
+	                                ,'' AS CreatedBy
                                 FROM EmployeeProjects ep
-                                Inner Join Employees e on e.EmployeeId = ep.EmployeeId
-                                WHERE ep.IsDeleted = 0 and e.IsDeleted = 0 
-                                Order by ep.CreatedDate desc";
+                                INNER JOIN Employees e ON e.EmployeeId = ep.EmployeeId
+                                INNER JOIN Projects p ON p.ProjectId = ep.ProjectId
+                                WHERE ep.IsDeleted = 0 AND e.IsDeleted = 0
+                                ORDER BY ep.CreatedDate DESC";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -46,12 +47,12 @@ namespace PMS.Infrastructure.Repositories
             {
 
                 var query = @"SELECT EmployeeProjectId
-                                    ,EmployeeId
-                                    ,ProjectId
-	                               
-                                    ,Format(AssignedDate, 'dd/MM/yyyy') AS AssignedDate
-                                    ,Notes  
-                            FROM EmployeeProjects where EmployeeProjectId = @id";
+	                                ,EmployeeId
+	                                ,ProjectId
+	                                ,Format(AssignedDate, 'dd/MM/yyyy') AS AssignedDate
+	                                ,Notes
+                                FROM EmployeeProjects
+                                WHERE EmployeeProjectId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -80,8 +81,7 @@ namespace PMS.Infrastructure.Repositories
                     connection.Execute(query, new
                     {
                         fields.EmployeeId,
-                        fields.ProjectId,
-                      
+                        fields.ProjectId,                      
                         fields.AssignedDate,
                         fields.Notes,
                         fields.ManagedBy
@@ -101,22 +101,20 @@ namespace PMS.Infrastructure.Repositories
             try
             {
                 var query = @"UPDATE EmployeeProjects
-                                SET EmployeeId = @EmployeeId
-                                    ,ProjectId = @ProjectId
-	                             
-                                    ,AssignedDate = @AssignedDate
-                                    ,Notes = @Notes 
-	                                ,ModifiedBy = @ManagedBy
-	                                ,ModifiedDate = GetUtcDate()
-                                WHERE EmployeeProjectId = @id";
+                              SET EmployeeId = @EmployeeId
+	                              ,ProjectId = @ProjectId
+	                              ,AssignedDate = @AssignedDate
+	                              ,Notes = @Notes
+	                              ,ModifiedBy = @ManagedBy
+	                              ,ModifiedDate = GetUtcDate()
+                              WHERE EmployeeProjectId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     connection.Execute(query, new
                     {
                         fields.EmployeeId,
-                        fields.ProjectId,
-                      
+                        fields.ProjectId,                      
                         fields.AssignedDate,
                         fields.Notes,
                         fields.ManagedBy,
@@ -137,10 +135,10 @@ namespace PMS.Infrastructure.Repositories
             try
             {
                 var query = @"UPDATE EmployeeProjects
-                                SET  IsDeleted = 1
-	                                ,DeletedBy = -1
-	                                ,DeletedDate = GetUtcDate()
-                                WHERE EmployeeProjectId = @id";
+                              SET IsDeleted = 1
+	                              ,DeletedBy = - 1
+	                              ,DeletedDate = GetUtcDate()
+                              WHERE EmployeeProjectId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
