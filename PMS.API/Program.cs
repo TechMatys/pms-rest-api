@@ -36,6 +36,9 @@ builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddScoped<IProjectPaymentService, ProjectPaymentService>();
 builder.Services.AddScoped<IProjectPaymentRepository, ProjectPaymentRepository>();
 
+builder.Services.AddScoped<ICompanyExpenseService, CompanyExpenseService>();
+builder.Services.AddScoped<ICompanyExpenseRepository, CompanyExpenseRepository>();
+
 
 
 
