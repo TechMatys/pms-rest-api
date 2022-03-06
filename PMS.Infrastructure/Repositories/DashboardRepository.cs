@@ -30,10 +30,10 @@ namespace PMS.Infrastructure.Repositories
                                 SELECT @TotalProjects = Count(ProjectId) FROM Projects 
                                 WHERE IsDeleted = 0
 
-                                SELECT @MonthlyEarning = Sum(RecievedAmount) FROM ProjectPayments 
+                                SELECT @MonthlyEarning = Sum(ReceivedAmount) FROM ProjectPayments 
                                 WHERE IsDeleted = 0 AND PaymentMonth = Month(GetUtcDate()) AND PaymentYear = Year(GetUtcDate())
 
-                                SELECT @AnnualEarning = Sum(RecievedAmount) FROM ProjectPayments
+                                SELECT @AnnualEarning = Sum(ReceivedAmount) FROM ProjectPayments
                                 WHERE IsDeleted = 0 And PaymentYear = Year(GetUtcDate())
 
                                 SELECT @TotalEmployees AS TotalEmployees
@@ -48,7 +48,7 @@ namespace PMS.Infrastructure.Repositories
                                 WHERE gc.Category = 'ProjectStatus'
                                 GROUP BY CodeName
 
-                                SELECT Sum(RecievedAmount) AS Amount, DATENAME(Month,PaymentMonth) AS [Month]
+                                SELECT Sum(ReceivedAmount) AS Amount, DATENAME(Month,PaymentMonth) AS [Month]
                                 FROM ProjectPayments
                                 WHERE IsDeleted = 0 AND PaymentYear = Year(GetUtcDate())
                                 GROUP BY PaymentMonth";
