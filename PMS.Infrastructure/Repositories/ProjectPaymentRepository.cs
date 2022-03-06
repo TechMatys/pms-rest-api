@@ -20,15 +20,14 @@ namespace PMS.Infrastructure.Repositories
             try
             {
                 var query = @"SELECT ProjectPaymentId
-                                    ,Concat_Ws(' ',FirstName) as Name
-	                                ,ReceivedAmount
+                                    ,p.Name
+	                                ,RecievedAmount
                                     ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
-                                    ,PaymenttDate
-	                                ,Convert(VARCHAR(10), StartDate, 110) AS StartDate	                                
-	                                ,'' AS CreatedBy
-	                                ,Convert(VARCHAR(10), CreatedDate, 110) AS CreatedDate
-                                FROM ProjectPayments                                 
-                                WHERE IsDeleted = 0";
+                                    ,Format(PaymentDate, 'dd/MM/yyyy') as PaymentDate
+                                FROM ProjectPayments pp
+                                Inner Join Projects p on p.ProjectId = pp.ProjectId
+                                WHERE pp.IsDeleted = 0 and p.IsDeleted = 0 
+                                Order by pp.CreatedDate desc";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -46,11 +45,12 @@ namespace PMS.Infrastructure.Repositories
             try
             {
                 var query = @"SELECT ProjectPaymentId
-	                                ,ReceivedAmount
+                                    ,ProjectId
+	                                ,RecievedAmount
                                     ,BalancedAmount
                                     ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
-                                    ,PaymenttDate
-                              FROM projectPayments where ProjectPaymentId = @ProjectPaymentId";
+                                    ,Format(PaymentDate, 'dd/MM/yyyy') AS PaymentDate
+                              FROM ProjectPayments where ProjectPaymentId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -71,18 +71,20 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"INSERT INTO ProjectPayments(ProjectId, ReceivedAmount, BalancedAmount ,PaymenttDate, CreatedBy, CreatedDate) 
-                              VALUES (@ProjectId, @ReceivedAmount, @BalancedAmount, @PaymentDate,  -1, GetUtcDate())";
+                var query = @"INSERT INTO ProjectPayments(ProjectId, RecievedAmount, PaymentMonth, PaymentYear, BalancedAmount,
+                              PaymentDate, CreatedBy, CreatedDate) 
+                              VALUES (@ProjectId, @RecievedAmount, 2, 2022, @BalancedAmount, @PaymentDate, @ManagedBy, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     connection.Execute(query, new
                     {
                         fields.ProjectId,
-                        fields.ReceivedAmount,
+                        fields.RecievedAmount,
                         fields.BalancedAmount,
-                        fields.PaymentMonthYear,
+                        //fields.PaymentMonthYear,
                         fields.PaymentDate,
+                        fields.ManagedBy
                     });
 
                     return Task.FromResult(true);
@@ -99,29 +101,27 @@ namespace PMS.Infrastructure.Repositories
             try
             {
                 var query = @"UPDATE ProjectPayments
-                                SET ,ProjectId = @ProjectId
-                                    ,ReceivedAmount = @ReceivedAmount
+                                SET ProjectId = @ProjectId
+                                    ,RecievedAmount = @RecievedAmount
                                     ,BalancedAmount = @BalancedAmount
                                     -- ,PaymentMonth = SUBSTRING(@PaymentMonthYear,0,CHARINDEX('/',@PaymentMonthYear,0))
                                     --,PaymentYear = SUBSTRING(@PaymentMonthYear,CHARINDEX('/',@PaymentMonthYear,0)+1,LEN(@PaymentMonthYear))
-                                    ,PaymentDate      = @PaymentDate
-                                    
-	                                ,ModifiedBy = -1
+                                    ,PaymentDate = @PaymentDate                                    
+	                                ,ModifiedBy = @ManagedBy
 	                                ,ModifiedDate = GetUtcDate()
-                                WHERE ProjectPaymentId = @ProjectPaymentId";
+                                WHERE ProjectPaymentId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     connection.Execute(query, new
                     {
                         fields.ProjectId,
-                        fields.ReceivedAmount,
+                        fields.RecievedAmount,
                         fields.BalancedAmount,
-
-                        fields.PaymentMonthYear,
-
+                        //fields.PaymentMonthYear,
                         fields.PaymentDate,
-                        ProjectPaymentId = id
+                        fields.ManagedBy,
+                        id
                     });
 
                     return Task.FromResult(true);
@@ -141,13 +141,13 @@ namespace PMS.Infrastructure.Repositories
                                 SET  IsDeleted = 1
 	                                ,DeletedBy = -1
 	                                ,DeletedDate = GetUtcDate()
-                                WHERE ProjectPaymentId = @ProjectPaymentId";
+                                WHERE ProjectPaymentId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     connection.Execute(query, new
                     {
-                        ProjectPaymentId = id
+                       id
                     });
 
                     return Task.FromResult(true);
