@@ -9,14 +9,14 @@ namespace PMS.Core.Services
     {
         public readonly ICompanyExpenseRepository _CompanyExpenseRepository;
 
-        public CompanyExpenseService(ICompanyExpenseRepository CompanyExpensesRepository)
+        public CompanyExpenseService(ICompanyExpenseRepository CompanyExpenseRepository)
         {
             _CompanyExpenseRepository = CompanyExpenseRepository ?? throw new ArgumentNullException(nameof(CompanyExpenseRepository));
         }
 
-        public async Task<IEnumerable<CompanyExpenseListModel>> GetAllCompanyExpense()
+        public async Task<IEnumerable<CompanyExpenseListModel>> GetAllCompanyExpenses()
         {
-            return await _CompanyExpenseRepository.GetAllCompanyExpense();
+            return await _CompanyExpenseRepository.GetAllCompanyExpenses();
         }
 
         public async Task<CompanyExpense> GetCompanyExpenseById(int id)

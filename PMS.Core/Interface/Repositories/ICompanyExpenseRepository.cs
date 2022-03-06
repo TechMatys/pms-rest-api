@@ -1,9 +1,8 @@
 ﻿using PMS.Core.Model;
 
-
-namespace PMS.Core.Interface.Services
+namespace PMS.Core.Interface.Repositories
 {
-    public interface ICompanyExpenseService
+    public interface ICompanyExpenseRepository
     {
         Task<IEnumerable<CompanyExpenseListModel>> GetAllCompanyExpenses();
         Task<CompanyExpense> GetCompanyExpenseById(int id);

@@ -9,19 +9,18 @@ namespace PMS.API.Controllers
     [ApiController]
     public class CompanyExpenseController : ControllerBase
     { 
-    {
-        private readonly ICompanyExpenseService _CompanyExpenseGroupService;
+        private readonly ICompanyExpenseService _CompanyExpenseService;
 
-        public CompanyExpenseController(ICompanyExpenseService CompanyExpenseGroupService)
+        public CompanyExpenseController(ICompanyExpenseService CompanyExpenseService)
         {
-            _CompanyExpenseGroupService = CompanyExpenseGroupService ?? throw new ArgumentNullException(nameof(CompanyExpenseGroupService));
+            _CompanyExpenseService = CompanyExpenseService ?? throw new ArgumentNullException(nameof(CompanyExpenseService));
         }
 
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CompanyExpenseListModel>>> GetAllCompanyExpense()
         {
-            var response = await _CompanyExpenseGroupService.GetAllCompanyExpense();
+            var response = await _CompanyExpenseService.GetAllCompanyExpenses();
 
             if (response == null)
             {
@@ -34,26 +33,26 @@ namespace PMS.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CompanyExpense>> GetCompanyExpenseById(int id)
         {
-            var response = await _CompanyExpenseGroupService.GetCompanyExpenseById(id);
+            var response = await _CompanyExpenseService.GetCompanyExpenseById(id);
             return Ok(response);
         }
 
         [HttpPost]
         public async Task<ActionResult<bool>> Create([FromBody] CompanyExpense CompanyExpenseModal)
         {
-            return await _CompanyExpenseGroupService.Create(CompanyExpenseModal);
+            return await _CompanyExpenseService.Create(CompanyExpenseModal);
         }
 
         [HttpPatch("{id}")]
         public async Task<ActionResult<bool>> Update(int id, [FromBody] CompanyExpense CompanyExpenseModal)
         {
-            return await _CompanyExpenseGroupService.Update(id, CompanyExpenseModal);
+            return await _CompanyExpenseService.Update(id, CompanyExpenseModal);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return await _CompanyExpenseGroupService.Delete(id);
+            return await _CompanyExpenseService.Delete(id);
         }
     }
 }

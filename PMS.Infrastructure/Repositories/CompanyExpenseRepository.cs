@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace PMS.Infrastructure.Repositories
 {
-    public class CompanyExpenseRepository
+    public class CompanyExpenseRepository : ICompanyExpenseRepository
     {
         private readonly IConfiguration configuration;
 
@@ -15,19 +15,18 @@ namespace PMS.Infrastructure.Repositories
             this.configuration = configuration;
         }
 
-        public async Task<IEnumerable<CompanyExpenseListModel>> GetAllCompanyExpense()
+        public async Task<IEnumerable<CompanyExpenseListModel>> GetAllCompanyExpenses()
         {
             try
             {
                 var query = @"SELECT CompanyExpenseId
-	                                    ,ExpenseName
-	                                    ,Amount
-	                                    ,gc.CodeName AS STATUS
-	                                    ,Format(ExpenseDate, 'dd/MM/yyyy') AS ExpenseDate
-                                     FROM CompanyExpenses ce
-                                INNER JOIN Companys e ON e.CompanyId = ce.companyId
-                                WHERE ep.IsDeleted = 0 AND e.IsDeleted = 0
-                                ORDER BY ce.CreatedDate DESC";
+	                                ,Title
+	                                ,Amount
+	                                ,'' AS Createdby
+	                                ,Format(ExpenseDate, 'dd/MM/yyyy') AS ExpenseDate
+                                FROM CompanyExpenses
+                                WHERE IsDeleted = 0
+                                ORDER BY CreatedDate DESC";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -40,14 +39,14 @@ namespace PMS.Infrastructure.Repositories
             }
         }
 
-        public async Task<CompanyExpenses> GetCompanyExpenseById(int id)
+        public async Task<CompanyExpense> GetCompanyExpenseById(int id)
         {
             try
             {
                 var query = @"SELECT CompanyExpenseId
 	                                ,Title
 	                                ,Amount
-	                                ,,Format(ExpenseDate, 'dd/MM/yyyy') AS ExpenseDate
+	                                ,Format(ExpenseDate, 'dd/MM/yyyy') AS ExpenseDate
 	                                ,Notes
                                  FROM CompanyExpenses
                                 WHERE CompanyExpenseId = @id";
