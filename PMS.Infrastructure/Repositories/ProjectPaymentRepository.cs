@@ -20,8 +20,8 @@ namespace PMS.Infrastructure.Repositories
             try
             {
                 var query = @"SELECT ProjectPaymentId
-                                    ,p.Name
-	                                ,RecievedAmount
+                                    ,p.Name as ProjectName
+	                                ,ReceivedAmount
                                     ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
                                     ,Format(PaymentDate, 'dd/MM/yyyy') as PaymentDate
                                 FROM ProjectPayments pp
@@ -46,7 +46,7 @@ namespace PMS.Infrastructure.Repositories
             {
                 var query = @"SELECT ProjectPaymentId
                                     ,ProjectId
-	                                ,RecievedAmount
+	                                ,ReceivedAmount
                                     ,BalancedAmount
                                     ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
                                     ,Format(PaymentDate, 'dd/MM/yyyy') AS PaymentDate
@@ -56,7 +56,7 @@ namespace PMS.Infrastructure.Repositories
                 {
                     return (await connection.QueryAsync<ProjectPayment>(query, new
                     {
-                        ProjectPaymentId = id
+                        id
 
                     })).FirstOrDefault();
                 }
@@ -71,16 +71,16 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"INSERT INTO ProjectPayments(ProjectId, RecievedAmount, PaymentMonth, PaymentYear, BalancedAmount,
+                var query = @"INSERT INTO ProjectPayments(ProjectId, ReceivedAmount, PaymentMonth, PaymentYear, BalancedAmount,
                               PaymentDate, CreatedBy, CreatedDate) 
-                              VALUES (@ProjectId, @RecievedAmount, 2, 2022, @BalancedAmount, @PaymentDate, @ManagedBy, GetUtcDate())";
+                              VALUES (@ProjectId, @ReceivedAmount, 2, 2022, @BalancedAmount, @PaymentDate, @ManagedBy, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     connection.Execute(query, new
                     {
                         fields.ProjectId,
-                        fields.RecievedAmount,
+                        fields.ReceivedAmount,
                         fields.BalancedAmount,
                         //fields.PaymentMonthYear,
                         fields.PaymentDate,
@@ -102,7 +102,7 @@ namespace PMS.Infrastructure.Repositories
             {
                 var query = @"UPDATE ProjectPayments
                                 SET ProjectId = @ProjectId
-                                    ,RecievedAmount = @RecievedAmount
+                                    ,ReceivedAmount = @ReceivedAmount
                                     ,BalancedAmount = @BalancedAmount
                                     -- ,PaymentMonth = SUBSTRING(@PaymentMonthYear,0,CHARINDEX('/',@PaymentMonthYear,0))
                                     --,PaymentYear = SUBSTRING(@PaymentMonthYear,CHARINDEX('/',@PaymentMonthYear,0)+1,LEN(@PaymentMonthYear))
@@ -116,7 +116,7 @@ namespace PMS.Infrastructure.Repositories
                     connection.Execute(query, new
                     {
                         fields.ProjectId,
-                        fields.RecievedAmount,
+                        fields.ReceivedAmount,
                         fields.BalancedAmount,
                         //fields.PaymentMonthYear,
                         fields.PaymentDate,
