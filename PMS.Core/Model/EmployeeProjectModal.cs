@@ -5,7 +5,7 @@ namespace PMS.Core.Model
     {
 
 
-        public int EmployeePaymentId { get; set; }
+        public int EmployeeProjectId { get; set; }
         public string? EmployeeName { get; set; }
         public string? ProjectName { get; set; }
         public string? AssignedDate{ get; set; }      

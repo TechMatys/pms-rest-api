@@ -50,6 +50,7 @@ namespace PMS.Infrastructure.Repositories
                                     ,BalancedAmount
                                     ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
                                     ,Format(PaymentDate, 'dd/MM/yyyy') AS PaymentDate
+                                    ,Notes
                               FROM ProjectPayments where ProjectPaymentId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
@@ -72,8 +73,8 @@ namespace PMS.Infrastructure.Repositories
             try
             {
                 var query = @"INSERT INTO ProjectPayments(ProjectId, ReceivedAmount, PaymentMonth, PaymentYear, BalancedAmount,
-                              PaymentDate, CreatedBy, CreatedDate) 
-                              VALUES (@ProjectId, @ReceivedAmount, 2, 2022, @BalancedAmount, @PaymentDate, @ManagedBy, GetUtcDate())";
+                              PaymentDate, Notes, CreatedBy, CreatedDate) 
+                              VALUES (@ProjectId, @ReceivedAmount, 2, 2022, @BalancedAmount, @PaymentDate, @Notes, @ManagedBy, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -84,6 +85,7 @@ namespace PMS.Infrastructure.Repositories
                         fields.BalancedAmount,
                         //fields.PaymentMonthYear,
                         fields.PaymentDate,
+                        fields.Notes,
                         fields.ManagedBy
                     });
 
@@ -106,7 +108,8 @@ namespace PMS.Infrastructure.Repositories
                                     ,BalancedAmount = @BalancedAmount
                                     -- ,PaymentMonth = SUBSTRING(@PaymentMonthYear,0,CHARINDEX('/',@PaymentMonthYear,0))
                                     --,PaymentYear = SUBSTRING(@PaymentMonthYear,CHARINDEX('/',@PaymentMonthYear,0)+1,LEN(@PaymentMonthYear))
-                                    ,PaymentDate = @PaymentDate                                    
+                                    ,PaymentDate = @PaymentDate 
+                                    ,Notes = @Notes 
 	                                ,ModifiedBy = @ManagedBy
 	                                ,ModifiedDate = GetUtcDate()
                                 WHERE ProjectPaymentId = @id";
@@ -120,6 +123,7 @@ namespace PMS.Infrastructure.Repositories
                         fields.BalancedAmount,
                         //fields.PaymentMonthYear,
                         fields.PaymentDate,
+                        fields.Notes,
                         fields.ManagedBy,
                         id
                     });

@@ -73,7 +73,7 @@ namespace PMS.Infrastructure.Repositories
             try
             {
 
-                var query = @"INSERT INTO EmployeePayments(EmployeeId, ProjectId, AssignedDate, Notes, CreatedBy, CreatedDate) 
+                var query = @"INSERT INTO EmployeeProjects(EmployeeId, ProjectId, AssignedDate, Notes, CreatedBy, CreatedDate) 
                               VALUES (@EmployeeId, @ProjectId, @AssignedDate, @Notes, @ManagedBy, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
