@@ -48,10 +48,11 @@ namespace PMS.Infrastructure.Repositories
                                 WHERE gc.Category = 'ProjectStatus'
                                 GROUP BY CodeName
 
-                                SELECT Sum(RecievedAmount) AS Amount, DATENAME(Month,PaymentMonth) AS [Month]
-                                FROM ProjectPayments
-                                WHERE IsDeleted = 0 AND PaymentYear = Year(GetUtcDate())
-                                GROUP BY PaymentMonth";
+                                SELECT Sum(RecievedAmount) AS Amount, DATENAME(Month, Concat_Ws('/', PaymentMonth, 1, PaymentYear)) AS [Month]
+                                FROM ProjectPayments pr
+                                INNER JOIN Projects p ON p.ProjectId = pr.ProjectId
+                                WHERE p.IsDeleted = 0 AND pr.IsDeleted = 0 AND PaymentYear = Year(GetUtcDate())
+                                GROUP BY PaymentMonth, PaymentYear";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {

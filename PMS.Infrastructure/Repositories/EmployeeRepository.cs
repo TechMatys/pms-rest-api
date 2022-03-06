@@ -30,7 +30,7 @@ namespace PMS.Infrastructure.Repositories
                                 FROM Employees emp
                                 LEFT JOIN GlobalCodes gc ON gc.GlobalCodeId = emp.DesignationId
                                 WHERE emp.IsDeleted = 0 
-                                Order by CreatedDate desc";
+                                Order by emp.CreatedDate desc";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
