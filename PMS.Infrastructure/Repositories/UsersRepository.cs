@@ -20,17 +20,17 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"SELECT UserId
-	                                    ,EmployeeName
-	                                    ,Technologies
-	                                    ,gc.CodeName AS STATUS
-	                                    ,Format(StartDate, 'dd/MM/yyyy') AS StartDate
-	                                    ,'' AS CreatedBy
-	                                    ,Format(p.CreatedDate, 'dd/MM/yyyy') AS CreatedDate
-                                    FROM Projects p
-                                    LEFT JOIN GlobalCodes gc ON gc.GlobalCodeId = p.StatusId
-                                    WHERE p.IsDeleted = 0
-                                    ORDER BY p.CreatedDate DESC";
+                var query = @"SELECT USerId
+                                    ,CONCAT_WS(' ', emp.FirstName, emp.LastName) AS EmployeeName
+	                                ,gc.CodeName AS ROLE
+	                                ,gc1.CodeName AS STATUS
+	                                ,Format(us.CreatedDate, 'dd/MM/yyyy') AS CreatedDate
+                                FROM Users us
+                                INNER JOIN Employees emp ON emp.EmployeeId = us.EmployeeId
+                                INNER JOIN GlobalCodes gc ON gc.GlobalCodeId = us.RoleId
+                                INNER JOIN GlobalCodes gc1 ON gc.GlobalCodeId = us.StatusId
+                                WHERE emp.IsDeleted = 0 AND us.IsDeleted = 0
+                                ORDER BY us.CreatedDate DESC";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -48,17 +48,12 @@ namespace PMS.Infrastructure.Repositories
             try
             {
                 var query = @"SELECT UserId
-	                                ,Name
-	                                ,OwnerName
-	                                ,Description
-	                                ,Technologies
-	                                ,DurationId
+	                                ,EmployeeId
+	                                ,RoleId
 	                                ,StatusId
-	                                ,Format(StartDate, 'dd/MM/yyyy') AS StartDate
-	                                ,Format(CompletionDate, 'dd/MM/yyyy') AS CompletionDate
-	                                ,BudgetAmount
-                                FROM projects
-                                WHERE ProjectId = @id";
+	                                ,ScreenPermissionId
+                                FROM Users
+                                WHERE UserId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -78,17 +73,18 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"INSERT INTO Users(Name, OwnerName, Description, Technologies, DurationId, StatusId, StartDate, CompletionDate,
-                                     BudgetAmount, CreatedBy, CreatedDate) 
-                              VALUES (@Name, @OwnerName, @Description, @Technologies, @DurationId, @StatusId, @StartDate, @CompletionDate,
-                                     @BudgetAmount,@ManagedBy, GetUtcDate())";
+                var query = @"INSERT INTO Users(EmployeeId, RoleId, StatusId, ScreenPermissionId, CreatedBy, CreatedDate) 
+                              VALUES (@EmployeeId, @RoleId, @StatusId, @ScreenPermissionId, @ManagedBy, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     connection.Execute(query, new
                     {
-                        
-                        fields.ManagedBy,
+                        fields.EmployeeId,
+                        fields.RoleId,
+                        fields.StatusId,
+                        fields.ScreenPermissionId,
+                        fields.ManagedBy
                     });
 
                     return Task.FromResult(true);
@@ -105,15 +101,10 @@ namespace PMS.Infrastructure.Repositories
             try
             {
                 var query = @"UPDATE Users
-                                SET Name = @Name
-                                    ,OwnerName = @OwnerName
-                                    ,Description = @Description
-                                    ,Technologies = @Technologies
-                                    ,DurationId = @DurationId
+                                SET EmployeeId = @EmployeeId
+                                    ,RoleId = @RoleId
                                     ,StatusId = @StatusId
-                                    ,StartDate = @StartDate
-                                    ,CompletionDate = @CompletionDate
-                                    ,BudgetAmount = @BudgetAmount                                    
+                                    ,ScreenPermissionId = @ScreenPermissionId                                    
 	                                ,ModifiedBy = @ManagedBy
 	                                ,ModifiedDate = GetUtcDate()
                                 WHERE ProjectId = @id";
@@ -122,7 +113,10 @@ namespace PMS.Infrastructure.Repositories
                 {
                     connection.Execute(query, new
                     {
-                    
+                        fields.EmployeeId,
+                        fields.RoleId,
+                        fields.StatusId,
+                        fields.ScreenPermissionId,
                         fields.ManagedBy,
                         id
                     });
@@ -140,7 +134,7 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"UPDATE Userss
+                var query = @"UPDATE Users
                                  SET IsDeleted = 1
 	                                ,DeletedBy = -1
 	                                ,DeletedDate = GetUtcDate()

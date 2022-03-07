@@ -7,8 +7,7 @@ namespace PMS.Core.Model
         public int UserId { get; set; }
         public string? EmployeeName { get; set; }
         public int? RoleId { get; set; }
-        public int? StatusId { get; set; }
-     
+        public int? StatusId { get; set; }     
         public string? CreatedDate { get; set; }
       
     }
@@ -18,9 +17,7 @@ namespace PMS.Core.Model
         public int? EmployeeId { get; set; }
         public int? RoleId { get; set; }
         public int? ScreenPermissionId { get; set; }
-        public int? StatusId { get; set; }
-        public string? Password { get; set; }
-      
+        public int? StatusId { get; set; }      
         public int? ManagedBy { get; set; }
     }
 }
