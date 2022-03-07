@@ -8,18 +8,18 @@ namespace PMS.API.Controllers
     [ApiController]
     public class EmployeePaymentController: ControllerBase
     {
-        private readonly IEmployeePaymentService _EmployeePaymentGroupService;
+        private readonly IEmployeePaymentService _EmployeePaymentService;
 
-        public EmployeePaymentController(IEmployeePaymentService EmployeePaymentGroupService)
+        public EmployeePaymentController(IEmployeePaymentService EmployeePaymentService)
         {
-            _EmployeePaymentGroupService = EmployeePaymentGroupService ?? throw new ArgumentNullException(nameof(EmployeePaymentGroupService));
+            _EmployeePaymentService = EmployeePaymentService ?? throw new ArgumentNullException(nameof(EmployeePaymentService));
         }
 
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeePaymentListModel>>> GetAllEmployeePayment()
         {
-            var response = await _EmployeePaymentGroupService.GetAllEmployeePayment();
+            var response = await _EmployeePaymentService.GetAllEmployeePayment();
 
             if (response == null)
             {
@@ -32,26 +32,26 @@ namespace PMS.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<EmployeePayment>> GetEmployeeById(int id)
         {
-            var response = await _EmployeePaymentGroupService.GetEmployeePaymentById(id);
+            var response = await _EmployeePaymentService.GetEmployeePaymentById(id);
             return Ok(response);
         }
 
         [HttpPost]
         public async Task<ActionResult<bool>> Create([FromBody] EmployeePayment EmployeePaymentModal)
         {
-            return await _EmployeePaymentGroupService.Create(EmployeePaymentModal);
+            return await _EmployeePaymentService.Create(EmployeePaymentModal);
         }
 
         [HttpPatch("{id}")]
         public async Task<ActionResult<bool>> Update(int id, [FromBody] EmployeePayment EmployeePaymentModal)
         {
-            return await _EmployeePaymentGroupService.Update(id, EmployeePaymentModal);
+            return await _EmployeePaymentService.Update(id, EmployeePaymentModal);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return await _EmployeePaymentGroupService.Delete(id);
+            return await _EmployeePaymentService.Delete(id);
         }
     }
 }

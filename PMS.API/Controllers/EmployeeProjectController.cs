@@ -8,18 +8,18 @@ namespace PMS.API.Controllers
     [ApiController]
     public class EmployeeProjectController : ControllerBase
     {
-        private readonly IEmployeeProjectService _EmployeeProjectGroupService;
+        private readonly IEmployeeProjectService _EmployeeProjectService;
 
-        public EmployeeProjectController(IEmployeeProjectService EmployeeProjectGroupService)
+        public EmployeeProjectController(IEmployeeProjectService EmployeeProjectService)
         {
-            _EmployeeProjectGroupService = EmployeeProjectGroupService ?? throw new ArgumentNullException(nameof(EmployeeProjectGroupService));
+            _EmployeeProjectService = EmployeeProjectService ?? throw new ArgumentNullException(nameof(EmployeeProjectService));
         }
 
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeeProjectListModel>>> GetAllEmployeeProject()
         {
-            var response = await _EmployeeProjectGroupService.GetAllEmployeeProject();
+            var response = await _EmployeeProjectService.GetAllEmployeeProject();
 
             if (response == null)
             {
@@ -32,26 +32,26 @@ namespace PMS.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<EmployeeProject>> GetEmployeeById(int id)
         {
-            var response = await _EmployeeProjectGroupService.GetEmployeeProjectById(id);
+            var response = await _EmployeeProjectService.GetEmployeeProjectById(id);
             return Ok(response);
         }
 
         [HttpPost]
         public async Task<ActionResult<bool>> Create([FromBody] EmployeeProject EmployeeProjectModal)
         {
-            return await _EmployeeProjectGroupService.Create(EmployeeProjectModal);
+            return await _EmployeeProjectService.Create(EmployeeProjectModal);
         }
 
         [HttpPatch("{id}")]
         public async Task<ActionResult<bool>> Update(int id, [FromBody] EmployeeProject EmployeeProjectModal)
         {
-            return await _EmployeeProjectGroupService.Update(id, EmployeeProjectModal);
+            return await _EmployeeProjectService.Update(id, EmployeeProjectModal);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return await _EmployeeProjectGroupService.Delete(id);
+            return await _EmployeeProjectService.Delete(id);
         }
     }
 }

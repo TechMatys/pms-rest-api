@@ -8,18 +8,18 @@ namespace PMS.API.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
-        private readonly IProjectService _ProjectGroupService;
+        private readonly IProjectService _ProjectService;
 
-        public ProjectController(IProjectService ProjectGroupService)
+        public ProjectController(IProjectService ProjectService)
         {
-            _ProjectGroupService = ProjectGroupService ?? throw new ArgumentNullException(nameof(ProjectGroupService));
+            _ProjectService = ProjectService ?? throw new ArgumentNullException(nameof(ProjectService));
         }
 
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProjectListModel>>> GetAllProject()
         {
-            var response = await _ProjectGroupService.GetAllProject();
+            var response = await _ProjectService.GetAllProject();
 
             if (response == null)
             {
@@ -32,26 +32,26 @@ namespace PMS.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Project>> GetProjectById(int id)
         {
-            var response = await _ProjectGroupService.GetProjectById(id);
+            var response = await _ProjectService.GetProjectById(id);
             return Ok(response);
         }
 
         [HttpPost]
         public async Task<ActionResult<bool>> Create([FromBody] Project ProjectModal)
         {
-            return await _ProjectGroupService.Create(ProjectModal);
+            return await _ProjectService.Create(ProjectModal);
         }
 
         [HttpPatch("{id}")]
         public async Task<ActionResult<bool>> Update(int id, [FromBody] Project ProjectModal)
         {
-            return await _ProjectGroupService.Update(id, ProjectModal);
+            return await _ProjectService.Update(id, ProjectModal);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            return await _ProjectGroupService.Delete(id);
+            return await _ProjectService.Delete(id);
         }
     }
 }
