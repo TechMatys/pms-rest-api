@@ -40,7 +40,8 @@ builder.Services.AddScoped<ICompanyExpenseService, CompanyExpenseService>();
 builder.Services.AddScoped<ICompanyExpenseRepository, CompanyExpenseRepository>();
 
 
-
+builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
 var app = builder.Build();
 

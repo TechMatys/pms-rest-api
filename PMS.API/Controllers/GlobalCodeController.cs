@@ -81,6 +81,34 @@ namespace PMS.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("user-status")]
+        public async Task<ActionResult<IEnumerable<GlobalCodes>>> GetAllUserStatus()
+        {
+            string category = "UserStatus";
+            var response = await _GlobalCodeService.GetAllGlobalCodes(category);
+
+            if (response == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(response);
+        }
+
+        [HttpGet("user-role")]
+        public async Task<ActionResult<IEnumerable<GlobalCodes>>> GetAllUserRole()
+        {
+            string category = "UserRole";
+            var response = await _GlobalCodeService.GetAllGlobalCodes(category);
+
+            if (response == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(response);
+        }
+
         [HttpGet("project-durations")]
         public async Task<ActionResult<IEnumerable<GlobalCodes>>> GetAllProjectDurations()
         {
