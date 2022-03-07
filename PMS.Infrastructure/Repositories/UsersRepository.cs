@@ -20,15 +20,15 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"SELECT USerId
+                var query = @"SELECT UserId
                                     ,CONCAT_WS(' ', emp.FirstName, emp.LastName) AS EmployeeName
-	                                ,gc.CodeName AS ROLE
-	                                ,gc1.CodeName AS STATUS
+	                                ,gc.CodeName AS Role
+	                                ,gc1.CodeName AS Status
 	                                ,Format(us.CreatedDate, 'dd/MM/yyyy') AS CreatedDate
                                 FROM Users us
                                 INNER JOIN Employees emp ON emp.EmployeeId = us.EmployeeId
                                 INNER JOIN GlobalCodes gc ON gc.GlobalCodeId = us.RoleId
-                                INNER JOIN GlobalCodes gc1 ON gc.GlobalCodeId = us.StatusId
+                                INNER JOIN GlobalCodes gc1 ON gc1.GlobalCodeId = us.StatusId
                                 WHERE emp.IsDeleted = 0 AND us.IsDeleted = 0
                                 ORDER BY us.CreatedDate DESC";
 
@@ -107,7 +107,7 @@ namespace PMS.Infrastructure.Repositories
                                     ,ScreenPermissionId = @ScreenPermissionId                                    
 	                                ,ModifiedBy = @ManagedBy
 	                                ,ModifiedDate = GetUtcDate()
-                                WHERE ProjectId = @id";
+                                WHERE UserId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -138,7 +138,7 @@ namespace PMS.Infrastructure.Repositories
                                  SET IsDeleted = 1
 	                                ,DeletedBy = -1
 	                                ,DeletedDate = GetUtcDate()
-                                WHERE UsersId = @id";
+                                WHERE UserId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {

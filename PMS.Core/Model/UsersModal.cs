@@ -6,8 +6,8 @@ namespace PMS.Core.Model
     {
         public int UserId { get; set; }
         public string? EmployeeName { get; set; }
-        public int? RoleId { get; set; }
-        public int? StatusId { get; set; }     
+        public string? Role { get; set; }
+        public string? Status { get; set; }     
         public string? CreatedDate { get; set; }
       
     }
