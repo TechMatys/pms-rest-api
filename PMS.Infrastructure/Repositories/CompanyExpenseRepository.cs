@@ -135,7 +135,7 @@ namespace PMS.Infrastructure.Repositories
                                  SET IsDeleted = 1
 	                                ,DeletedBy = -1
 	                                ,DeletedDate = GetUtcDate()
-                                WHERE CompanyExpensesId = @id";
+                                WHERE CompanyExpenseId = @id";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
