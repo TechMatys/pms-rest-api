@@ -37,7 +37,8 @@ builder.Services.AddScoped<IProjectPaymentService, ProjectPaymentService>();
 builder.Services.AddScoped<IProjectPaymentRepository, ProjectPaymentRepository>();
 
 
-
+builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
 var app = builder.Build();
 
