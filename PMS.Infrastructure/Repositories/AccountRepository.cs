@@ -72,7 +72,7 @@ namespace PMS.Infrastructure.Repositories
                         fields.LastName,
                         fields.EmailAddress,
                         fields.Mobile,
-                        fields.GenderId,
+                        fields.Gender,
                         fields.DateOfBirth,
                         fields.Password,
                         fields.ConfirmPassword,

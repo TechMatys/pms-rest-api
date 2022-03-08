@@ -9,9 +9,9 @@ namespace PMS.Core.Model
         public string? LastName { get; set; }
         public string? EmailAddress { get; set; }
         public int? Mobile { get; set; }
-        public int? DateOfBirth { get; set; }
+        public string? DateOfBirth { get; set; }
 
-        public int? GenderId { get; set; }
+        public int? Gender { get; set; }
          public string? Password { get; set; }
 
         public string? ConfirmPassword { get; set; }
