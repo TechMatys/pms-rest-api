@@ -38,19 +38,19 @@ namespace PMS.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<bool>> Create([FromBody] Employee EmployeeModal)
+        public async Task<ActionResult<int>> Create([FromBody] Employee EmployeeModal)
         {
             return await _EmployeeService.Create(EmployeeModal);
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult<bool>> Update(int id, [FromBody] Employee EmployeeModal)
+        public async Task<ActionResult<int>> Update(int id, [FromBody] Employee EmployeeModal)
         {
             return await _EmployeeService.Update(id, EmployeeModal);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<bool>> Delete(int id)
+        public async Task<ActionResult<int>> Delete(int id)
         {
             return await _EmployeeService.Delete(id);
         }

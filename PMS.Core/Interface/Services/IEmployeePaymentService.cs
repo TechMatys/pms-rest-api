@@ -7,9 +7,9 @@ namespace PMS.Core.Interface.Services
     {
         Task<IEnumerable<EmployeePaymentListModel>> GetAllEmployeePayment();
         Task<EmployeePayment> GetEmployeePaymentById(int id);
-        Task<bool> Create(EmployeePayment fields);
-        Task<bool> Update(int id, EmployeePayment fields);
-        Task<bool> Delete(int id);
+        Task<int> Create(EmployeePayment fields);
+        Task<int> Update(int id, EmployeePayment fields);
+        Task<int> Delete(int id);
       
     }
 }

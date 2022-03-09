@@ -23,17 +23,17 @@ namespace PMS.Core.Services
             return await _ProjectRepository.GetProjectById(id);
         }
 
-        public async Task<bool> Create(Project fields)
+        public async Task<int> Create(Project fields)
         {
             return await _ProjectRepository.Create(fields);
         }
 
-        public async Task<bool> Update(int id, Project fields)
+        public async Task<int> Update(int id, Project fields)
         {
             return await _ProjectRepository.Update(id, fields);
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<int> Delete(int id)
         {
             return await _ProjectRepository.Delete(id);
         }

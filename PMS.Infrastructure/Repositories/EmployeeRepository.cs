@@ -81,18 +81,23 @@ namespace PMS.Infrastructure.Repositories
             }
         }
 
-        public Task<bool> Create(Employee fields)
+        public Task<int> Create(Employee fields)
         {
             try
             {
-                var query = @"INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, DateOfBirth, EmailAddress, Mobile, 
-                              Address, City, StateId, DesignationId, StatusId, PostalCode, StartDate, EndDate, CreatedBy, CreatedDate) 
-                              VALUES (@FirstName, @MiddleName, @LastName, @Gender, @DateOfBirth, @EmailAddress, @Mobile, 
-                              @Address, @City, @StateId, @DesignationId, @StatusId, @PostalCode, @StartDate, @EndDate, @ManagedBy, GetUtcDate())";
+                var query = @"IF NOT EXISTS(SELECT TOP 1 EmployeeId
+                                            FROM Employees
+                                            WHERE EmailAddress = @EmailAddress AND IsDeleted = 0) 
+                              BEGIN 
+                                    INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, DateOfBirth, EmailAddress, Mobile, 
+                                    Address, City, StateId, DesignationId, StatusId, PostalCode, StartDate, EndDate, CreatedBy, CreatedDate) 
+                                    VALUES (@FirstName, @MiddleName, @LastName, @Gender, @DateOfBirth, @EmailAddress, @Mobile, 
+                                    @Address, @City, @StateId, @DesignationId, @StatusId, @PostalCode, @StartDate, @EndDate, @ManagedBy, GetUtcDate()) 
+                              END";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    connection.Execute(query, new
+                    var result = connection.Execute(query, new
                     {
                         fields.FirstName,
                         fields.MiddleName,
@@ -112,42 +117,47 @@ namespace PMS.Infrastructure.Repositories
                         fields.ManagedBy
                     });
 
-                    return Task.FromResult(true);
+                    return Task.FromResult(result);
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(false);
+                return Task.FromResult(0);
             }
         }
 
-        public Task<bool> Update(int id, Employee fields)
+        public Task<int> Update(int id, Employee fields)
         {
             try
             {
-                var query = @"UPDATE Employees
-                                SET FirstName = @FirstName
-                                    ,MiddleName = @MiddleName
-	                                ,LastName = @LastName
-                                    ,Gender = @Gender
-                                    ,DateOfBirth = @DateOfBirth
-                                    ,EmailAddress = @EmailAddress
-                                    ,Mobile = @Mobile
-                                    ,Address = @Address
-                                    ,City = @City
-                                    ,StateId = @StateId
-                                    ,DesignationId = @DesignationId
-                                    ,StatusId = @StatusId
-                                    ,PostalCode = @PostalCode
-                                    ,StartDate = @StartDate
-                                    ,EndDate = @EndDate
-	                                ,ModifiedBy = @ManagedBy
-	                                ,ModifiedDate = GetUtcDate()
-                                WHERE EmployeeId = @id";
+                var query = @"IF NOT EXISTS (SELECT TOP 1 EmployeeId
+		                                     FROM Employees
+		                                     WHERE EmailAddress = @EmailAddress AND IsDeleted = 0 AND EmployeeId <> @id) 
+                              BEGIN 
+	                                UPDATE Employees
+	                                SET FirstName = @FirstName
+		                                ,MiddleName = @MiddleName
+		                                ,LastName = @LastName
+		                                ,Gender = @Gender
+		                                ,DateOfBirth = @DateOfBirth
+		                                ,EmailAddress = @EmailAddress
+		                                ,Mobile = @Mobile
+		                                ,Address = @Address
+		                                ,City = @City
+		                                ,StateId = @StateId
+		                                ,DesignationId = @DesignationId
+		                                ,StatusId = @StatusId
+		                                ,PostalCode = @PostalCode
+		                                ,StartDate = @StartDate
+		                                ,EndDate = @EndDate
+		                                ,ModifiedBy = @ManagedBy
+		                                ,ModifiedDate = GetUtcDate()
+	                                WHERE EmployeeId = @id 
+                              END";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    connection.Execute(query, new
+                    var result = connection.Execute(query, new
                     {
                         fields.FirstName,
                         fields.MiddleName,
@@ -168,16 +178,16 @@ namespace PMS.Infrastructure.Repositories
                         id
                     });
 
-                    return Task.FromResult(true);
+                    return Task.FromResult(result);
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(false);
+                return Task.FromResult(0);
             }
         }
 
-        public Task<bool> Delete(int id)
+        public Task<int> Delete(int id)
         {
             try
             {
@@ -189,17 +199,17 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    connection.Execute(query, new
+                    var result = connection.Execute(query, new
                     {
                         id
                     });
 
-                    return Task.FromResult(true);
+                    return Task.FromResult(result);
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(false);
+                return Task.FromResult(0);
             }
         }
     }
