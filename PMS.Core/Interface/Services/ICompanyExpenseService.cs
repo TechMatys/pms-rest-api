@@ -7,8 +7,8 @@ namespace PMS.Core.Interface.Services
     {
         Task<IEnumerable<CompanyExpenseListModel>> GetAllCompanyExpenses();
         Task<CompanyExpense> GetCompanyExpenseById(int id);
-        Task<bool> Create(CompanyExpense fields);
-        Task<bool> Update(int id, CompanyExpense fields);
-        Task<bool> Delete(int id);
+        Task<int> Create(CompanyExpense fields);
+        Task<int> Update(int id, CompanyExpense fields);
+        Task<int> Delete(int id);
     }
 }

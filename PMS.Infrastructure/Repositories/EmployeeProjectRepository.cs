@@ -68,17 +68,22 @@ namespace PMS.Infrastructure.Repositories
             }
         }
 
-        public Task<bool> Create(EmployeeProject fields)
+        public Task<int> Create(EmployeeProject fields)
         {
             try
             {
 
-                var query = @"INSERT INTO EmployeeProjects(EmployeeId, ProjectId, AssignedDate, Notes, CreatedBy, CreatedDate) 
-                              VALUES (@EmployeeId, @ProjectId, @AssignedDate, @Notes, @ManagedBy, GetUtcDate())";
+                var query = @"IF NOT EXISTS(SELECT TOP 1 EmployeeProjectId
+                                            FROM EmployeeProjects
+                                            WHERE EmployeeId = @EmployeeId AND ProjectId = @ProjectId AND IsDeleted = 0) 
+                              BEGIN 
+                                    INSERT INTO EmployeeProjects(EmployeeId, ProjectId, AssignedDate, Notes, CreatedBy, CreatedDate) 
+                                    VALUES (@EmployeeId, @ProjectId, @AssignedDate, @Notes, @ManagedBy, GetUtcDate())
+                              END";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    connection.Execute(query, new
+                    var result = connection.Execute(query, new
                     {
                         fields.EmployeeId,
                         fields.ProjectId,                      
@@ -87,31 +92,36 @@ namespace PMS.Infrastructure.Repositories
                         fields.ManagedBy
                     });
 
-                    return Task.FromResult(true);
+                    return Task.FromResult(result);
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(false);
+                return Task.FromResult(0);
             }
         }
 
-        public Task<bool> Update(int id, EmployeeProject fields)
+        public Task<int> Update(int id, EmployeeProject fields)
         {
             try
             {
-                var query = @"UPDATE EmployeeProjects
-                              SET EmployeeId = @EmployeeId
-	                              ,ProjectId = @ProjectId
-	                              ,AssignedDate = @AssignedDate
-	                              ,Notes = @Notes
-	                              ,ModifiedBy = @ManagedBy
-	                              ,ModifiedDate = GetUtcDate()
-                              WHERE EmployeeProjectId = @id";
+                var query = @"IF NOT EXISTS(SELECT TOP 1 EmployeeProjectId
+                                            FROM EmployeeProjects
+                                            WHERE EmployeeId = @EmployeeId AND ProjectId = @ProjectId AND EmployeeProjectId <> @id AND IsDeleted = 0) 
+                              BEGIN 
+                                    UPDATE EmployeeProjects
+                                          SET EmployeeId = @EmployeeId
+	                                          ,ProjectId = @ProjectId
+	                                          ,AssignedDate = @AssignedDate
+	                                          ,Notes = @Notes
+	                                          ,ModifiedBy = @ManagedBy
+	                                          ,ModifiedDate = GetUtcDate()
+                                          WHERE EmployeeProjectId = @id
+                              END";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    connection.Execute(query, new
+                    var result = connection.Execute(query, new
                     {
                         fields.EmployeeId,
                         fields.ProjectId,                      
@@ -121,16 +131,16 @@ namespace PMS.Infrastructure.Repositories
                         id
                     });
 
-                    return Task.FromResult(true);
+                    return Task.FromResult(result);
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(false);
+                return Task.FromResult(0);
             }
         }
 
-        public Task<bool> Delete(int id)
+        public Task<int> Delete(int id)
         {
             try
             {
@@ -142,17 +152,17 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    connection.Execute(query, new
+                    var result = connection.Execute(query, new
                     {
                         id
                     });
 
-                    return Task.FromResult(true);
+                    return Task.FromResult(result);
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(false);
+                return Task.FromResult(0);
             }
         }
     }

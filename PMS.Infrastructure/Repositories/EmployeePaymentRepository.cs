@@ -68,7 +68,7 @@ namespace PMS.Infrastructure.Repositories
             }
         }
 
-        public Task<bool> Create(EmployeePayment fields)
+        public Task<int> Create(EmployeePayment fields)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    connection.Execute(query, new
+                    var result = connection.Execute(query, new
                     {
                         fields.EmployeeId,
                         fields.Amount,
@@ -88,16 +88,16 @@ namespace PMS.Infrastructure.Repositories
                         fields.ManagedBy
                     });
 
-                    return Task.FromResult(true);
+                    return Task.FromResult(result);
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(false);
+                return Task.FromResult(0);
             }
         }
 
-        public Task<bool> Update(int id, EmployeePayment fields)
+        public Task<int> Update(int id, EmployeePayment fields)
         {
             try
             {
@@ -114,7 +114,7 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    connection.Execute(query, new
+                    var result = connection.Execute(query, new
                     {
                         fields.EmployeeId,
                         fields.Amount,
@@ -125,16 +125,16 @@ namespace PMS.Infrastructure.Repositories
                         id
                     });
 
-                    return Task.FromResult(true);
+                    return Task.FromResult(result);
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(false);
+                return Task.FromResult(0);
             }
         }
 
-        public Task<bool> Delete(int id)
+        public Task<int> Delete(int id)
         {
             try
             {
@@ -146,17 +146,17 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    connection.Execute(query, new
+                    var result = connection.Execute(query, new
                     {
                         id
                     });
 
-                    return Task.FromResult(true);
+                    return Task.FromResult(result);
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(false);
+                return Task.FromResult(0);
             }
         }
     }

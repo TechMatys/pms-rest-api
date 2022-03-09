@@ -74,18 +74,23 @@ namespace PMS.Infrastructure.Repositories
             }
         }
 
-        public Task<bool> Create(Project fields)
+        public Task<int> Create(Project fields)
         {
             try
             {
-                var query = @"INSERT INTO Projects(Name, OwnerName, Description, Technologies, DurationId, StatusId, StartDate, CompletionDate,
+                var query = @"IF NOT EXISTS(SELECT TOP 1 ProjectId
+                                            FROM Projects
+                                            WHERE Name = @Name AND IsDeleted = 0) 
+                              BEGIN 
+                                     INSERT INTO Projects(Name, OwnerName, Description, Technologies, DurationId, StatusId, StartDate, CompletionDate,
                                      BudgetAmount, CreatedBy, CreatedDate) 
-                              VALUES (@Name, @OwnerName, @Description, @Technologies, @DurationId, @StatusId, @StartDate, @CompletionDate,
-                                     @BudgetAmount,@ManagedBy, GetUtcDate())";
+                                     VALUES (@Name, @OwnerName, @Description, @Technologies, @DurationId, @StatusId, @StartDate, @CompletionDate,
+                                     @BudgetAmount,@ManagedBy, GetUtcDate()) 
+                              END";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    connection.Execute(query, new
+                    var result = connection.Execute(query, new
                     {
                         fields.Name,
                         fields.OwnerName,
@@ -99,36 +104,41 @@ namespace PMS.Infrastructure.Repositories
                         fields.ManagedBy,
                     });
 
-                    return Task.FromResult(true);
+                    return Task.FromResult(result);
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(false);
+                return Task.FromResult(0);
             }
         }
 
-        public Task<bool> Update(int id, Project fields)
+        public Task<int> Update(int id, Project fields)
         {
             try
             {
-                var query = @"UPDATE Projects
-                                SET Name = @Name
-                                    ,OwnerName = @OwnerName
-                                    ,Description = @Description
-                                    ,Technologies = @Technologies
-                                    ,DurationId = @DurationId
-                                    ,StatusId = @StatusId
-                                    ,StartDate = @StartDate
-                                    ,CompletionDate = @CompletionDate
-                                    ,BudgetAmount = @BudgetAmount                                    
-	                                ,ModifiedBy = @ManagedBy
-	                                ,ModifiedDate = GetUtcDate()
-                                WHERE ProjectId = @id";
+                var query = @"IF NOT EXISTS(SELECT TOP 1 ProjectId
+                                            FROM Projects
+                                            WHERE Name = @Name AND IsDeleted = 0 and ProjectId <> @id) 
+                              BEGIN 
+                                     UPDATE Projects
+                                        SET Name = @Name
+                                            ,OwnerName = @OwnerName
+                                            ,Description = @Description
+                                            ,Technologies = @Technologies
+                                            ,DurationId = @DurationId
+                                            ,StatusId = @StatusId
+                                            ,StartDate = @StartDate
+                                            ,CompletionDate = @CompletionDate
+                                            ,BudgetAmount = @BudgetAmount                                    
+	                                        ,ModifiedBy = @ManagedBy
+	                                        ,ModifiedDate = GetUtcDate()
+                                        WHERE ProjectId = @id
+                            END";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    connection.Execute(query, new
+                    var result = connection.Execute(query, new
                     {
                         fields.Name,
                         fields.OwnerName,
@@ -143,16 +153,16 @@ namespace PMS.Infrastructure.Repositories
                         id
                     });
 
-                    return Task.FromResult(true);
+                    return Task.FromResult(result);
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(false);
+                return Task.FromResult(0);
             }
         }
 
-        public Task<bool> Delete(int id)
+        public Task<int> Delete(int id)
         {
             try
             {
@@ -164,17 +174,17 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    connection.Execute(query, new
+                    var result = connection.Execute(query, new
                     {
                         id
                     });
 
-                    return Task.FromResult(true);
+                    return Task.FromResult(result);
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(false);
+                return Task.FromResult(0);
             }
         }
     }

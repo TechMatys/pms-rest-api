@@ -23,17 +23,17 @@ namespace PMS.Core.Services
             return await _EmployeeRepository.GetEmployeeById(id);
         }
 
-        public async Task<bool> Create(Employee fields)
+        public async Task<int> Create(Employee fields)
         {
             return await _EmployeeRepository.Create(fields);
         }
 
-        public async Task<bool> Update(int id, Employee fields)
+        public async Task<int> Update(int id, Employee fields)
         {
             return await _EmployeeRepository.Update(id, fields);
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<int> Delete(int id)
         {
             return await _EmployeeRepository.Delete(id);
         }

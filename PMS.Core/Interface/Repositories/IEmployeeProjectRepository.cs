@@ -6,8 +6,8 @@ namespace PMS.Core.Interface.Repositories
     {
         Task<IEnumerable<EmployeeProjectListModel>> GetAllEmployeeProject();
         Task<EmployeeProject> GetEmployeeProjectById(int id);
-        Task<bool> Create(EmployeeProject fields);
-        Task<bool> Update(int id, EmployeeProject fields);
-        Task<bool> Delete(int id);
+        Task<int> Create(EmployeeProject fields);
+        Task<int> Update(int id, EmployeeProject fields);
+        Task<int> Delete(int id);
     }
 }

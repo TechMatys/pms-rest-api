@@ -6,8 +6,8 @@ namespace PMS.Core.Interface.Services
     {
         Task<IEnumerable<ProjectListModel>> GetAllProject();
         Task<Project> GetProjectById(int id);
-        Task<bool> Create(Project fields);
-        Task<bool> Update(int id, Project fields);
-        Task<bool> Delete(int id);
+        Task<int> Create(Project fields);
+        Task<int> Update(int id, Project fields);
+        Task<int> Delete(int id);
     }
 }

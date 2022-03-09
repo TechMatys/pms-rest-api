@@ -37,19 +37,19 @@ namespace PMS.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<bool>> Create([FromBody] ProjectPayment ProjectPaymentModal)
+        public async Task<ActionResult<int>> Create([FromBody] ProjectPayment ProjectPaymentModal)
         {
             return await _ProjectPaymentService.Create(ProjectPaymentModal);
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult<bool>> Update(int id, [FromBody] ProjectPayment ProjectPaymentModal)
+        public async Task<ActionResult<int>> Update(int id, [FromBody] ProjectPayment ProjectPaymentModal)
         {
             return await _ProjectPaymentService.Update(id, ProjectPaymentModal);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<bool>> Delete(int id)
+        public async Task<ActionResult<int>> Delete(int id)
         {
             return await _ProjectPaymentService.Delete(id);
         }
