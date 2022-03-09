@@ -133,7 +133,7 @@ namespace PMS.Infrastructure.Repositories
                                             ,BudgetAmount = @BudgetAmount                                    
 	                                        ,ModifiedBy = @ManagedBy
 	                                        ,ModifiedDate = GetUtcDate()
-                                        WHERE ProjectId = @id
+                                        WHERE ProjectId = @id 
                             END";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))

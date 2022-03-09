@@ -22,7 +22,7 @@ namespace PMS.Core.Services
 
         
 
-        public async Task<bool> Update(int id, Account fields)
+        public async Task<int> Update(int id, Account fields)
         {
             return await _AccountRepository.Update(id, fields);
         }

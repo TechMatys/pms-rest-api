@@ -7,7 +7,7 @@ namespace PMS.Core.Interface.Repositories
        
         Task<Account> GetUserById(int id);
      
-        Task<bool> Update(int id, Account fields);
+        Task<int> Update(int id, Account fields);
        
     }
 }

@@ -27,7 +27,7 @@ namespace PMS.API.Controllers
       
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult<bool>> Update(int id, [FromBody] Account AccountModal)
+        public async Task<ActionResult<int>> Update(int id, [FromBody] Account AccountModal)
         {
             return await _AccountService.Update(id, AccountModal);
         }

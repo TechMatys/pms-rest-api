@@ -73,8 +73,13 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"INSERT INTO Users(EmployeeId, RoleId, StatusId, ScreenPermissionId, CreatedBy, CreatedDate) 
-                              VALUES (@EmployeeId, @RoleId, @StatusId, @ScreenPermissionId, @ManagedBy, GetUtcDate())";
+                var query = @"IF NOT EXISTS(SELECT TOP 1 UserId
+                                            FROM Users
+                                            WHERE EmployeeId = @EmployeeId AND IsDeleted = 0) 
+                              BEGIN 
+                                    INSERT INTO Users(EmployeeId, RoleId, StatusId, ScreenPermissionId, CreatedBy, CreatedDate) 
+                                    VALUES (@EmployeeId, @RoleId, @StatusId, @ScreenPermissionId, @ManagedBy, GetUtcDate()) 
+                              END";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -100,14 +105,19 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"UPDATE Users
-                                SET EmployeeId = @EmployeeId
-                                    ,RoleId = @RoleId
-                                    ,StatusId = @StatusId
-                                    ,ScreenPermissionId = @ScreenPermissionId                                    
-	                                ,ModifiedBy = @ManagedBy
-	                                ,ModifiedDate = GetUtcDate()
-                                WHERE UserId = @id";
+                var query = @"IF NOT EXISTS(SELECT TOP 1 UserId
+                                            FROM Users
+                                            WHERE EmployeeId = @EmployeeId AND UserId <> @id AND IsDeleted = 0) 
+                              BEGIN 
+                                    UPDATE Users
+                                        SET EmployeeId = @EmployeeId
+                                            ,RoleId = @RoleId
+                                            ,StatusId = @StatusId
+                                            ,ScreenPermissionId = @ScreenPermissionId                                    
+	                                        ,ModifiedBy = @ManagedBy
+	                                        ,ModifiedDate = GetUtcDate()
+                                    WHERE UserId = @id 
+                              END";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
