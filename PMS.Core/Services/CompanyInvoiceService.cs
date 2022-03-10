@@ -17,12 +17,6 @@ namespace PMS.Core.Services
         {
             return await _CompanyInvoiceRepository.GetAllCompanyInvoices();
         }
-
-        public async Task<CompanyInvoice> GetCompanyInvoiceById(int id)
-        {
-            return await _CompanyInvoiceRepository.GetCompanyInvoiceById(id);
-        }
-
         public async Task<int> Create(CompanyInvoice fields)
         {
             return await _CompanyInvoiceRepository.Create(fields);
