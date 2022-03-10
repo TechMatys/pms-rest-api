@@ -28,14 +28,7 @@ namespace PMS.API.Controllers
 
             return Ok(response);
         }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CompanyInvoice>> GetCompanyInvoiceById(int id)
-        {
-            var response = await _CompanyInvoiceService.GetCompanyInvoiceById(id);
-            return Ok(response);
-        }
-
+        
         [HttpPost]
         public async Task<ActionResult<int>> Create([FromBody] CompanyInvoice CompanyInvoiceModal)
         {
