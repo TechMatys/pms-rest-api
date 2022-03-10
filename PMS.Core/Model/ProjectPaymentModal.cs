@@ -7,7 +7,7 @@ namespace PMS.Core.Model
         public int ProjectPaymentId { get; set; }
         public string? ProjectName { get; set; }
         public string? ReceivedAmount { get; set; }
-        public string? PaymentMonthYear { get; set; }
+        public string? Month { get; set; }
         public string? PaymentDate { get; set; }
         public string? CreatedBy { get; set; }
     }

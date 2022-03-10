@@ -48,7 +48,7 @@ namespace PMS.Infrastructure.Repositories
                 var query = @"SELECT EmployeePaymentId
 	                                ,EmployeeId
 	                                ,Amount
-	                                ,Concat_Ws('/', PaymentMonth, PaymentYear) AS PaymentMonthYear
+	                                ,Concat_Ws('/', PaymentMonth, PaymentYear) AS Month
 	                                ,Format(PaymentDate, 'dd/MM/yyyy') AS PaymentDate
 	                                ,Notes
                                 FROM EmployeePayments

@@ -9,7 +9,7 @@ namespace PMS.Core.Model
         public int EmployeePaymentId { get; set; }
         public string? EmployeeName { get; set; }      
         public int? Amount { get; set; }
-        public string? PaymentMonthYear { get; set; }
+        public string? Month { get; set; }
         public string? PaymentDate { get; set; }
         public string? CreatedBy { get; set; }
 

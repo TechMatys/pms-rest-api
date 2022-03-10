@@ -48,7 +48,7 @@ namespace PMS.Infrastructure.Repositories
                                     ,ProjectId
 	                                ,ReceivedAmount
                                     ,BalancedAmount
-                                    ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
+                                    ,Concat_Ws('/',PaymentMonth,PaymentYear) as Month
                                     ,Format(PaymentDate, 'dd/MM/yyyy') AS PaymentDate
                                     ,Notes
                               FROM ProjectPayments where ProjectPaymentId = @id";
