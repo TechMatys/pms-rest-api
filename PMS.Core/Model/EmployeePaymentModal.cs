@@ -21,6 +21,7 @@ namespace PMS.Core.Model
         public int EmployeeId { get; set; }
         public int EmployeePaymentId { get; set; }       
         public int? Amount { get; set; }
+        public string? PaymentMonthYear { get; set; }
         public int? PaymentMonth { get; set; }
         public int? PaymentYear { get; set; }
         public string? PaymentDate { get; set; }

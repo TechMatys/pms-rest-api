@@ -18,6 +18,7 @@ namespace PMS.Core.Model
         public int ProjectId { get; set; }
         public string? ReceivedAmount { get; set; }
         public string? BalancedAmount { get; set; }
+        public string? PaymentMonthYear { get; set; }
         public int? PaymentMonth { get; set; }
         public int? PaymentYear { get; set; }
         public string? PaymentDate { get; set; }
