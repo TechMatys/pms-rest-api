@@ -10,7 +10,8 @@ namespace PMS.Core.Model
         public string? EmployeeName { get; set; }      
         public int? Amount { get; set; }
         public string? PaymentMonthYear { get; set; }
-        public string? PaymentDate { get; set; }
+        public DateTime? PaymentDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string? CreatedBy { get; set; }
 
     }

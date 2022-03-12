@@ -24,7 +24,7 @@ namespace PMS.Infrastructure.Repositories
                                     ,CONCAT_WS(' ', emp.FirstName, emp.LastName) AS EmployeeName
 	                                ,gc.CodeName AS Role
 	                                ,gc1.CodeName AS Status
-	                                ,Format(us.CreatedDate, 'dd/MM/yyyy') AS CreatedDate
+	                                ,CreatedDate
                                 FROM Users us
                                 INNER JOIN Employees emp ON emp.EmployeeId = us.EmployeeId
                                 INNER JOIN GlobalCodes gc ON gc.GlobalCodeId = us.RoleId

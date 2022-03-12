@@ -23,7 +23,8 @@ namespace PMS.Infrastructure.Repositories
 	                                ,Title
 	                                ,Amount
 	                                ,'' AS Createdby
-	                                ,Format(ExpenseDate, 'dd/MM/yyyy') AS ExpenseDate
+	                                ,ExpenseDate
+                                    ,CreatedDate
                                 FROM CompanyExpenses
                                 WHERE IsDeleted = 0
                                 ORDER BY CreatedDate DESC";

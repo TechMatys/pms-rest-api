@@ -8,8 +8,9 @@ namespace PMS.Core.Model
         public string? EmployeeName { get; set; }
         public string? Role { get; set; }
         public string? Status { get; set; }     
-        public string? CreatedDate { get; set; }
-      
+        public DateTime? CreatedDate { get; set; }
+        public string? CreatedBy { get; set; }
+
     }
     public class Users
     {

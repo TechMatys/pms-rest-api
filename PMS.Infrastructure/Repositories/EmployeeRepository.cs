@@ -23,10 +23,10 @@ namespace PMS.Infrastructure.Repositories
 	                                ,FirstName
 	                                ,LastName
                                     ,EmailAddress
-	                                ,Format(StartDate, 'dd/MM/yyyy') AS StartDate
+	                                ,StartDate
 	                                ,gc.CodeName AS Designation
 	                                ,'' AS CreatedBy
-	                                ,Convert(VARCHAR(10), emp.CreatedDate, 110) AS CreatedDate
+	                                ,emp.CreatedDate AS CreatedDate
                                 FROM Employees emp
                                 LEFT JOIN GlobalCodes gc ON gc.GlobalCodeId = emp.DesignationId
                                 WHERE emp.IsDeleted = 0 

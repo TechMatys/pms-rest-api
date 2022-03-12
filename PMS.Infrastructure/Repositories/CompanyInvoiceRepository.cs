@@ -22,7 +22,8 @@ namespace PMS.Infrastructure.Repositories
                 var query = @"SELECT CompanyInvoiceId
 	                                ,Title
 	                                ,Createdby
-	                                ,Format(GeneratedDate, 'dd/MM/yyyy') AS GeneratedDate
+	                                ,GeneratedDate
+                                    ,CreatedDate
                                 FROM CompanyInvoices
                                 WHERE IsDeleted = 0
                                 ORDER BY CreatedDate DESC";

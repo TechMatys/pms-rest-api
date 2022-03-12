@@ -22,8 +22,9 @@ namespace PMS.Infrastructure.Repositories
                 var query = @"SELECT EmployeeProjectId
 	                                ,Concat_Ws(' ', FirstName, LastName) AS EmployeeName
 	                                ,Name AS ProjectName
-	                                ,Format(AssignedDate, 'dd/MM/yyyy') AS AssignedDate
+	                                ,AssignedDate
 	                                ,'' AS CreatedBy
+                                    ,ep.CreatedDate as CreatedDate
                                 FROM EmployeeProjects ep
                                 INNER JOIN Employees e ON e.EmployeeId = ep.EmployeeId
                                 INNER JOIN Projects p ON p.ProjectId = ep.ProjectId
