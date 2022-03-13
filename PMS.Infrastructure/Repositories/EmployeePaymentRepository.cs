@@ -23,7 +23,8 @@ namespace PMS.Infrastructure.Repositories
 	                                ,Concat_Ws(' ', FirstName, LastName) AS EmployeeName
 	                                ,Amount
 	                                ,Concat_Ws('/', PaymentMonth, PaymentYear) AS PaymentMonthYear
-	                                ,Format(PaymentDate, 'dd/MM/yyyy') AS PaymentDate
+	                                ,PaymentDate                                    
+                                    ,ep.CreatedDate as CreatedDate
                                 FROM EmployeePayments ep
                                 INNER JOIN Employees e ON e.EmployeeId = ep.EmployeeId
                                 WHERE ep.IsDeleted = 0 AND e.IsDeleted = 0

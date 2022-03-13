@@ -5,7 +5,8 @@ namespace PMS.Core.Model
     {
         public int CompanyInvoiceId { get; set; }
         public string? Title { get; set; }
-        public string? GeneratedDate { get; set; }
+        public DateTime? GeneratedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string? CreatedBy { get; set; }
     }
 

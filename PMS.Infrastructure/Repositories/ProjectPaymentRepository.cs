@@ -23,7 +23,8 @@ namespace PMS.Infrastructure.Repositories
                                     ,p.Name as ProjectName
 	                                ,ReceivedAmount
                                     ,Concat_Ws('/',PaymentMonth,PaymentYear) as PaymentMonthYear
-                                    ,Format(PaymentDate, 'dd/MM/yyyy') as PaymentDate
+                                    ,PaymentDate
+                                    ,pp.CreatedDate as CreatedDate
                                 FROM ProjectPayments pp
                                 Inner Join Projects p on p.ProjectId = pp.ProjectId
                                 WHERE pp.IsDeleted = 0 and p.IsDeleted = 0 

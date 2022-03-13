@@ -9,8 +9,9 @@ namespace PMS.Core.Model
         public int EmployeePaymentId { get; set; }
         public string? EmployeeName { get; set; }      
         public int? Amount { get; set; }
-        public string? Month { get; set; }
-        public string? PaymentDate { get; set; }
+        public string? PaymentMonthYear { get; set; }
+        public DateTime? PaymentDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string? CreatedBy { get; set; }
 
     }
@@ -19,11 +20,11 @@ namespace PMS.Core.Model
     {
 
         public int EmployeeId { get; set; }
-        public int EmployeePaymentId { get; set; }
-       
+        public int EmployeePaymentId { get; set; }       
         public int? Amount { get; set; }
-
         public string? PaymentMonthYear { get; set; }
+        public int? PaymentMonth { get; set; }
+        public int? PaymentYear { get; set; }
         public string? PaymentDate { get; set; }
         public string? Notes { get; set; }
         public int? ManagedBy { get; set; }

@@ -8,7 +8,8 @@ namespace PMS.Core.Model
         public int EmployeeProjectId { get; set; }
         public string? EmployeeName { get; set; }
         public string? ProjectName { get; set; }
-        public string? AssignedDate{ get; set; }      
+        public DateTime? AssignedDate{ get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string? CreatedBy { get; set; }
 
     }

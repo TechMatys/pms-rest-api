@@ -6,7 +6,8 @@ namespace PMS.Core.Model
         public int CompanyExpenseId { get; set; }
         public string? Title { get; set; }
         public int? Amount { get; set; }
-        public string? ExpenseDate { get; set; }
+        public DateTime? ExpenseDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string? CreatedBy { get; set; }
     }
 

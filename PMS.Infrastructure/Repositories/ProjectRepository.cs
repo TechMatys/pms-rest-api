@@ -24,9 +24,9 @@ namespace PMS.Infrastructure.Repositories
 	                                    ,Name
 	                                    ,Technologies
 	                                    ,gc.CodeName AS STATUS
-	                                    ,Format(StartDate, 'dd/MM/yyyy') AS StartDate
+	                                    ,StartDate
 	                                    ,'' AS CreatedBy
-	                                    ,Format(p.CreatedDate, 'dd/MM/yyyy') AS CreatedDate
+	                                    ,p.CreatedDate as CreatedDate
                                     FROM Projects p
                                     LEFT JOIN GlobalCodes gc ON gc.GlobalCodeId = p.StatusId
                                     WHERE p.IsDeleted = 0

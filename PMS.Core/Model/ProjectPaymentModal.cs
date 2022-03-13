@@ -7,8 +7,9 @@ namespace PMS.Core.Model
         public int ProjectPaymentId { get; set; }
         public string? ProjectName { get; set; }
         public string? ReceivedAmount { get; set; }
-        public string? Month { get; set; }
+        public string? PaymentMonthYear { get; set; }
         public string? PaymentDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string? CreatedBy { get; set; }
     }
 
@@ -19,6 +20,8 @@ namespace PMS.Core.Model
         public string? ReceivedAmount { get; set; }
         public string? BalancedAmount { get; set; }
         public string? PaymentMonthYear { get; set; }
+        public int? PaymentMonth { get; set; }
+        public int? PaymentYear { get; set; }
         public string? PaymentDate { get; set; }
         public string? Notes { get; set; }
         public int? ManagedBy { get; set; }

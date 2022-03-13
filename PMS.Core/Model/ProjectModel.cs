@@ -6,10 +6,10 @@ namespace PMS.Core.Model
     {
         public int ProjectId { get; set; }
         public string? Name { get; set; }        
-        public string? StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         public string? Technologies { get; set; }
         public string? Status { get; set; }
-        public string? CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string? CreatedBy { get; set; }
     }
     public class Project
