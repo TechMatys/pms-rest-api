@@ -28,7 +28,7 @@ namespace PMS.Infrastructure.Repositories
                                 FROM ProjectPayments pp
                                 Inner Join Projects p on p.ProjectId = pp.ProjectId
                                 WHERE pp.IsDeleted = 0 and p.IsDeleted = 0 
-                                Order by pp.CreatedDate desc";
+                                Order by pp.PaymentDate desc";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {

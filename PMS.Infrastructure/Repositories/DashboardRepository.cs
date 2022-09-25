@@ -19,16 +19,23 @@ namespace PMS.Infrastructure.Repositories
             try
             {
                 DashboardModal objDashboardData = new DashboardModal();
-                var query = @"DECLARE @TotalEmployees INT = 0
-	                                ,@TotalProjects INT = 0
-	                                ,@MonthlyEarning INT = 0
-	                                ,@AnnualEarning INT = 0
+                var query = @"DECLARE @TotalEmployees bigint = 0
+	                                ,@TotalProjects bigint = 0
+	                                ,@MonthlyEarning bigint = 0
+	                                ,@AnnualEarning bigint = 0
+                                    ,@TotalCompanyExpenses bigint = 0 
+                                    ,@TotalEmployeePayment bigint = 0 
+                                    ,@TotalProjectPayment bigint = 0
 
                                 SELECT @TotalEmployees = Count(EmployeeId) FROM Employees 
                                 WHERE IsDeleted = 0
 
                                 SELECT @TotalProjects = Count(ProjectId) FROM Projects 
                                 WHERE IsDeleted = 0
+
+                                Select @TotalCompanyExpenses = Sum(Amount) from CompanyExpenses where IsDeleted = 0
+                                Select @TotalEmployeePayment = Sum(Amount) from EmployeePayments where IsDeleted = 0
+                                Select @TotalProjectPayment = Sum(ReceivedAmount) from ProjectPayments where IsDeleted = 0
 
                                 SELECT @MonthlyEarning = Sum(ReceivedAmount) FROM ProjectPayments 
                                 WHERE IsDeleted = 0 AND PaymentMonth = Month(GetUtcDate()) AND PaymentYear = Year(GetUtcDate())
@@ -37,7 +44,8 @@ namespace PMS.Infrastructure.Repositories
                                 WHERE IsDeleted = 0 And PaymentYear = Year(GetUtcDate())
 
                                 SELECT @TotalEmployees AS TotalEmployees
-	                                ,@TotalProjects AS TotalProjects
+                                    ,@TotalProjects as TotalProjects
+	                                ,@TotalProjectPayment - (@TotalCompanyExpenses + @TotalEmployeePayment) AS RemaningEarnings
 	                                ,@MonthlyEarning AS MonthlyEarning
 	                                ,@AnnualEarning AS AnnualEarning
 

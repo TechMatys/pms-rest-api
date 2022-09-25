@@ -28,7 +28,7 @@ namespace PMS.Infrastructure.Repositories
                                 FROM EmployeePayments ep
                                 INNER JOIN Employees e ON e.EmployeeId = ep.EmployeeId
                                 WHERE ep.IsDeleted = 0 AND e.IsDeleted = 0
-                                ORDER BY ep.CreatedDate DESC";
+                                ORDER BY PaymentDate DESC";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {

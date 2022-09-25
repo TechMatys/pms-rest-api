@@ -27,7 +27,7 @@ namespace PMS.Infrastructure.Repositories
                                     ,CreatedDate
                                 FROM CompanyExpenses
                                 WHERE IsDeleted = 0
-                                ORDER BY CreatedDate DESC";
+                                ORDER BY ExpenseDate DESC, CreatedDate DESC";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -100,7 +100,7 @@ namespace PMS.Infrastructure.Repositories
                 var query = @"UPDATE CompanyExpenses
                                 SET Title = @Title
                                     ,Amount = @Amount
-                                    ,ExpenseDate = @ExpenseDate
+                                    --,ExpenseDate = @ExpenseDate
                                     ,Notes = @Notes                                   
 	                                ,ModifiedBy = @ManagedBy
 	                                ,ModifiedDate = GetUtcDate()
