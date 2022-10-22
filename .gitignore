@@ -230,3 +230,7 @@ AppPackages/
 *.dll
 *.exe
 *.pdb
+*.cache
+*.txt
+*.sentinel
+.vs/pms-rest-api/v17/.suo
