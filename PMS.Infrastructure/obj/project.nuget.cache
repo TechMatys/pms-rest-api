@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "7R9LCQwlV1VdfONv21nzlP/w5ShBb6RHKB8S/MPCfvxtDYKsbtNlH6HUnUaf38rOG9MxsPvJCqLLhaSf2VfmfQ==",
+  "dgSpecHash": "noe0p3upJp/5Eu61iypCO3xQmKKnpZBTYhDJX/rLpMpZJJTEhA/oraJZepug2mOtqb/Z1Y5bzv8AQaK1P9kAeQ==",
   "success": true,
   "projectFilePath": "D:\\Projects\\ProjectManagementSystem\\pms-rest-api\\PMS.Infrastructure\\PMS.Infrastructure.csproj",
   "expectedPackageFiles": [

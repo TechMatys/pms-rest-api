@@ -1,6 +1,5 @@
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\bin\Debug\net6.0\PMS.Core.deps.json
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\bin\Debug\net6.0\PMS.Core.dll
-D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\bin\Debug\net6.0\ref\PMS.Core.dll
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\bin\Debug\net6.0\PMS.Core.pdb
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\obj\Debug\net6.0\PMS.Core.GeneratedMSBuildEditorConfig.editorconfig
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\obj\Debug\net6.0\PMS.Core.AssemblyInfoInputs.cache
@@ -9,3 +8,5 @@ D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\obj\Debug\net6.0\PMS.C
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\obj\Debug\net6.0\PMS.Core.dll
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\obj\Debug\net6.0\ref\PMS.Core.dll
 D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\obj\Debug\net6.0\PMS.Core.pdb
+D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\obj\Debug\net6.0\PMS.Core.csproj.AssemblyReference.cache
+D:\Projects\ProjectManagementSystem\pms-rest-api\PMS.Core\obj\Debug\net6.0\refint\PMS.Core.dll
