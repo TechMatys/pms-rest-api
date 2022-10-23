@@ -34,4 +34,28 @@ namespace PMS.Core.Model
         public string? EndDate { get; set; }
         public int? ManagedBy { get; set; }
     }
+
+    public class EmployeeTaskListModel
+    {
+        public int EmployeeTaskDetailId { get; set; }
+        public string? EmployeeName   { get; set; }
+        public string? TaskDate { get; set; }
+        public string? Status { get; set; }
+    }
+
+    public class EmployeeTaskDetails
+    {
+        public string? TaskDate { get; set; }
+        public int? StatusId { get; set; }
+        public string? Subject { get; set; }
+        public int? ManagedBy { get; set; }
+        public List<EmployeeSubTaskDetails>? SubtaskDetails { get; set; }
+    }
+
+    public class EmployeeSubTaskDetails
+    {
+        public string? Title { get; set; }
+        public int? StatusId { get; set; }
+    }
+
 }

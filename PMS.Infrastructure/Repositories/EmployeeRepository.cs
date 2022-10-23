@@ -212,5 +212,151 @@ namespace PMS.Infrastructure.Repositories
                 return Task.FromResult(0);
             }
         }
+
+        public async Task<IEnumerable<EmployeeTaskListModel>> GetAllTaskDetails(int id)
+        {
+            try
+            {
+                var query = @"SELECT EmployeeTaskDetailId
+	                              ,Concat_WS(space(1), FirstName, LastName) AS EmployeeName
+	                              ,TaskDate
+	                              ,gc.CodeName AS STATUS
+	                              ,task.CreatedDate AS CreatedDate
+                              FROM EmployeeTaskDetails task
+                              INNER JOIN Employees emp ON task.EmployeeId = emp.EmployeeId
+                              LEFT JOIN GlobalCodes gc ON gc.GlobalCodeId = task.StatusId And gc.Category = 'TaskStatus'
+                              WHERE task.IsDeleted = 0
+	                              AND emp.IsDeleted = 0
+	                              AND (
+		                              @employeeId = 0
+		                              OR task.EmployeeId = @employeeId
+		                              )
+                              ORDER BY CreatedDate DESC";
+
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    return (await connection.QueryAsync<EmployeeTaskListModel>(query, new
+                    {
+                        employeeId = id
+                    })).ToList();
+                }
+            }
+            catch (Exception exp)
+            {
+                throw new Exception(exp.Message, exp);
+            }
+        }
+
+        public async Task<EmployeeTaskDetails> GetTaskDetailById(int id, int taskId)
+        {
+            try
+            {
+                var query = @"SELECT EmployeeId
+                                    ,FirstName
+                                    ,MiddleName
+	                                ,LastName
+                                    ,Gender
+                                    ,Format(DateOfBirth, 'dd/MM/yyyy') as DateOfBirth
+                                    ,EmailAddress
+                                    ,Mobile
+                                    ,Address
+                                    ,City
+                                    ,StateId
+                                    ,DesignationId
+                                    ,StatusId
+                                    ,PostalCode
+                                    ,Format(StartDate, 'dd/MM/yyyy') as StartDate
+                                    ,Format(EndDate, 'dd/MM/yyyy') as EndDate
+                              FROM Employees 
+                              Where EmployeeId = @id";
+
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    var employeeTask = await connection.QueryFirstOrDefaultAsync<EmployeeTaskDetails>(query, new
+                    {
+                        id
+                    });
+                    return employeeTask;
+                }
+            }
+            catch (Exception exp)
+            {
+                throw new Exception(exp.Message, exp);
+            }
+        }
+
+        public Task<int> CreateTask(int id, EmployeeTaskDetails fields)
+        {
+            try
+            {
+                var query = @"IF NOT EXISTS (
+		                              SELECT TOP 1 EmployeeId
+		                              FROM EmployeeTaskDetails
+		                              WHERE Convert(DATE, TaskDate) = Convert(DATE, @TaskDate)
+			                              AND EmployeeId = @EmployeeId
+			                              AND IsDeleted = 0
+		                              )
+                              BEGIN
+	                              INSERT INTO EmployeeTaskDetails (
+		                              EmployeeId
+		                              ,TaskDate
+		                              ,StatusId
+		                              ,CreatedBy
+		                              ,CreatedDate
+		                              )
+	                              VALUES (
+		                              @EmployeeId
+		                              ,@TaskDate
+		                              ,@StatusId
+		                              ,@ManagedBy
+		                              ,GetUtcDate()
+		                              )
+                              END";
+
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    var result = connection.Execute(query, new
+                    {
+                        EmployeeId = id,
+                        fields.TaskDate,
+                        fields.Subject,
+                        fields.StatusId,
+                        fields.ManagedBy
+                    });
+
+                    return Task.FromResult(result);
+                }
+            }
+            catch (Exception exp)
+            {
+                return Task.FromResult(0);
+            }
+        }
+
+        public Task<int> DeleteTask(int id, int taskId)
+        {
+            try
+            {
+                var query = @"UPDATE EmployeeTaskDetails
+                                SET  IsDeleted = 1
+	                                ,DeletedBy = -1
+	                                ,DeletedDate = GetUtcDate()
+                                WHERE EmployeeTaskDetailId = @id";
+
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    var result = connection.Execute(query, new
+                    {
+                        id = taskId
+                    });
+
+                    return Task.FromResult(result);
+                }
+            }
+            catch (Exception exp)
+            {
+                return Task.FromResult(0);
+            }
+        }
     }
 }
