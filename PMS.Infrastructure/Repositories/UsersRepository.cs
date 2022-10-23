@@ -101,6 +101,32 @@ namespace PMS.Infrastructure.Repositories
             }
         }
 
+        public Task<int> SaveLoggedInDetail(UserLoggedInDetail fields)
+        {
+            try
+            {
+                var query = @"INSERT INTO UserLoggedInDetail(LoggedDate, IpAddress, SystemName, CreatedBy, CreatedDate) 
+                                    VALUES (@LoggedDate, @IpAddress, @SystemName, @ManagedBy, GetUtcDate())";
+
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    var result = connection.Execute(query, new
+                    {
+                        fields.LoggedDate,
+                        fields.IpAddress,
+                        fields.SystemName,
+                        fields.ManagedBy
+                    });
+
+                    return Task.FromResult(result);
+                }
+            }
+            catch (Exception exp)
+            {
+                return Task.FromResult(0);
+            }
+        }
+
         public Task<int> Update(int id, Users fields)
         {
             try

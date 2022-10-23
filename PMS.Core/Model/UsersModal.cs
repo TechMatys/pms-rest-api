@@ -21,4 +21,12 @@ namespace PMS.Core.Model
         public int? StatusId { get; set; }      
         public int? ManagedBy { get; set; }
     }
+
+    public class UserLoggedInDetail
+    {
+        public DateTime LoggedDate { get; set; }
+        public string? IpAddress { get; set; }
+        public string? SystemName { get; set; }
+        public int? ManagedBy { get; set; }
+    }
 }
