@@ -3,6 +3,7 @@ using PMS.Core.Interface.Repositories;
 using PMS.Core.Model;
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
+using System.Text.Json;
 
 namespace PMS.Infrastructure.Repositories
 {
@@ -289,7 +290,21 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"IF NOT EXISTS (
+                string subtaskQuery = string.Empty;
+                int loop = 1;
+                if (fields.SubtaskDetails != null && fields.SubtaskDetails.Count > 0)
+                {
+                    fields.SubtaskDetails.ForEach(item =>
+                    {
+                        subtaskQuery = subtaskQuery + @"Insert into EmployeeSubTaskDetails(EmployeeTaskDetailId, Title, TaskNo, 
+                        StatusId, CreatedBy, CreatedDate) values(@Id, '"+ item.Title + "', " + loop + ", " + item.StatusId + ", @ManagedBy, GetUtcDate()) ";
+
+                        loop = loop + 1;
+                    });
+                }
+
+                var query = @"Declare @Id int = 0; 
+                            IF NOT EXISTS (
 		                              SELECT TOP 1 EmployeeId
 		                              FROM EmployeeTaskDetails
 		                              WHERE Convert(DATE, TaskDate) = Convert(DATE, @TaskDate)
@@ -311,7 +326,10 @@ namespace PMS.Infrastructure.Repositories
 		                              ,@ManagedBy
 		                              ,GetUtcDate()
 		                              )
-                              END";
+                              END
+                              Set @Id = SCOPE_IDENTITY() ";
+
+                query = query + subtaskQuery;
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
