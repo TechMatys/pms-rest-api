@@ -304,7 +304,7 @@ namespace PMS.Infrastructure.Repositories
                 }
 
                 var query = @"Declare @Id int = 0; 
-                            IF NOT EXISTS (
+                              IF NOT EXISTS (
 		                              SELECT TOP 1 EmployeeId
 		                              FROM EmployeeTaskDetails
 		                              WHERE Convert(DATE, TaskDate) = Convert(DATE, @TaskDate)
@@ -316,6 +316,7 @@ namespace PMS.Infrastructure.Repositories
 		                              EmployeeId
 		                              ,TaskDate
 		                              ,StatusId
+                                      ,Note
 		                              ,CreatedBy
 		                              ,CreatedDate
 		                              )
@@ -323,6 +324,7 @@ namespace PMS.Infrastructure.Repositories
 		                              @EmployeeId
 		                              ,@TaskDate
 		                              ,@StatusId
+                                      ,@Note
 		                              ,@ManagedBy
 		                              ,GetUtcDate()
 		                              )
@@ -338,6 +340,7 @@ namespace PMS.Infrastructure.Repositories
                         EmployeeId = id,
                         fields.TaskDate,
                         fields.Subject,
+                        fields.Note,
                         fields.StatusId,
                         fields.ManagedBy
                     });

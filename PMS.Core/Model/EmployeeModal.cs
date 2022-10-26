@@ -48,6 +48,7 @@ namespace PMS.Core.Model
         public string? TaskDate { get; set; }
         public int? StatusId { get; set; }
         public string? Subject { get; set; }
+        public string? Note { get; set; }
         public int? ManagedBy { get; set; }
         public List<EmployeeSubTaskDetails>? SubtaskDetails { get; set; }
     }
