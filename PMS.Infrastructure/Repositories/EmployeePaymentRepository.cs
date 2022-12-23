@@ -15,7 +15,7 @@ namespace PMS.Infrastructure.Repositories
             this.configuration = configuration;
         }
 
-        public async Task<IEnumerable<EmployeePaymentListModel>> GetAllEmployeePayment()
+        public async Task<IEnumerable<EmployeePaymentListModel>> GetAllEmployeePaymentAsync()
         {
             try
             {
@@ -37,15 +37,14 @@ namespace PMS.Infrastructure.Repositories
             }
             catch (Exception exp)
             {
-                throw new Exception(exp.Message, exp);
+                return null;
             }
         }
 
-        public async Task<EmployeePayment> GetEmployeePaymentById(int id)
+        public async Task<EmployeePayment> GetEmployeePaymentByIdAsync(int id)
         {
             try
             {
-
                 var query = @"SELECT EmployeePaymentId
 	                                ,EmployeeId
 	                                ,Amount
@@ -65,11 +64,11 @@ namespace PMS.Infrastructure.Repositories
             }
             catch (Exception exp)
             {
-                throw new Exception(exp.Message, exp);
+                return null;
             }
         }
 
-        public Task<int> Create(EmployeePayment fields)
+        public async Task<int?> CreateAsync(EmployeePayment fields)
         {
             try
             {
@@ -79,7 +78,7 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var result = connection.Execute(query, new
+                    var result =await connection.ExecuteAsync(query, new
                     {
                         fields.EmployeeId,
                         fields.Amount,
@@ -89,16 +88,16 @@ namespace PMS.Infrastructure.Repositories
                         fields.ManagedBy
                     });
 
-                    return Task.FromResult(result);
+                    return result;
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(0);
+                return null;
             }
         }
 
-        public Task<int> Update(int id, EmployeePayment fields)
+        public async Task<int?> UpdateAsync(int id, EmployeePayment fields)
         {
             try
             {
@@ -115,7 +114,7 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var result = connection.Execute(query, new
+                    var result =await connection.ExecuteAsync(query, new
                     {
                         fields.EmployeeId,
                         fields.Amount,
@@ -126,16 +125,16 @@ namespace PMS.Infrastructure.Repositories
                         id
                     });
 
-                    return Task.FromResult(result);
+                    return result;
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(0);
+                return null;
             }
         }
 
-        public Task<int> Delete(int id)
+        public async Task<int?> DeleteAsync(int id)
         {
             try
             {
@@ -147,17 +146,17 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var result = connection.Execute(query, new
+                    var result =await connection.ExecuteAsync(query, new
                     {
                         id
                     });
 
-                    return Task.FromResult(result);
+                    return result;
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(0);
+                return null;
             }
         }
     }

@@ -17,7 +17,7 @@ namespace PMS.Infrastructure.Repositories
         }
              
 
-        public async Task<Account> GetUserById(int id)
+        public async Task<Account> GetUserByIdAsync(int id)
         {
             try
             {
@@ -41,11 +41,11 @@ namespace PMS.Infrastructure.Repositories
             }
             catch (Exception exp)
             {
-                throw new Exception(exp.Message, exp);
+                return null;
             }
         }
 
-        public Task<int> Update(int id, Account fields)
+        public async Task<int?> UpdateAsync(int id, Account fields)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace PMS.Infrastructure.Repositories
                   
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var result = connection.Execute(query, new
+                    var result =await connection.ExecuteAsync(query, new
                     {
                         fields.FirstName,
                         fields.LastName,
@@ -88,12 +88,12 @@ namespace PMS.Infrastructure.Repositories
                         id
                     });
 
-                    return Task.FromResult(result);
+                    return result;
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(0);
+                return null;
             }
         }
 

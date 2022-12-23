@@ -15,27 +15,27 @@ namespace PMS.Core.Services
 
         public async Task<IEnumerable<UsersListModel>> GetAllUsers()
         {
-            return await _UsersRepository.GetAllUsers();
+            return await _UsersRepository.GetAllUsersAsync();
         }
 
         public async Task<Users> GetUsersById(int id)
         {
-            return await _UsersRepository.GetUsersById(id);
+            return await _UsersRepository.GetUsersByIdAsync(id);
         }
 
-        public async Task<int> Create(Users fields)
+        public async Task<int?> Create(Users fields)
         {
-            return await _UsersRepository.Create(fields);
+            return await _UsersRepository.CreateAsync(fields);
         }
 
-        public async Task<int> Update(int id, Users fields)
+        public async Task<int?> Update(int id, Users fields)
         {
-            return await _UsersRepository.Update(id, fields);
+            return await _UsersRepository.UpdateAsync(id, fields);
         }
 
-        public async Task<int> Delete(int id)
+        public async Task<int?> Delete(int id)
         {
-            return await _UsersRepository.Delete(id);
+            return await _UsersRepository.DeleteAsync(id);
         }
     }
 }

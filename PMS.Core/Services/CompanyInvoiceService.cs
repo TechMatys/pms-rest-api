@@ -15,16 +15,16 @@ namespace PMS.Core.Services
 
         public async Task<IEnumerable<CompanyInvoiceListModel>> GetAllCompanyInvoice()
         {
-            return await _CompanyInvoiceRepository.GetAllCompanyInvoices();
+            return await _CompanyInvoiceRepository.GetAllCompanyInvoicesAsync();
         }
-        public async Task<int> Create(CompanyInvoice fields)
+        public async Task<int?> Create(CompanyInvoice fields)
         {
-            return await _CompanyInvoiceRepository.Create(fields);
+            return await _CompanyInvoiceRepository.CreateAsync(fields);
         }           
 
-        public async Task<int> Delete(int id)
+        public async Task<int?> Delete(int id)
         {
-            return await _CompanyInvoiceRepository.Delete(id);
+            return await _CompanyInvoiceRepository.DeleteAsync(id);
         }
     }
 }

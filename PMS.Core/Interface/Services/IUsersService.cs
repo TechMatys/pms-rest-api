@@ -6,8 +6,8 @@ namespace PMS.Core.Interface.Services
     {
         Task<IEnumerable<UsersListModel>> GetAllUsers();
         Task<Users> GetUsersById(int id);
-        Task<int> Create(Users fields);
-        Task<int> Update(int id, Users fields);
-        Task<int> Delete(int id);
+        Task<int?> Create(Users fields);
+        Task<int?> Update(int id, Users fields);
+        Task<int?> Delete(int id);
     }
 }

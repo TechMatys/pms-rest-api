@@ -16,27 +16,27 @@ namespace PMS.Core.Services
 
         public async Task<IEnumerable<ProjectPaymentListModel>> GetAllProjectPayment()
         {
-            return await _ProjectPaymentRepository.GetAllProjectPayment();
+            return await _ProjectPaymentRepository.GetAllProjectPaymentAsync();
         }
 
         public async Task<ProjectPayment> GetProjectPaymentById(int id)
         {
-            return await _ProjectPaymentRepository.GetProjectPaymentById(id);
+            return await _ProjectPaymentRepository.GetProjectPaymentByIdAsync(id);
         }
 
-        public async Task<int> Create(ProjectPayment fields)
+        public async Task<int?> Create(ProjectPayment fields)
         {
-            return await _ProjectPaymentRepository.Create(fields);
+            return await _ProjectPaymentRepository.CreateAsync(fields);
         }
 
-        public async Task<int> Update(int id, ProjectPayment fields)
+        public async Task<int?> Update(int id, ProjectPayment fields)
         {
-            return await _ProjectPaymentRepository.Update(id, fields);
+            return await _ProjectPaymentRepository.UpdateAsync(id, fields);
         }
 
-        public async Task<int> Delete(int id)
+        public async Task<int?> Delete(int id)
         {
-            return await _ProjectPaymentRepository.Delete(id);
+            return await _ProjectPaymentRepository.DeleteAsync(id);
         }
     
     }

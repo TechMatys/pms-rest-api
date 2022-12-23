@@ -4,10 +4,10 @@ namespace PMS.Core.Interface.Repositories
 {
     public interface IUsersRepository
     {
-        Task<IEnumerable<UsersListModel>> GetAllUsers();
-        Task<Users> GetUsersById(int id);
-        Task<int> Create(Users fields);
-        Task<int> Update(int id, Users fields);
-        Task<int> Delete(int id);
+        Task<IEnumerable<UsersListModel>> GetAllUsersAsync();
+        Task<Users> GetUsersByIdAsync(int id);
+        Task<int?> CreateAsync(Users fields);
+        Task<int?> UpdateAsync(int id, Users fields);
+        Task<int?> DeleteAsync(int id);
     }
 }
