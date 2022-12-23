@@ -16,7 +16,7 @@ namespace PMS.Infrastructure.Repositories
             this.configuration = configuration;
         }
 
-        public async Task<IEnumerable<EmployeeListModel>> GetAllEmployee()
+        public async Task<IEnumerable<EmployeeListModel>> GetAllEmployeeAsync()
         {
             try
             {
@@ -40,11 +40,11 @@ namespace PMS.Infrastructure.Repositories
             }
             catch (Exception exp)
             {
-                throw new Exception(exp.Message, exp);
+                return null;
             }
         }
 
-        public async Task<Employee> GetEmployeeById(int id)
+        public async Task<Employee> GetEmployeeByIdAsync(int id)
         {
             try
             {
@@ -78,11 +78,11 @@ namespace PMS.Infrastructure.Repositories
             }
             catch (Exception exp)
             {
-                throw new Exception(exp.Message, exp);
+                return null;
             }
         }
 
-        public Task<int> Create(Employee fields)
+        public async Task<int?> CreateAsync(Employee fields)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var result = connection.Execute(query, new
+                    var result = await connection.ExecuteAsync(query, new
                     {
                         fields.FirstName,
                         fields.MiddleName,
@@ -118,16 +118,16 @@ namespace PMS.Infrastructure.Repositories
                         fields.ManagedBy
                     });
 
-                    return Task.FromResult(result);
+                    return result;
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(0);
+                return null;
             }
         }
 
-        public Task<int> Update(int id, Employee fields)
+        public async Task<int?> UpdateAsync(int id, Employee fields)
         {
             try
             {
@@ -158,7 +158,7 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var result = connection.Execute(query, new
+                    var result = await connection.ExecuteAsync(query, new
                     {
                         fields.FirstName,
                         fields.MiddleName,
@@ -179,16 +179,16 @@ namespace PMS.Infrastructure.Repositories
                         id
                     });
 
-                    return Task.FromResult(result);
+                    return result;
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(0);
+                return null;
             }
         }
 
-        public Task<int> Delete(int id)
+        public async Task<int?> DeleteAsync(int id)
         {
             try
             {
@@ -200,21 +200,21 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var result = connection.Execute(query, new
+                    var result =await connection.ExecuteAsync(query, new
                     {
                         id
                     });
 
-                    return Task.FromResult(result);
+                    return result;
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(0);
+                return null;
             }
         }
 
-        public async Task<IEnumerable<EmployeeTaskListModel>> GetAllTaskDetails(int id)
+        public async Task<IEnumerable<EmployeeTaskListModel>> GetAllTaskDetailsAsync(int id)
         {
             try
             {
@@ -244,11 +244,11 @@ namespace PMS.Infrastructure.Repositories
             }
             catch (Exception exp)
             {
-                throw new Exception(exp.Message, exp);
+                return null;
             }
         }
 
-        public async Task<EmployeeTaskDetails> GetTaskDetailById(int id, int taskId)
+        public async Task<EmployeeTaskDetails> GetTaskDetailByIdAsync(int id, int taskId)
         {
             try
             {
@@ -282,11 +282,11 @@ namespace PMS.Infrastructure.Repositories
             }
             catch (Exception exp)
             {
-                throw new Exception(exp.Message, exp);
+                return null;
             }
         }
 
-        public Task<int> CreateTask(int id, EmployeeTaskDetails fields)
+        public async Task<int?> CreateTaskAsync(int id, EmployeeTaskDetails fields)
         {
             try
             {
@@ -335,7 +335,7 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var result = connection.Execute(query, new
+                    var result =await connection.ExecuteAsync(query, new
                     {
                         EmployeeId = id,
                         fields.TaskDate,
@@ -345,16 +345,16 @@ namespace PMS.Infrastructure.Repositories
                         fields.ManagedBy
                     });
 
-                    return Task.FromResult(result);
+                    return result;
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(0);
+                return null;
             }
         }
 
-        public Task<int> DeleteTask(int id, int taskId)
+        public async Task<int?> DeleteTaskAsync(int id, int taskId)
         {
             try
             {
@@ -366,17 +366,17 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var result = connection.Execute(query, new
+                    var result =await connection.ExecuteAsync(query, new
                     {
                         id = taskId
                     });
 
-                    return Task.FromResult(result);
+                    return result;
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(0);
+                return null;
             }
         }
     }

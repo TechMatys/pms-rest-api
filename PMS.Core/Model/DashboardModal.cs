@@ -8,8 +8,8 @@ namespace PMS.Core.Model
         public long MonthlyEarning { get; set; }
         public long AnnualEarning { get; set; }
         public long RemaningEarnings { get; set; }
-        public List<ProjectRevenue> ProjectRevenue { get; set; }
-        public List<ProjectStatusDetail> ProjectStatusDetail { get; set; }
+        public List<ProjectRevenue?> ProjectRevenue { get; set; }
+        public List<ProjectStatusDetail?> ProjectStatusDetail { get; set; }
     }
 
     public class ProjectRevenue

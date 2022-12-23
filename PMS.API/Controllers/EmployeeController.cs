@@ -91,7 +91,7 @@ namespace PMS.API.Controllers
         public async Task<ActionResult<int>> Update(int id, [FromBody] Employee EmployeeModal)
         {
             var response = await _employeeService.Update(id,EmployeeModal);
-        if (response == null)
+        if (response== null )
             {
                 return Ok(new
                 {
@@ -128,7 +128,7 @@ namespace PMS.API.Controllers
         public async Task<ActionResult<int>> Delete(int id)
         {
             var response = await _employeeService.Delete(id);
-            if (response == null)
+            if (response== null )
             {
                 return Ok(new
                 {

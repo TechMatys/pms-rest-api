@@ -4,10 +4,10 @@ namespace PMS.Core.Interface.Repositories
 {
     public interface IEmployeeProjectRepository
     {
-        Task<IEnumerable<EmployeeProjectListModel>> GetAllEmployeeProject();
-        Task<EmployeeProject> GetEmployeeProjectById(int id);
-        Task<int> Create(EmployeeProject fields);
-        Task<int> Update(int id, EmployeeProject fields);
-        Task<int> Delete(int id);
+        Task<IEnumerable<EmployeeProjectListModel>> GetAllEmployeeProjectAsync();
+        Task<EmployeeProject> GetEmployeeProjectByIdAsync(int id);
+        Task<int?> CreateAsync(EmployeeProject fields);
+        Task<int?> UpdateAsync(int id, EmployeeProject fields);
+        Task<int?> DeleteAsync(int id);
     }
 }
