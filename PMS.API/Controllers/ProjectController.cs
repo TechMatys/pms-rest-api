@@ -2,7 +2,6 @@
 using PMS.Core.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using PMS.Core.Services;
 
 namespace PMS.API.Controllers
 {
@@ -30,6 +29,7 @@ namespace PMS.API.Controllers
                     statusCode = HttpStatusCode.InternalServerError
                 });
             }
+
             return Ok(new
             {
                 response,
@@ -50,6 +50,7 @@ namespace PMS.API.Controllers
                     statusCode = HttpStatusCode.NotFound
                 });
             }
+
             return Ok(new
             {
                 response,
@@ -69,6 +70,7 @@ namespace PMS.API.Controllers
                     StatusCode = HttpStatusCode.InternalServerError,
                 });
             }
+
             if (response < 1)
             {
                 return Ok(new
@@ -77,6 +79,7 @@ namespace PMS.API.Controllers
                     statusCode = HttpStatusCode.Conflict,
                 });
             }
+
             return Ok(new
             {
                 response,
@@ -98,6 +101,7 @@ namespace PMS.API.Controllers
                     statusCode = HttpStatusCode.InternalServerError,
                 });
             }
+
             if (response == 0)
             {
                 return Ok(new
@@ -106,6 +110,7 @@ namespace PMS.API.Controllers
                     statusCode = HttpStatusCode.NotFound,
                 });
             }
+
             if (response < 1)
             {
                 return Ok(new
@@ -114,6 +119,7 @@ namespace PMS.API.Controllers
                     statusCode = HttpStatusCode.Conflict,
                 });
             }
+
             return Ok(new
             {
                 response,
@@ -134,6 +140,7 @@ namespace PMS.API.Controllers
                     StatusCode = HttpStatusCode.InternalServerError,
                 });
             }
+
             if (response < 1)
             {
                 return Ok(new
@@ -142,6 +149,7 @@ namespace PMS.API.Controllers
                     statusCode = HttpStatusCode.NotFound,
                 });
             }
+
             return Ok(new
             {
                 message = "Deleted",

@@ -97,6 +97,7 @@ namespace PMS.API.Controllers
                     statusCode = HttpStatusCode.InternalServerError,
                 });
             }
+
             if (response == 0)
             {
                 return Ok(new
@@ -105,6 +106,7 @@ namespace PMS.API.Controllers
                     statusCode = HttpStatusCode.NotFound,
                 });
             }
+
             if (response < 1)
             {
                 return Ok(new
@@ -113,6 +115,7 @@ namespace PMS.API.Controllers
                     statusCode = HttpStatusCode.Conflict,
                 });
             }
+
             return Ok(new
             {
                 response,

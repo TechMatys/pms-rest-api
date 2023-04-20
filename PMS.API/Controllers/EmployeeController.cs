@@ -2,7 +2,6 @@
 using PMS.Core.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using PMS.Core.Services;
 
 namespace PMS.API.Controllers
 {
@@ -37,12 +36,12 @@ namespace PMS.API.Controllers
                 statusCode = HttpStatusCode.OK
             });
         }
-    
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetEmployeeById(int id)
         {
             var response = await _employeeService.GetEmployeeById(id);
-                        
+
             if (response == null)
             {
                 return Ok(new
@@ -62,7 +61,7 @@ namespace PMS.API.Controllers
         [HttpPost]
         public async Task<ActionResult<int>> Create([FromBody] Employee EmployeeModal)
         {
-        var response = await _employeeService.Create(EmployeeModal);
+            var response = await _employeeService.Create(EmployeeModal);
             if (response == null)
             {
                 return Ok(new
@@ -71,7 +70,7 @@ namespace PMS.API.Controllers
                     StatusCode = HttpStatusCode.InternalServerError,
                 });
             }
-             if (response < 1)
+            if (response < 1)
             {
                 return Ok(new
                 {
@@ -90,8 +89,8 @@ namespace PMS.API.Controllers
         [HttpPatch("{id}")]
         public async Task<ActionResult<int>> Update(int id, [FromBody] Employee EmployeeModal)
         {
-            var response = await _employeeService.Update(id,EmployeeModal);
-        if (response== null )
+            var response = await _employeeService.Update(id, EmployeeModal);
+            if (response == null)
             {
                 return Ok(new
                 {
@@ -128,7 +127,7 @@ namespace PMS.API.Controllers
         public async Task<ActionResult<int>> Delete(int id)
         {
             var response = await _employeeService.Delete(id);
-            if (response== null )
+            if (response == null)
             {
                 return Ok(new
                 {
@@ -151,7 +150,7 @@ namespace PMS.API.Controllers
             });
         }
 
-   #region Employee Task
+        #region Employee Task
 
         [HttpGet("{id}/task")]
         public async Task<ActionResult<IEnumerable<EmployeeTaskListModel>>> GetAllTaskDetails(int id)
@@ -195,8 +194,8 @@ namespace PMS.API.Controllers
         [HttpPost("{id}/task")]
         public async Task<ActionResult<int>> CreateTask(int id, [FromBody] EmployeeTaskDetails EmployeeModal)
         {
-            var response=await _employeeService.CreateTask(id, EmployeeModal);
-            
+            var response = await _employeeService.CreateTask(id, EmployeeModal);
+
             if (response == null)
             {
                 return Ok(new
@@ -239,6 +238,6 @@ namespace PMS.API.Controllers
                 statusCode = HttpStatusCode.OK
             });
         }
-   #endregion
-   }
+        #endregion
+    }
 }
