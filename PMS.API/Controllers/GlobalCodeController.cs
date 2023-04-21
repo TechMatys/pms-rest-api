@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PMS.Core.Interface.Services;
 using PMS.Core.Model;
+using System.Net;
 
 namespace PMS.API.Controllers
 {
@@ -22,10 +23,17 @@ namespace PMS.API.Controllers
 
             if (response == null)
             {
-                return NoContent();
+                return Ok(new
+                {
+                    message = "Server Error",
+                    statusCode = HttpStatusCode.InternalServerError
+                });
             }
-
-            return Ok(response);
+            return Ok(new
+            {
+                response,
+                statusCode = HttpStatusCode.OK
+            });
         }
 
         [HttpGet("genders")]
@@ -35,9 +43,17 @@ namespace PMS.API.Controllers
             var response = await _GlobalCodeService.GetAllGlobalCodes(category);
             if (response == null)
             {
-                return NoContent();
+                return Ok(new
+                {
+                    message = "Server Error",
+                    statusCode = HttpStatusCode.InternalServerError
+                });
             }
-            return Ok(response);
+            return Ok(new
+            {
+                response,
+                statusCode = HttpStatusCode.OK
+            });
         }
 
         [HttpGet("designations")]
@@ -48,9 +64,17 @@ namespace PMS.API.Controllers
 
             if (response == null)
             {
-                return NoContent();
+                return Ok(new
+                {
+                    message = "Server Error",
+                    statusCode = HttpStatusCode.InternalServerError
+                });
             }
-            return Ok(response);
+            return Ok(new
+            {
+                response,
+                statusCode = HttpStatusCode.OK
+            });
         }
 
         [HttpGet("employee-status")]
@@ -61,10 +85,17 @@ namespace PMS.API.Controllers
 
             if (response == null)
             {
-                return NoContent();
+                return Ok(new
+                {
+                    message = "Server Error",
+                    statusCode = HttpStatusCode.InternalServerError
+                });
             }
-
-            return Ok(response);
+            return Ok(new
+            {
+                response,
+                statusCode = HttpStatusCode.OK
+            });
         }
 
         [HttpGet("project-status")]
@@ -75,12 +106,18 @@ namespace PMS.API.Controllers
 
             if (response == null)
             {
-                return NoContent();
+                return Ok(new
+                {
+                    message = "Server Error",
+                    statusCode = HttpStatusCode.InternalServerError
+                });
             }
-
-            return Ok(response);
+            return Ok(new
+            {
+                response,
+                statusCode = HttpStatusCode.OK
+            });
         }
-
 
         [HttpGet("user-status")]
         public async Task<ActionResult<IEnumerable<GlobalCodes>>> GetAllUserStatus()
@@ -90,10 +127,17 @@ namespace PMS.API.Controllers
 
             if (response == null)
             {
-                return NoContent();
+                return Ok(new
+                {
+                    message = "Server Error",
+                    statusCode = HttpStatusCode.InternalServerError
+                });
             }
-
-            return Ok(response);
+            return Ok(new
+            {
+                response,
+                statusCode = HttpStatusCode.OK
+            });
         }
 
         [HttpGet("task-status")]
@@ -104,10 +148,17 @@ namespace PMS.API.Controllers
 
             if (response == null)
             {
-                return NoContent();
+                return Ok(new
+                {
+                    message = "Server Error",
+                    statusCode = HttpStatusCode.InternalServerError
+                });
             }
-
-            return Ok(response);
+            return Ok(new
+            {
+                response,
+                statusCode = HttpStatusCode.OK
+            });
         }
 
         [HttpGet("user-role")]
@@ -118,10 +169,17 @@ namespace PMS.API.Controllers
 
             if (response == null)
             {
-                return NoContent();
+                return Ok(new
+                {
+                    message = "Server Error",
+                    statusCode = HttpStatusCode.InternalServerError
+                });
             }
-
-            return Ok(response);
+            return Ok(new
+            {
+                response,
+                statusCode = HttpStatusCode.OK
+            });
         }
 
         [HttpGet("project-durations")]
@@ -132,10 +190,17 @@ namespace PMS.API.Controllers
 
             if (response == null)
             {
-                return NoContent();
+                return Ok(new
+                {
+                    message = "Server Error",
+                    statusCode = HttpStatusCode.InternalServerError
+                });
             }
-
-            return Ok(response);
+            return Ok(new
+            {
+                response,
+                statusCode = HttpStatusCode.OK
+            });
         }
 
         [HttpGet("technologies")]
@@ -146,11 +211,17 @@ namespace PMS.API.Controllers
 
             if (response == null)
             {
-                return NoContent();
+                return Ok(new
+                {
+                    message = "Server Error",
+                    statusCode = HttpStatusCode.InternalServerError
+                });
             }
-
-            return Ok(response);
+            return Ok(new
+            {
+                response,
+                statusCode = HttpStatusCode.OK
+            });
         }
-
     }
 }

@@ -15,27 +15,27 @@ namespace PMS.Core.Services
 
         public async Task<IEnumerable<ProjectListModel>> GetAllProject()
         {
-            return await _ProjectRepository.GetAllProject();
+            return await _ProjectRepository.GetAllProjectAsync();
         }
 
         public async Task<Project> GetProjectById(int id)
         {
-            return await _ProjectRepository.GetProjectById(id);
+            return await _ProjectRepository.GetProjectByIdAsync(id);
         }
 
-        public async Task<int> Create(Project fields)
+        public async Task<int?> Create(Project fields)
         {
-            return await _ProjectRepository.Create(fields);
+            return await _ProjectRepository.CreateAsync(fields);
         }
 
-        public async Task<int> Update(int id, Project fields)
+        public async Task<int?> Update(int id, Project fields)
         {
-            return await _ProjectRepository.Update(id, fields);
+            return await _ProjectRepository.UpdateAsync(id, fields);
         }
 
-        public async Task<int> Delete(int id)
+        public async Task<int?> Delete(int id)
         {
-            return await _ProjectRepository.Delete(id);
+            return await _ProjectRepository.DeleteAsync(id);
         }
     }
 }

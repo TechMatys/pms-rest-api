@@ -17,14 +17,14 @@ namespace PMS.Core.Services
 
         public async Task<Account> GetUserById(int id)
         {
-            return await _AccountRepository.GetUserById(id);
+            return await _AccountRepository.GetUserByIdAsync(id);
         }
 
         
 
-        public async Task<int> Update(int id, Account fields)
+        public async Task<int?> Update(int id, Account fields)
         {
-            return await _AccountRepository.Update(id, fields);
+            return await _AccountRepository.UpdateAsync(id, fields);
         }
 
         

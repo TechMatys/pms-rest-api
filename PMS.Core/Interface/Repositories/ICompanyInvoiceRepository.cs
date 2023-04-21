@@ -4,8 +4,8 @@ namespace PMS.Core.Interface.Repositories
 {
     public interface ICompanyInvoiceRepository
     {
-        Task<IEnumerable<CompanyInvoiceListModel>> GetAllCompanyInvoices();
-        Task<int> Create(CompanyInvoice fields);
-        Task<int> Delete(int id);
+        Task<IEnumerable<CompanyInvoiceListModel>> GetAllCompanyInvoicesAsync();
+        Task<int?> CreateAsync(CompanyInvoice fields);
+        Task<int?> DeleteAsync(int id);
     }
 }

@@ -16,7 +16,7 @@ namespace PMS.Infrastructure.Repositories
             this.configuration = configuration;
         }
 
-        public async Task<IEnumerable<UsersListModel>> GetAllUsers()
+        public async Task<IEnumerable<UsersListModel>> GetAllUsersAsync()
         {
             try
             {
@@ -24,7 +24,6 @@ namespace PMS.Infrastructure.Repositories
                                     ,CONCAT_WS(' ', emp.FirstName, emp.LastName) AS EmployeeName
 	                                ,gc.CodeName AS Role
 	                                ,gc1.CodeName AS Status
-	                                ,CreatedDate
                                 FROM Users us
                                 INNER JOIN Employees emp ON emp.EmployeeId = us.EmployeeId
                                 INNER JOIN GlobalCodes gc ON gc.GlobalCodeId = us.RoleId
@@ -39,11 +38,11 @@ namespace PMS.Infrastructure.Repositories
             }
             catch (Exception exp)
             {
-                throw new Exception(exp.Message, exp);
+                return null;
             }
         }
 
-        public async Task<Users> GetUsersById(int id)
+        public async Task<Users> GetUsersByIdAsync(int id)
         {
             try
             {
@@ -65,11 +64,11 @@ namespace PMS.Infrastructure.Repositories
             }
             catch (Exception exp)
             {
-                throw new Exception(exp.Message, exp);
+                return null;
             }
         }
 
-        public Task<int> Create(Users fields)
+        public async Task<int?> CreateAsync(Users fields)
         {
             try
             {
@@ -83,7 +82,7 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var result = connection.Execute(query, new
+                    var result =await connection.ExecuteAsync(query, new
                     {
                         fields.EmployeeId,
                         fields.RoleId,
@@ -92,16 +91,16 @@ namespace PMS.Infrastructure.Repositories
                         fields.ManagedBy
                     });
 
-                    return Task.FromResult(result);
+                    return result;
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(0);
+                return null;
             }
         }
 
-        public Task<int> SaveLoggedInDetail(UserLoggedInDetail fields)
+        public async Task<int?> SaveLoggedInDetailAsync(UserLoggedInDetail fields)
         {
             try
             {
@@ -110,7 +109,7 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var result = connection.Execute(query, new
+                    var result =await connection.ExecuteAsync(query, new
                     {
                         fields.LoggedDate,
                         fields.IpAddress,
@@ -118,16 +117,16 @@ namespace PMS.Infrastructure.Repositories
                         fields.ManagedBy
                     });
 
-                    return Task.FromResult(result);
+                    return result;
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(0);
+                return null;
             }
         }
 
-        public Task<int> Update(int id, Users fields)
+        public async Task<int?> UpdateAsync(int id, Users fields)
         {
             try
             {
@@ -147,7 +146,7 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var result = connection.Execute(query, new
+                    var result =await connection.ExecuteAsync(query, new
                     {
                         fields.EmployeeId,
                         fields.RoleId,
@@ -157,16 +156,16 @@ namespace PMS.Infrastructure.Repositories
                         id
                     });
 
-                    return Task.FromResult(result);
+                    return result;
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(0);
+                return null;
             }
         }
 
-        public Task<int> Delete(int id)
+        public async Task<int?> DeleteAsync(int id)
         {
             try
             {
@@ -178,17 +177,17 @@ namespace PMS.Infrastructure.Repositories
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var result = connection.Execute(query, new
+                    var result =await connection.ExecuteAsync(query, new
                     {
                         id
                     });
 
-                    return Task.FromResult(result);
+                    return result;
                 }
             }
             catch (Exception exp)
             {
-                return Task.FromResult(0);
+                return null;
             }
         }
     }

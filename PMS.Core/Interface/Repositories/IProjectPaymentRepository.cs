@@ -4,10 +4,10 @@ namespace PMS.Core.Interface.Repositories
 {
     public interface IProjectPaymentRepository
     {
-        Task<IEnumerable<ProjectPaymentListModel>> GetAllProjectPayment();
-        Task<ProjectPayment> GetProjectPaymentById(int id);
-        Task<int> Create(ProjectPayment fields);
-        Task<int> Update(int id, ProjectPayment fields);
-        Task<int> Delete(int id);
+        Task<IEnumerable<ProjectPaymentListModel>> GetAllProjectPaymentAsync();
+        Task<ProjectPayment> GetProjectPaymentByIdAsync(int id);
+        Task<int?> CreateAsync(ProjectPayment fields);
+        Task<int?> UpdateAsync(int id, ProjectPayment fields);
+        Task<int?> DeleteAsync(int id);
     }
 }

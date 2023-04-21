@@ -16,27 +16,27 @@ namespace PMS.Core.Services
 
         public async Task<IEnumerable<CompanyExpenseListModel>> GetAllCompanyExpenses()
         {
-            return await _CompanyExpenseRepository.GetAllCompanyExpenses();
+            return await _CompanyExpenseRepository.GetAllCompanyExpensesAsync();
         }
 
         public async Task<CompanyExpense> GetCompanyExpenseById(int id)
         {
-            return await _CompanyExpenseRepository.GetCompanyExpenseById(id);
+            return await _CompanyExpenseRepository.GetCompanyExpenseByIdAsync(id);
         }
 
-        public async Task<int> Create(CompanyExpense fields)
+        public async Task<int?> Create(CompanyExpense fields)
         {
-            return await _CompanyExpenseRepository.Create(fields);
+            return await _CompanyExpenseRepository.CreateAsync(fields);
         }
 
-        public async Task<int> Update(int id, CompanyExpense fields)
+        public async Task<int?> Update(int id, CompanyExpense fields)
         {
-            return await _CompanyExpenseRepository.Update(id, fields);
+            return await _CompanyExpenseRepository.UpdateAsync(id, fields);
         }
 
-        public async Task<int> Delete(int id)
+        public async Task<int?> Delete(int id)
         {
-            return await _CompanyExpenseRepository.Delete(id);
+            return await _CompanyExpenseRepository.DeleteAsync(id);
         }
     }
 }

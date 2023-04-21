@@ -5,9 +5,9 @@ namespace PMS.Core.Interface.Repositories
     public interface IAccountRepository
     {
        
-        Task<Account> GetUserById(int id);
+        Task<Account> GetUserByIdAsync(int id);
      
-        Task<int> Update(int id, Account fields);
+        Task<int?> UpdateAsync(int id, Account fields);
        
     }
 }

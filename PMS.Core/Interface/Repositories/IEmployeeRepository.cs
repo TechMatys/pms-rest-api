@@ -4,15 +4,15 @@ namespace PMS.Core.Interface.Repositories
 {
     public interface IEmployeeRepository
     {
-        Task<IEnumerable<EmployeeListModel>> GetAllEmployee();
-        Task<Employee> GetEmployeeById(int id);
-        Task<int> Create(Employee fields);
-        Task<int> Update(int id, Employee fields);
-        Task<int> Delete(int id);
+        Task<IEnumerable<EmployeeListModel>> GetAllEmployeeAsync();
+        Task<Employee> GetEmployeeByIdAsync(int id);
+        Task<int?> CreateAsync(Employee fields);
+        Task<int?> UpdateAsync(int id, Employee fields);
+        Task<int?> DeleteAsync(int id);
 
-        Task<IEnumerable<EmployeeTaskListModel>> GetAllTaskDetails(int id);
-        Task<EmployeeTaskDetails> GetTaskDetailById(int id, int taskId);
-        Task<int> CreateTask(int id, EmployeeTaskDetails fields);
-        Task<int> DeleteTask(int id, int taskId);
+        Task<IEnumerable<EmployeeTaskListModel>> GetAllTaskDetailsAsync(int id);
+        Task<EmployeeTaskDetails> GetTaskDetailByIdAsync(int id, int taskId);
+        Task<int?> CreateTaskAsync(int id, EmployeeTaskDetails fields);
+        Task<int?> DeleteTaskAsync(int id, int taskId);
     }
 }
