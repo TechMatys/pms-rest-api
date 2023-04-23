@@ -19,15 +19,15 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"SELECT CompanyExpenseId
+                var query = @"SELECT CompanyExpenseId as Id
 	                                ,Title
 	                                ,Amount
-	                                ,'' AS Createdby
-	                                ,ExpenseDate
-                                    ,CreatedDate
-                                FROM CompanyExpenses
-                                WHERE IsDeleted = 0
-                                ORDER BY ExpenseDate DESC, CreatedDate DESC";
+	                                ,CONCAT_WS(space(1), emp.FirstName, emp.LastName) AS PaidBy
+	                                ,Format(ExpenseDate, 'dd/MM/yyyy') as ExpenseDate
+                                FROM CompanyExpenses ce
+								Left Join Employees emp on emp.EmployeeId = ce.PaidBy
+                                WHERE ce.IsDeleted = 0
+                                ORDER BY convert(date,ExpenseDate) DESC, ce.CreatedDate DESC";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -44,11 +44,12 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"SELECT CompanyExpenseId
+                var query = @"SELECT CompanyExpenseId as Id
 	                                ,Title
 	                                ,Amount
-	                                ,Format(ExpenseDate, 'dd/MM/yyyy') AS ExpenseDate
-	                                ,Notes
+	                                ,Format(ExpenseDate, 'MM/dd/yyyy') AS ExpenseDate
+	                                ,PaidBy
+                                    ,Notes
                                  FROM CompanyExpenses
                                 WHERE CompanyExpenseId = @id";
 
@@ -70,8 +71,8 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"INSERT INTO CompanyExpenses(Title, Amount, ExpenseDate, Notes, CreatedBy, CreatedDate) 
-                              VALUES (@Title, @Amount, @ExpenseDate, @Notes, @ManagedBy, GetUtcDate())";
+                var query = @"INSERT INTO CompanyExpenses(Title, Amount, PaidBy, ExpenseDate, Notes, CreatedBy, CreatedDate) 
+                              VALUES (@Title, @Amount, @PaidBy, @ExpenseDate, @Notes, @ManagedBy, GetUtcDate())";
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -81,6 +82,7 @@ namespace PMS.Infrastructure.Repositories
                         fields.Amount,
                         fields.ExpenseDate,
                         fields.Notes,
+                        fields.PaidBy,
                         fields.ManagedBy,
                     });
 
@@ -100,7 +102,8 @@ namespace PMS.Infrastructure.Repositories
                 var query = @"UPDATE CompanyExpenses
                                 SET Title = @Title
                                     ,Amount = @Amount
-                                    --,ExpenseDate = @ExpenseDate
+                                    ,ExpenseDate = @ExpenseDate
+                                    ,PaidBy = @PaidBy
                                     ,Notes = @Notes                                   
 	                                ,ModifiedBy = @ManagedBy
 	                                ,ModifiedDate = GetUtcDate()
@@ -114,6 +117,7 @@ namespace PMS.Infrastructure.Repositories
                         fields.Title,
                         fields.Amount,
                         fields.ExpenseDate,
+                        fields.PaidBy,
                         fields.Notes,
                         fields.ManagedBy,
                         id

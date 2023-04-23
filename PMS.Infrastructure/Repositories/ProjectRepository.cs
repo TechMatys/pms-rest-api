@@ -20,7 +20,7 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                    var query = @"SELECT ProjectId
+                    var query = @"SELECT ProjectId as Id
 	                                    ,Name
 	                                    ,Technologies
 	                                    ,gc.CodeName AS STATUS
@@ -47,7 +47,7 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"SELECT ProjectId
+                var query = @"SELECT ProjectId as Id
 	                                ,Name
 	                                ,OwnerName
 	                                ,Description

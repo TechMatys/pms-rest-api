@@ -20,7 +20,7 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"SELECT EmployeeId
+                var query = @"SELECT EmployeeId as Id
 	                                ,FirstName
 	                                ,LastName
                                     ,EmailAddress
@@ -48,7 +48,7 @@ namespace PMS.Infrastructure.Repositories
         {
             try
             {
-                var query = @"SELECT EmployeeId
+                var query = @"SELECT EmployeeId as Id
                                     ,FirstName
                                     ,MiddleName
 	                                ,LastName

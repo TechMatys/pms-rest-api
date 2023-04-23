@@ -32,7 +32,7 @@ namespace PMS.API.Controllers
 
             return Ok(new
             {
-                response,
+                data = response,
                 statusCode = HttpStatusCode.OK
             });
         }
@@ -45,7 +45,7 @@ namespace PMS.API.Controllers
             {
                 return Ok(new
                 {
-                    response,
+                    data = response,
                     message = "No records found",
                     statusCode = HttpStatusCode.NotFound
                 });
@@ -53,7 +53,7 @@ namespace PMS.API.Controllers
 
             return Ok(new
             {
-                response,
+                data = response,
                 statusCode = HttpStatusCode.OK
             });
         }
@@ -82,7 +82,7 @@ namespace PMS.API.Controllers
 
             return Ok(new
             {
-                response,
+                data = response,
                 message = "Created",
                 statusCode = HttpStatusCode.OK,
             });
@@ -96,7 +96,7 @@ namespace PMS.API.Controllers
             {
                 return Ok(new
                 {
-                    response,
+                    data = response,
                     message = "Server error",
                     statusCode = HttpStatusCode.InternalServerError,
                 });
@@ -122,7 +122,7 @@ namespace PMS.API.Controllers
 
             return Ok(new
             {
-                response,
+                data = response,
                 message = "Updated",
                 statusCode = HttpStatusCode.OK,
             });

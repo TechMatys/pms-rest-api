@@ -4,7 +4,7 @@ namespace PMS.Core.Model
 {
     public class ProjectListModel
     {
-        public int ProjectId { get; set; }
+        public int Id { get; set; }
         public string? Name { get; set; }        
         public DateTime? StartDate { get; set; }
         public string? Technologies { get; set; }
@@ -14,7 +14,7 @@ namespace PMS.Core.Model
     }
     public class Project
     {
-        public int ProjectId { get; set; }
+        public int Id { get; set; }
         public string? Name { get; set; }
         public string? OwnerName { get; set; }
         public string? Description { get; set; }
