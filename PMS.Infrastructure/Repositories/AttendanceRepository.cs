@@ -85,5 +85,30 @@ namespace PMS.Infrastructure.Repositories
                 return null;
             }
         }
+
+        public async Task DeleteAsync(int id, int roleId)
+        {
+            if (roleId != 3)
+            {
+                throw new UnauthorizedAccessException("You do not have permission to delete this record.");
+            }
+
+            try
+            {
+                var query = @"DELETE FROM EmployeeAttendance WHERE EmployeeId = @id";
+
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    await connection.ExecuteAsync(query, new
+                    {
+                        id
+                    });
+                }
+            }
+            catch (Exception exp)
+            {
+                throw exp;
+            }
+        }
     }
 }

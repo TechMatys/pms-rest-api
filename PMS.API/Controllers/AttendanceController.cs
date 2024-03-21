@@ -64,5 +64,18 @@ namespace PMS.API.Controllers
         }
 
         #endregion
+
+        #region Delete Attendance
+        [HttpDelete("delete-attendance")]
+        public async Task<IActionResult> DeleteAttendance(int id, int roleId)
+        {
+            await _attendanceService.DeleteAsync(id, roleId);
+            return Ok(new
+            {
+                message = "Record deleted successfully",
+                statusCode = HttpStatusCode.OK
+            });
+        }
+        #endregion
     }
 }
